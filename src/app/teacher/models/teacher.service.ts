@@ -9,19 +9,15 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class TeacherService {
-    sdkDb: any;
 
 constructor(
-    @Inject(FirebaseApp) public fb: FirebaseApp,
-    private db: AngularFireDatabase) {
-        this.sdkDb = this.fb.database().ref();
-    }
+    private db: AngularFireDatabase) {}
 
     findList(path: string): Observable<any[]> {
-        return this.db.list(path).snapshotChanges();
+        return this.db.list(path).snapshotChanges(;
     }
 
-    findObject(path: string, key:string): Observable<any> {
+    findObject(path: string, key: string): Observable<any> {
         return this.db.object(path).snapshotChanges();
     }
 }

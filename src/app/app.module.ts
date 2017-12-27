@@ -9,6 +9,9 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from '../environments/environment';
 
+import { TeacherModule } from './teacher/teacher.module';
+
+
 
 @NgModule({
   declarations: [
@@ -21,6 +24,7 @@ import { environment } from '../environments/environment';
     AngularFireAuthModule,
     MyMaterialModule,
     ReactiveFormsModule,
+    TeacherModule
   ],
   providers: [],
   bootstrap: [AppComponent]
