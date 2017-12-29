@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TeacherService } from './models/teacher.service';
+import { MyMaterialModule } from './../global/my-material/my-material.module';
 import { GlobalComponentsModule } from './../global/global-components/global-components.module';
 import { TeacherRoutingModule } from './teacher-routing.module';
 import { LearningGroupListComponent } from './learning-group-list/learning-group-list.component';
@@ -25,9 +26,9 @@ import { LearningLevelFormComponent,
          LearningLevelEditFormComponent,
          } from './forms/learning-level-forms.component';
 
-import { LearningTimeframeFormComponent,
+import { LearningTimeframeDialogComponent,
+         LearningTimeframeFormComponent,
          LearningTimeframeCreateFormComponent,
-         LearningTimeframeEditFormComponent,
           } from './forms/learning-timeframe-forms.component';
 
 @NgModule({
@@ -36,7 +37,8 @@ import { LearningTimeframeFormComponent,
     GlobalComponentsModule,
     AngularFireDatabaseModule,
     TeacherRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MyMaterialModule
   ],
   declarations: [
     // Lists
@@ -54,13 +56,14 @@ import { LearningTimeframeFormComponent,
     LearningLevelFormComponent,
     LearningLevelCreateFormComponent,
     LearningLevelEditFormComponent,
+    LearningTimeframeDialogComponent,
     LearningTimeframeFormComponent,
-    LearningTimeframeCreateFormComponent,
-    LearningTimeframeEditFormComponent,
-
-
+    LearningTimeframeCreateFormComponent
 ],
   exports: [LearningGroupListComponent],
-  providers: [TeacherService]
+  providers: [TeacherService],
+  entryComponents: [
+    LearningTimeframeDialogComponent
+   ]
 })
-export class TeacherModule { }
+export class TeacherModule {}

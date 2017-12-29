@@ -1,3 +1,4 @@
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule,
@@ -20,7 +21,10 @@ import { MatMenuModule,
          MatRadioModule,
          MatExpansionModule,
          MatDatepickerModule,
-         MatNativeDateModule } from '@angular/material';
+         MatNativeDateModule,
+         } from '@angular/material';
+
+import {MatMomentDateModule} from '@angular/material-moment-adapter'
 import 'hammerjs';
 
 @NgModule({

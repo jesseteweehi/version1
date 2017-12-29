@@ -1,7 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { SelectData } from '../../../global/models/interfaces';
-import { TeacherService } from './../../models/teacher.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+
+import { SelectData } from '../../global/models/interfaces';
+import { TeacherService } from '../models/teacher.service';
 
 @Component({
   selector: 'app-learning-group-form',

@@ -3,7 +3,7 @@ import { Link } from './interfaces';
 
 export class LearningGroup {
     constructor(
-        public key: string;,
+        public key: string,
         public title: string,
         public description: string,
         public created: object,
@@ -30,14 +30,11 @@ export class LearningTimeframe {
         public created: object,
         public lastModified: object,
         public creator: object,
-        public title: string,
-        public timeFrameStart: string,
-        public timeFrameFinish: string,
-        public description?: string
+        public year: string
     ){}
-    static fromJson(key, {created, 
-        lastModified, creator, title, timeFrameStart, timeFrameFinish, description}): LearningTimeframe {
-        return new LearningTimeframe(key, created, lastModified, creator, title, timeFrameStart, timeFrameFinish, description);
+    static fromJson(key, {created,
+        lastModified, creator, year,}): LearningTimeframe {
+        return new LearningTimeframe(key, created, lastModified, creator, year);
         }
 }
 

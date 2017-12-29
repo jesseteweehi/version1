@@ -1,3 +1,18 @@
-<p>
-  learning-timeframe-list works!
-</p>
+<mat-toolbar>
+    <button mat-icon-button (click)="add()">
+        <mat-icon class="mat-18">add</mat-icon>
+    </button>
+</mat-toolbar>
+<h1></h1>
+
+<mat-list dense>
+    <mat-list-item *ngFor="let item of items | async">
+        <h3 matLine> {{item?.year}}</h3>
+        <button mat-icon-button (click)="delete(item)">
+          <mat-icon class="mat-18">delete</mat-icon>
+        </button>
+        <button mat-icon-button (click)="add(item)">
+          <mat-icon class="mat-18">edit</mat-icon>
+        </button>
+    </mat-list-item>
+</mat-list>

@@ -8,6 +8,6 @@ export interface SelectData {
     viewValue: string;
 }
 
-function createSelectData(newValue, newViewValue): SelectData {
+export function createSelectData(newValue, newViewValue): SelectData {
     return {value: newValue, viewValue: newViewValue};
 }
