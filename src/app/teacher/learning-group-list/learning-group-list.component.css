@@ -1,0 +1,34 @@
+@media screen and (min-width: 900px) {
+	.wrapper {
+		display: grid;
+		height: auto;
+		grid-template-columns : repeat( 5, 1fr)
+	}
+}
+@media screen and (min-width: 600px) {
+	.wrapper {
+		display: grid;
+		height: auto;
+		grid-template-columns : repeat(3, 1fr)
+	}
+}
+
+.grid-item {
+	grid-column: auto;
+	grid-row: auto;
+}
+
+span {
+	margin-right: 5px ;
+	/* margin-bottom: 10px;
+  	background: #D1C4E9;
+  	color: black;
+  	font-size: 9px;
+  	padding: 5px;
+  	font-weight: 700;
+  	-webkit-border-radius: 3px;
+  	-moz-border-radius: 3px;
+  	border-radius: 3px;
+  	text-transform: uppercase; */
+}
+

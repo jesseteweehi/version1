@@ -2,34 +2,21 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TeacherService } from './models/teacher.service';
+import { TeacherService } from './teacher.service';
 import { MyMaterialModule } from './../global/my-material/my-material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { GlobalComponentsModule } from './../global/global-components/global-components.module';
 import { TeacherRoutingModule } from './teacher-routing.module';
+
 import { LearningGroupListComponent } from './learning-group-list/learning-group-list.component';
 import { LearningAreaListComponent } from './learning-area-list/learning-area-list.component';
-import { LearningLevelListComponent } from './learning-level-list/learning-level-list.component';
-import { LearningTimeframeListComponent } from './learning-timeframe-list/learning-timeframe-list.component';
+import { LearningBlockListComponent } from './learning-block-list/learning-block-list.component';
 
-import { LearningAreaFormComponent,
-         LearningAreaCreateFormComponent,
-         LearningAreaEditFormComponent
-         } from './forms/learning-area-forms.component';
 
-import { LearningGroupFormComponent,
-         LearningGroupCreateFormComponent,
-         LearningGroupEditFormComponent
-         } from './forms/learning-group-forms.component';
+import { LearningAreaDialogComponent, LearningAreaCreateFormComponent } from './forms/learning-area-forms.component';
+import { LearningGroupCreateFormComponent, LearningGroupDialogComponent } from './forms/learning-group-forms.component';
+import { LearningBlockCreateFormComponent, LearningBlockDialogComponent } from './forms/learning-block-forms.component';
 
-import { LearningLevelFormComponent,
-         LearningLevelCreateFormComponent,
-         LearningLevelEditFormComponent,
-         } from './forms/learning-level-forms.component';
-
-import { LearningTimeframeDialogComponent,
-         LearningTimeframeFormComponent,
-         LearningTimeframeCreateFormComponent,
-          } from './forms/learning-timeframe-forms.component';
 
 @NgModule({
   imports: [
@@ -38,32 +25,26 @@ import { LearningTimeframeDialogComponent,
     AngularFireDatabaseModule,
     TeacherRoutingModule,
     ReactiveFormsModule,
-    MyMaterialModule
+    MyMaterialModule,
+    FlexLayoutModule
   ],
   declarations: [
     // Lists
-    LearningGroupListComponent,
-    LearningAreaListComponent,
-    LearningLevelListComponent,
-    LearningTimeframeListComponent,
+    LearningGroupListComponent, LearningAreaListComponent, LearningBlockListComponent,
     // Forms
-    LearningAreaFormComponent,
-    LearningAreaCreateFormComponent,
-    LearningAreaEditFormComponent,
-    LearningGroupFormComponent,
-    LearningGroupCreateFormComponent,
-    LearningGroupEditFormComponent,
-    LearningLevelFormComponent,
-    LearningLevelCreateFormComponent,
-    LearningLevelEditFormComponent,
-    LearningTimeframeDialogComponent,
-    LearningTimeframeFormComponent,
-    LearningTimeframeCreateFormComponent
-],
+    // Area
+    LearningAreaDialogComponent, LearningAreaCreateFormComponent,
+    // Groups
+    LearningGroupDialogComponent, LearningGroupCreateFormComponent,
+    // Blocks
+    LearningBlockDialogComponent, LearningBlockCreateFormComponent 
+  ],
   exports: [LearningGroupListComponent],
   providers: [TeacherService],
   entryComponents: [
-    LearningTimeframeDialogComponent
+    LearningAreaDialogComponent,
+    LearningGroupDialogComponent,
+    LearningBlockDialogComponent
    ]
 })
 export class TeacherModule {}

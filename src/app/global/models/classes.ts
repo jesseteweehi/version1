@@ -20,22 +20,28 @@ export class LearningGroup {
         return new LearningGroup(key, title, description, created, modified, creator, locked, learningYear, learningArea, learningLevel);
     }
     static fromJsonList(array): LearningGroup[] {
-        return array.map(LearningGroup.fromJson)
+        return array.map(LearningGroup.fromJson);
     }
 }
 
-export class LearningTimeframe {
+export class LearningBlock {
     constructor(
         public key: string,
+        public title: string,
+        public description: string,
         public created: object,
         public lastModified: object,
-        public creator: object,
-        public year: string
-    ){}
-    static fromJson(key, {created,
-        lastModified, creator, year,}): LearningTimeframe {
-        return new LearningTimeframe(key, created, lastModified, creator, year);
-        }
+        public creator: string,
+        public locked: boolean,
+    ) {}
+
+    static fromJson(key, {title,
+        description, created, modified, creator, locked }): LearningBlock {
+        return new LearningBlock(key, title, description, created, modified, creator, locked);
+    }
+    static fromJsonList(array): LearningBlock[] {
+        return array.map(LearningBlock.fromJson);
+    }
 }
 
 export class LearningArea {
@@ -45,26 +51,29 @@ export class LearningArea {
         public lastModified: object,
         public creator: object,
         public title: string,
-        public description: string
+        public description: string,
     ){}
     static fromJson(key, {created,
         lastModified, creator, title, description}): LearningArea {
-        return new LearningArea(key, created, lastModified, creator, title, description)
+        return new LearningArea(key, created, lastModified, creator, title, description);
         }
-}
 
-export class LearningLevel {
-    constructor(
-        public key: string,
-        public created: object,
-        public lastModified: object,
-        public creator: object,
-        public title: string,
-        public description: string
-    ){}
-    static fromJson(key, {created,
-        lastModified, creator, title, description}): LearningLevel {
-        return new LearningLevel(key, created, lastModified, creator, title, description)
+    static fromJsonToObject(array): object {
+            const final = {};
+            array.map(each => {
+                const key = each.key;
+                const value = new LearningArea(
+                    each.key,
+                    each.created,
+                    each.lastModified,
+                    each.creator,
+                    each.title,
+                    each.description
+                    );
+                final[key] = value;
+                });
+            return final;
+            }
         }
 }
 

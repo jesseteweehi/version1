@@ -1,17 +1,19 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LearningTimeframeListComponent } from './learning-timeframe-list/learning-timeframe-list.component';
 import { LearningGroupListComponent } from './learning-group-list/learning-group-list.component';
-import { LearningLevelListComponent } from './learning-level-list/learning-level-list.component';
 import { LearningAreaListComponent } from './learning-area-list/learning-area-list.component';
+import { LearningBlockListComponent } from './learning-block-list/learning-block-list.component';
 
 
 const teacherRoutes: Routes = [
-    { path: '', pathMatch: 'full', redirectTo: 'timeframelist' },
-    { path: 'timeframelist', component: LearningTimeframeListComponent },
+    { path: '', pathMatch: 'full', redirectTo: 'grouplist' },
     { path: 'arealist', component: LearningAreaListComponent },
-    { path: 'levellist', component: LearningLevelListComponent },
-    { path: 'grouplist', component: LearningGroupListComponent },
+    { path: 'grouplist',
+      children: [
+        {path: '', component: LearningGroupListComponent},
+        {path: ':groupid', component: LearningBlockListComponent}
+      ]
+    }
 ];
 
 

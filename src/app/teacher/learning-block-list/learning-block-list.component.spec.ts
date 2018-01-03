@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { LearningLevelListComponent } from './learning-level-list.component';
+import { LearningBlockListComponent } from './learning-block-list.component';
 
-describe('LearningLevelListComponent', () => {
-  let component: LearningLevelListComponent;
-  let fixture: ComponentFixture<LearningLevelListComponent>;
+describe('LearningBlockListComponent', () => {
+  let component: LearningBlockListComponent;
+  let fixture: ComponentFixture<LearningBlockListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LearningLevelListComponent ]
+      declarations: [ LearningBlockListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LearningLevelListComponent);
+    fixture = TestBed.createComponent(LearningBlockListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

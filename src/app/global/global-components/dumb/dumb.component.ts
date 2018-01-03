@@ -14,6 +14,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
         </mat-card-subtitle>
         <mat-card-title fxLayout="row">
           <div *ngIf="viewInformation.title">{{viewInformation.title}}</div>
+          <span class="example-spacer"></span>
           <button *ngIf="haveMenu" mat-icon-button [matMenuTriggerFor]="appMenu">
               <mat-icon class="mat-18">more_vert</mat-icon>
           </button>

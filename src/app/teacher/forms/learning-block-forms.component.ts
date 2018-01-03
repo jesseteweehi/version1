@@ -4,21 +4,21 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 import { SelectData, createSelectData } from '../../global/models/interfaces';
 import { TeacherService } from '../teacher.service';
-import { LearningArea } from './../../global/models/classes';
+import { LearningBlock } from './../../global/models/classes';
 
 @Component({
-  selector: 'app-learning-area-dialog',
+  selector: 'app-learning-block-dialog',
   template: `
-  <app-learning-area-create-form
+  <app-learning-block-create-form
   (formToSend)="handleForm($event)"
   [currentFormValues]="data.currentFormValues"
   >
-  </app-learning-area-create-form>
+  </app-learning-block-create-form>
   `
 })
-export class LearningAreaDialogComponent {
+export class LearningBlockDialogComponent {
   constructor(
-    public dialogRef: MatDialogRef<LearningAreaDialogComponent>,
+    public dialogRef: MatDialogRef<LearningBlockDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   handleForm($event) {
@@ -27,7 +27,7 @@ export class LearningAreaDialogComponent {
 }
 
 @Component({
-  selector: 'app-learning-area-create-form',
+  selector: 'app-learning-block-create-form',
   template: `
   <form novalidate [formGroup]="form">
   <h4 class="mat-typography subheading-1">{{heading}}</h4>
@@ -54,11 +54,11 @@ export class LearningAreaDialogComponent {
   }
   `]
 })
-export class LearningAreaCreateFormComponent implements OnInit {
-  @Input() currentFormValues?: LearningArea;
+export class LearningBlockCreateFormComponent implements OnInit {
+  @Input() currentFormValues?: LearningBlock;
   @Output() formToSend = new EventEmitter();
   form: FormGroup;
-  heading = 'Add Learning Area';
+  heading = 'Add Learning Block';
   edit: Boolean = false;
 
   constructor(private fb: FormBuilder) {

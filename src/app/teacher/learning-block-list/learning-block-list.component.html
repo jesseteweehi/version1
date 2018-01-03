@@ -5,15 +5,18 @@
 </mat-toolbar>
 <h1></h1>
 
+<div class="mat-typography" fxLayout="row" fxLayout.xs="column" *ngIf="(group | async) as group">
+ <h2>{{group?.title}}</h2>
+  <p>{{group?.description}}</p>
+</div>
 
-<div class="wrapper">
-    <mat-card *ngFor="let item of learningGroupItems">
+{{ group | async | json }}
+
+<!-- <div class="wrapper">
+    <mat-card *ngFor="let item of items | async">
         <mat-card-header>
             <mat-card-title>{{item?.title}}</mat-card-title>
             <mat-card-subtitle fxLayout="column"> 
-                <span>{{item?.learningYear}}</span>
-                <span>{{learningAreaItems[item?.learningArea]?.title}}</span>
-                <span>{{item?.learningLevel}}</span>
             </mat-card-subtitle>
             <span class="example-spacer"></span>
             <button mat-icon-button class="right" [matMenuTriggerFor]="menu">
@@ -41,5 +44,5 @@
         </button>
         </mat-menu>
     </mat-card>
-</div>
+</div> -->
 

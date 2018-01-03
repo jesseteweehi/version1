@@ -1,2 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+mat-card {
+    margin-bottom: 3px;
+    margin-right: 3px;
+}
+
+
+.example-spacer {
+	flex: 1 1 auto;
+  }
