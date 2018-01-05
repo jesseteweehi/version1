@@ -5,11 +5,10 @@ import { LearningAreaListComponent } from './learning-area-list/learning-area-li
 import { LearningBlockListComponent } from './learning-block-list/learning-block-list.component';
 import { LearningBlockItemComponent } from './learning-block-item/learning-block-item.component';
 import { LearningMatrixListComponent } from './learning-matrix-list/learning-matrix-list.component';
-import { LearningMatrixItemComponent } from './learning-Matrix-item/learning-Matrix-item.component';
-
+import { LearningMatrixItemComponent } from './learning-matrix-item/learning-matrix-item.component';
 
 const teacherRoutes: Routes = [
-    { path: '', pathMatch: 'full', redirectTo: 'matrix' },
+    { path: '', pathMatch: 'full', redirectTo: 'matrixlist' },
     { path: 'arealist', component: LearningAreaListComponent },
     { path: 'grouplist',
       children: [
@@ -19,7 +18,7 @@ const teacherRoutes: Routes = [
     },
     { path: 'block',
       children: [
-        {path: ':blockid', component: LearningBlockItemComponent}
+        { path: ':blockid', component: LearningBlockItemComponent}
       ]
     },
     { path: 'matrixlist',
@@ -29,7 +28,7 @@ const teacherRoutes: Routes = [
     },
     { path: 'matrix',
       children: [
-        {path: ':matrixid', component: LearningBlockItemComponent}
+        { path: ':matrixid', component: LearningMatrixItemComponent }
       ]
     },
 ];

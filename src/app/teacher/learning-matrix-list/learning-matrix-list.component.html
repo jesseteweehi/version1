@@ -1,3 +1,53 @@
-<p>
-  learning-matrix-list works!
-</p>
+<mat-toolbar>
+    <button mat-icon-button (click)="add()">
+        <mat-icon class="mat-18">add</mat-icon>
+    </button>
+</mat-toolbar>
+<h1></h1>
+
+{{ xHeadersList | async | json }}
+
+<hr>
+
+
+{{ yHeadersList | async | json }}
+
+
+
+<!-- <div class="wrapper">
+    <mat-card *ngFor="let item of learningGroupItems">
+        <mat-card-header>
+            <mat-card-title>{{item?.title}}</mat-card-title>
+            <mat-card-subtitle fxLayout="column"> 
+                <span>{{item?.learningYear}}</span>
+                <span>{{learningAreaItems[item?.learningArea]?.title}}</span>
+                <span>{{item?.learningLevel}}</span>
+            </mat-card-subtitle>
+            <span class="example-spacer"></span>
+            <button mat-icon-button class="right" [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>        
+        </mat-card-header>
+        <mat-card-content>
+            {{item?.description}}
+        </mat-card-content>
+        <mat-card-actions align="start"> 
+            <a routerLink="{{item?.key}}" mat-button color="primary">Learning Blocks</a>           
+        </mat-card-actions>
+        <mat-menu #menu="matMenu">
+        <button (click)="add(item)" mat-menu-item>
+            <mat-icon>mode_edit</mat-icon>
+            <span>Edit</span>
+        </button>
+        <button (click)="delete(item)" mat-menu-item>
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+        </button>
+        <button mat-menu-item disabled>
+            <mat-icon>lock</mat-icon>
+            <span>Lock</span>
+        </button>
+        </mat-menu>
+    </mat-card>
+</div> -->
+

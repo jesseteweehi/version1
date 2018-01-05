@@ -13,7 +13,6 @@ import { LearningAreaListComponent } from './learning-area-list/learning-area-li
 import { LearningBlockListComponent } from './learning-block-list/learning-block-list.component';
 import { LearningMatrixListComponent } from './learning-matrix-list/learning-matrix-list.component';
 
-
 import { LearningAreaDialogComponent, LearningAreaCreateFormComponent } from './forms/learning-area-forms.component';
 import { LearningGroupCreateFormComponent, LearningGroupDialogComponent } from './forms/learning-group-forms.component';
 import { LearningBlockCreateFormComponent, LearningBlockDialogComponent } from './forms/learning-block-forms.component';
@@ -48,14 +47,15 @@ import { LearningMatrixItemComponent } from './learning-matrix-item/learning-mat
     LearningMatrixCreateFormComponent, LearningMatrixDialogComponent,
 
     // Items
-    LearningBlockItemComponent, LearningMatrixItemComponent
+    LearningBlockItemComponent,
+    LearningMatrixItemComponent
 ],
   exports: [LearningGroupListComponent],
   providers: [TeacherService],
   entryComponents: [
     LearningAreaDialogComponent,
     LearningGroupDialogComponent,
-    LearningBlockDialogComponent
+    LearningBlockDialogComponent,
    ]
 })
 export class TeacherModule {}
