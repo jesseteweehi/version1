@@ -5,14 +5,16 @@
 </mat-toolbar>
 <h1></h1>
 
-<div class="mat-typography" fxLayout="row" fxLayout.xs="column" *ngIf="(group | async) as group">
- <h2>{{group?.title}}</h2>
-  <p>{{group?.description}}</p>
-</div>
-
-{{ group | async | json }}
-
-<!-- <div class="wrapper">
+<mat-card class="top-card mat-elevation-z0" *ngIf="(group | async) as group">
+    <mat-card-header>
+        <mat-card-title>{{group?.title}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        {{group?.description}}
+    </mat-card-content>
+</mat-card>
+ 
+<div class="wrapper">
     <mat-card *ngFor="let item of items | async">
         <mat-card-header>
             <mat-card-title>{{item?.title}}</mat-card-title>
@@ -27,7 +29,7 @@
             {{item?.description}}
         </mat-card-content>
         <mat-card-actions align="start"> 
-            <a routerLink="{{item?.key}}" mat-button color="primary">Learning Blocks</a>           
+            <a [routerLink]="[ '../../block', item.key ]" mat-button color="primary">Block</a>           
         </mat-card-actions>
         <mat-menu #menu="matMenu">
         <button (click)="add(item)" mat-menu-item>
@@ -44,5 +46,5 @@
         </button>
         </mat-menu>
     </mat-card>
-</div> -->
+</div>
 

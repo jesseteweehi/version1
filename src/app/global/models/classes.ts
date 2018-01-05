@@ -1,4 +1,4 @@
-import { Link } from './interfaces';
+import { Link, LearningMatrixProfile, Header, Cell } from './interfaces';
 
 
 export class LearningGroup {
@@ -52,7 +52,7 @@ export class LearningArea {
         public creator: object,
         public title: string,
         public description: string,
-    ){}
+    ) {}
     static fromJson(key, {created,
         lastModified, creator, title, description}): LearningArea {
         return new LearningArea(key, created, lastModified, creator, title, description);
@@ -75,5 +75,24 @@ export class LearningArea {
             return final;
             }
         }
+
+
+// Download the whole shibang from Firebase.
+// On a save of a Matrix save the whole thing again. In order.
+//
+
+export class LearningMatrix {
+    constructor(
+        public key: string,
+        public profile: LearningMatrixProfile,
+        public data: string
+    ) {}
 }
 
+export class LearningMatrixData {
+    constructor(
+        public key: string,
+        public headers: Array<Header>,
+        public cells: Array<Cell>,
+    ) {}
+}

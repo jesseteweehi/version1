@@ -11,11 +11,16 @@ import { TeacherRoutingModule } from './teacher-routing.module';
 import { LearningGroupListComponent } from './learning-group-list/learning-group-list.component';
 import { LearningAreaListComponent } from './learning-area-list/learning-area-list.component';
 import { LearningBlockListComponent } from './learning-block-list/learning-block-list.component';
+import { LearningMatrixListComponent } from './learning-matrix-list/learning-matrix-list.component';
 
 
 import { LearningAreaDialogComponent, LearningAreaCreateFormComponent } from './forms/learning-area-forms.component';
 import { LearningGroupCreateFormComponent, LearningGroupDialogComponent } from './forms/learning-group-forms.component';
 import { LearningBlockCreateFormComponent, LearningBlockDialogComponent } from './forms/learning-block-forms.component';
+import { LearningMatrixCreateFormComponent, LearningMatrixDialogComponent } from './forms/learning-matrix-forms.component';
+
+import { LearningBlockItemComponent } from './learning-block-item/learning-block-item.component';
+import { LearningMatrixItemComponent } from './learning-matrix-item/learning-matrix-item.component';
 
 
 @NgModule({
@@ -30,15 +35,21 @@ import { LearningBlockCreateFormComponent, LearningBlockDialogComponent } from '
   ],
   declarations: [
     // Lists
-    LearningGroupListComponent, LearningAreaListComponent, LearningBlockListComponent,
+    LearningGroupListComponent, LearningAreaListComponent, LearningBlockListComponent, LearningMatrixListComponent,
+
     // Forms
-    // Area
+    // - Area
     LearningAreaDialogComponent, LearningAreaCreateFormComponent,
-    // Groups
+    // - Groups
     LearningGroupDialogComponent, LearningGroupCreateFormComponent,
-    // Blocks
-    LearningBlockDialogComponent, LearningBlockCreateFormComponent 
-  ],
+    // - Blocks
+    LearningBlockDialogComponent, LearningBlockCreateFormComponent,
+    // - Matrix
+    LearningMatrixCreateFormComponent, LearningMatrixDialogComponent,
+
+    // Items
+    LearningBlockItemComponent, LearningMatrixItemComponent
+],
   exports: [LearningGroupListComponent],
   providers: [TeacherService],
   entryComponents: [

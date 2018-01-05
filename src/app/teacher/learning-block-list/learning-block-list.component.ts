@@ -31,9 +31,8 @@ export class LearningBlockListComponent implements OnInit {
     this.group = this.ts.findObjectKey('learningGroup', this.groupId)
                   .map(item => LearningGroup.fromJson(item.key, {...item.payload.val()}));
 
-    console.log(this.group)
-
-    // this.items = this.ts.findList('learningBlocks').map()
+    this.items = this.ts.findItemForObjectList('learningBlockForGroup', 'learningBlock', this.groupId)
+                  .map(changes => changes.map(c => LearningBlock.fromJson(c.key, {...c.payload.val()})));
   }
 
   add(item?: LearningBlock) {

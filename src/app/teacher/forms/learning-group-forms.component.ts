@@ -5,7 +5,6 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { SelectData, createSelectData } from '../../global/models/interfaces';
 import { LearningGroup } from '../../global/models/classes';
 import { TeacherService } from '../teacher.service';
-import { SelectControlValueAccessor } from '@angular/forms/src/directives/select_control_value_accessor';
 import { Years, Levels } from './../../global/models/data';
 import { Observable } from 'rxjs/Observable';
 
@@ -94,7 +93,7 @@ export class LearningGroupCreateFormComponent implements OnInit {
     this.years.forEach(x => this.yearsList.push(createSelectData(x, x)));
     this.levels.forEach(x => this.levelsList.push(createSelectData(x, x)));
     this.areasList = this.ts.findList('learningArea').map(value => {
-      return value.map(c => createSelectData(c.payload.key, c.payload.val().title));});
+      return value.map(c => createSelectData(c.payload.key, c.payload.val().title)); });
 
     this.form = this.fb.group({
       title: '',

@@ -1,11 +1,10 @@
-import { Observable } from 'rxjs/Rx';
-import { flatMap } from 'rxjs/add/operator/mergeMap';
 import { Injectable, Inject } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { FirebaseApp } from 'angularfire2';
 import * as firebase from 'firebase';
-import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/subject';
+import { Observable } from 'rxjs/Rx';
+
 
 @Injectable()
 export class TeacherService {
@@ -71,21 +70,22 @@ constructor(
                  .flatMap(result => Observable.combineLatest(result));
     }
 
-    findItemForList(listPath: string, objectPath: string, listKey: string): Observable<any> {
-        return this.findItemsForKeyList(objectPath, this.findObjectPath(listPath).map(c => c.payload.val()));
+    findItemForObjectList(listPath: string, objectPath: string, listKey: string): Observable<any> {
+        return this.findItemsForKeyList(objectPath, this.findObjectPath(`${listPath}/${listKey}`).map(c => Object.keys(c.payload.val())) );
     }
 
-    // findBlockKeysForGroups(blockKeys$: Observable<any[]>) : Observable<any> {
-    //     return blockKeys$
-    //         .map(bpg => bpg.map(blockKey => this.db.object('learningExperienceBlock/' + blockKey.$key)))
-    //         .flatMap(fbojs => Observable.combineLatest(fbojs))
+    createListfromArray(path: string, a: any[]): Promise<any> {
+        const dataToSave = this.createNumberedObjectFromArray(a);
+        const itemsRef = this.db.object(path);
+        return itemsRef.set(dataToSave);
+    }
 
-    // }
-
-    // findBlocksForGroup(groupKey:string): Observable<any> {
-    //     return this.findBlockKeysForGroups(this.db.list(`learningExperienceBlockForGroup/${groupKey}`))
-    //         .map(LearningAssessmentBlockModel.fromJsonList)
-    // }
+    createNumberedObjectFromArray(a): object {
+        const L = a.length;
+        const indexArray = Array.from(new Array(L ), (val, index) => index);
+        const obj = indexArray.reduce((o, key) => ({ ...o, [key]: a[key]} ), {});
+        return obj;
+    }
 
     fireBaseUpdate(dataToSave) {
         return this.db.object('/').update(dataToSave);

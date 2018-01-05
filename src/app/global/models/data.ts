@@ -6,4 +6,6 @@ export const Levels = ['Curriculum Level 1',
                        'Curriculum Level 5',
                        'Curriculum Level 6',
                        'Curriculum Level 7',
-                       'Curriculum Level 8']
+                       'Curriculum Level 8'];
+export const Orientation = ['X', 'Y'];
+export const Purpose = ['Descriptor', 'Qualifier']
