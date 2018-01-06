@@ -100,7 +100,7 @@ export class LearningGroupCreateFormComponent implements OnInit {
       description: '',
       learningYear: '2017',
       learningArea: '',
-      learningLevel: ''
+      learningLevel: '',
     });
     if (this.currentFormValues) {
       this.setFormValues();
@@ -117,6 +117,7 @@ export class LearningGroupCreateFormComponent implements OnInit {
       learningYear: this.currentFormValues.learningYear,
       learningArea: this.currentFormValues.learningArea,
       learningLevel: this.currentFormValues.learningLevel,
+      created: this.currentFormValues.created
     });
   }
 

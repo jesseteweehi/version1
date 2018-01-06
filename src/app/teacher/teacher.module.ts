@@ -12,11 +12,15 @@ import { LearningGroupListComponent } from './learning-group-list/learning-group
 import { LearningAreaListComponent } from './learning-area-list/learning-area-list.component';
 import { LearningBlockListComponent } from './learning-block-list/learning-block-list.component';
 import { LearningMatrixListComponent } from './learning-matrix-list/learning-matrix-list.component';
+import { LearningMatrixVersionListComponent } from './learning-matrix-version-list/learning-matrix-version-list.component';
+
 
 import { LearningAreaDialogComponent, LearningAreaCreateFormComponent } from './forms/learning-area-forms.component';
 import { LearningGroupCreateFormComponent, LearningGroupDialogComponent } from './forms/learning-group-forms.component';
 import { LearningBlockCreateFormComponent, LearningBlockDialogComponent } from './forms/learning-block-forms.component';
-import { LearningMatrixCreateFormComponent, LearningMatrixDialogComponent } from './forms/learning-matrix-forms.component';
+import { LearningMatrixItemCreateFormComponent, LearningMatrixItemDialogComponent } from './forms/learning-matrix-item-forms.component';
+import { LearningMatrixDialogComponent, LearningMatrixCreateFormComponent } from './forms/learning-matrix-forms.component';
+
 
 import { LearningBlockItemComponent } from './learning-block-item/learning-block-item.component';
 import { LearningMatrixItemComponent } from './learning-matrix-item/learning-matrix-item.component';
@@ -34,7 +38,11 @@ import { LearningMatrixItemComponent } from './learning-matrix-item/learning-mat
   ],
   declarations: [
     // Lists
-    LearningGroupListComponent, LearningAreaListComponent, LearningBlockListComponent, LearningMatrixListComponent,
+    LearningGroupListComponent,
+    LearningAreaListComponent,
+    LearningBlockListComponent,
+    LearningMatrixListComponent,
+    LearningMatrixVersionListComponent,
 
     // Forms
     // - Area
@@ -43,12 +51,15 @@ import { LearningMatrixItemComponent } from './learning-matrix-item/learning-mat
     LearningGroupDialogComponent, LearningGroupCreateFormComponent,
     // - Blocks
     LearningBlockDialogComponent, LearningBlockCreateFormComponent,
-    // - Matrix
-    LearningMatrixCreateFormComponent, LearningMatrixDialogComponent,
+    // - Matix
+    LearningMatrixDialogComponent, LearningMatrixCreateFormComponent,
+    // - Matrix Item
+    LearningMatrixItemCreateFormComponent, LearningMatrixItemDialogComponent,
 
     // Items
     LearningBlockItemComponent,
-    LearningMatrixItemComponent
+    LearningMatrixItemComponent,
+    
 ],
   exports: [LearningGroupListComponent],
   providers: [TeacherService],
@@ -56,6 +67,8 @@ import { LearningMatrixItemComponent } from './learning-matrix-item/learning-mat
     LearningAreaDialogComponent,
     LearningGroupDialogComponent,
     LearningBlockDialogComponent,
+    LearningMatrixDialogComponent,
+    LearningMatrixItemDialogComponent
    ]
 })
 export class TeacherModule {}

@@ -1,11 +1,18 @@
 import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
-import { SelectData, createSelectData, Header } from '../../global/models/interfaces';
-import { Purpose,  Orientation } from './../../global/models/data';
+import { SelectData, createSelectData } from '../../global/models/interfaces';
+import { LearningMatrix } from '../../global/models/classes';
 import { TeacherService } from '../teacher.service';
-import { LearningMatrix } from './../../global/models/classes';
+import { Years, Levels } from './../../global/models/data';
+import { Observable } from 'rxjs/Observable';
+
+
+// Put the Matrix Profile under its own heading with a Data Key.
+// retrieve the MATRIX PROFILE with a data button to get the rest.
+// Versioning?
+
 
 @Component({
   selector: 'app-learning-matrix-dialog',
@@ -30,31 +37,20 @@ export class LearningMatrixDialogComponent {
 @Component({
   selector: 'app-learning-matrix-create-form',
   template: `
-  <form novalidate [formGroup]="form">
   <h4 class="mat-typography subheading-1">{{heading}}</h4>
-    <mat-input-container class="full-width" floatPlaceholder="auto">
-        <input matInput formControlName="title"
-               type="text"
-               required
-               placeholder="Title">
-    </mat-input-container>
-    <mat-input-container class="full-width" floatPlaceholder="auto">
-        <textarea matInput formControlName="description" required
-                  placeholder="Area Description"></textarea>
-    </mat-input-container>
-    <mat-select class="full-width" formControlName="orientation" placeholder="Orientation">
-      <mat-option *ngFor="let choice of orientationList" [value]="choice.value">
-          {{choice.viewValue}}
-      </mat-option>
-    </mat-select>
-    <mat-select class="full-width" formControlName="purpose" placeholder="Purpose">
-      <mat-option *ngFor="let choice of purposeList" [value]="choice.value">
-          {{choice.viewValue}}
-      </mat-option>
-	</mat-select>
-
-    <button mat-dialog-close mat-button (click)="save()" color="primary">Save</button>
-  </form>
+  <form novalidate [formGroup]="form">
+  <mat-input-container class="full-width" floatPlaceholder="auto">
+      <input matInput formControlName="title"
+             type="text"
+             required
+             placeholder="Group Title">
+  </mat-input-container>
+  <mat-input-container class="full-width" floatPlaceholder="auto">
+      <textarea matInput matTextareaAutosize formControlName="description" required
+                placeholder="Group Description"></textarea>
+  </mat-input-container>
+	<button mat-dialog-close mat-button (click)="save()" color="primary">Save</button>
+	</form>
   `,
   styles: [`
   mat-select {
@@ -67,31 +63,19 @@ export class LearningMatrixDialogComponent {
   `]
 })
 export class LearningMatrixCreateFormComponent implements OnInit {
-  @Input() currentFormValues?: Header;
+  @Input() currentFormValues?: LearningMatrix;
   @Output() formToSend = new EventEmitter();
   form: FormGroup;
-  heading = 'Add Learning matrix';
+  heading = 'Add Learning Matrix';
   edit: Boolean = false;
 
-  readonly orientation = Orientation;
-  readonly purpose = Purpose;
-  orientationList: SelectData[] = [];
-  purposeList: SelectData[] = [];
-
-  constructor(private fb: FormBuilder) {
-   }
+  constructor(private fb: FormBuilder, private ts: TeacherService) { }
 
   ngOnInit() {
-    this.orientation.forEach(x => this.orientationList.push(createSelectData(x, x)));
-    this.purpose.forEach(x => this.purposeList.push(createSelectData(x, x)));
-
     this.form = this.fb.group({
       title: '',
-      description: '',
-      purpose: 'Descriptor',
-      orientation: 'Y'
+      description: ''
     });
-
     if (this.currentFormValues) {
       this.setFormValues();
     }
@@ -104,8 +88,9 @@ export class LearningMatrixCreateFormComponent implements OnInit {
     this.form.setValue({
       title: this.currentFormValues.title,
       description: this.currentFormValues.description,
-      purpose: this.currentFormValues.purpose,
-      orientation: this.currentFormValues.orientation
     });
   }
+
 }
+
+

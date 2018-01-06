@@ -32,7 +32,8 @@ constructor(
     changeObject(path: string,  data?: any): Promise<any> {
         const dataToSave = {};
         if (data) {
-            const itemToSave = Object.assign({}, data);
+            console.log(data)
+            const itemToSave = Object.assign({ lastModified: firebase.database.ServerValue.TIMESTAMP}, data);
             dataToSave[path] = itemToSave;
         } else {
             dataToSave[path] = null;
@@ -41,7 +42,7 @@ constructor(
     }
 
     createLearningGroup(data: any): Promise<any> {
-        const itemToSave = Object.assign({}, data);
+        const itemToSave = Object.assign({ created: firebase.database.ServerValue.TIMESTAMP}, data);
         const itemRefKey = this.db.list('/learningGroup').push(data).key;
         const dataToSave = {};
         dataToSave[`learningGroup/${itemRefKey}`] = itemToSave;
@@ -62,6 +63,14 @@ constructor(
         const dataToSave = {};
         dataToSave[`learningBlock/${itemRefKey}`] = itemToSave;
         dataToSave[`learningBlockForGroup/${parentKey}/${itemRefKey}`] = true;
+        return this.fireBaseUpdate(dataToSave);
+    }
+
+    createLearningMatrix(data: any): Promise<any> {
+        const itemToSave = Object.assign({ created: firebase.database.ServerValue.TIMESTAMP}, data);
+        const itemRefKey = this.db.list('/learningMatrix').push(data).key;
+        const dataToSave = {};
+        dataToSave[`learningMatrix/${itemRefKey}`] = itemToSave;
         return this.fireBaseUpdate(dataToSave);
     }
 

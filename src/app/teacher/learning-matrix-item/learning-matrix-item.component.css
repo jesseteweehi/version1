@@ -1,0 +1,9 @@
+.wrapper {
+    display: grid;
+}
+
+.blank {
+    padding-top: 20px;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}

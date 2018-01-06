@@ -6,6 +6,8 @@ import { LearningBlockListComponent } from './learning-block-list/learning-block
 import { LearningBlockItemComponent } from './learning-block-item/learning-block-item.component';
 import { LearningMatrixListComponent } from './learning-matrix-list/learning-matrix-list.component';
 import { LearningMatrixItemComponent } from './learning-matrix-item/learning-matrix-item.component';
+import { LearningMatrixVersionListComponent } from './learning-matrix-version-list/learning-matrix-version-list.component';
+
 
 const teacherRoutes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'matrixlist' },
@@ -24,11 +26,12 @@ const teacherRoutes: Routes = [
     { path: 'matrixlist',
       children: [
         {path: '', component: LearningMatrixListComponent}
+        {path: ':matrixid', component: LearningMatrixVersionListComponent}
       ]
     },
-    { path: 'matrix',
+    { path: 'version',
       children: [
-        { path: ':matrixid', component: LearningMatrixItemComponent }
+        { path: ':versionid', component: LearningMatrixItemComponent }
       ]
     },
 ];

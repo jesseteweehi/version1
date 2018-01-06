@@ -1,4 +1,4 @@
-import { Link, LearningMatrixProfile, Header, Cell } from './interfaces';
+import { Link } from './interfaces';
 
 
 export class LearningGroup {
@@ -6,7 +6,6 @@ export class LearningGroup {
         public key: string,
         public title: string,
         public description: string,
-        public created: object,
         public lastModified: object,
         public creator: string,
         public locked: boolean,
@@ -16,8 +15,8 @@ export class LearningGroup {
     ) {}
 
     static fromJson(key, {title,
-        description, created, modified, creator, locked, learningYear, learningArea, learningLevel}): LearningGroup {
-        return new LearningGroup(key, title, description, created, modified, creator, locked, learningYear, learningArea, learningLevel);
+        description, modified, creator, locked, learningYear, learningArea, learningLevel}): LearningGroup {
+        return new LearningGroup(key, title, description, modified, creator, locked, learningYear, learningArea, learningLevel);
     }
     static fromJsonList(array): LearningGroup[] {
         return array.map(LearningGroup.fromJson);
@@ -79,20 +78,27 @@ export class LearningArea {
 
 // Download the whole shibang from Firebase.
 // On a save of a Matrix save the whole thing again. In order.
-//
+
+// Matrix Classes
+// Learning Matrix (key, Title, Description)
+// Learning Version (Key, title, date)
 
 export class LearningMatrix {
     constructor(
         public key: string,
-        public profile: LearningMatrixProfile,
-        public data: string
+        public title: string,
+        public description: string,
+        public lastModified: string,
     ) {}
+    static fromJson(key, { title, description, lastModified}): LearningMatrix {
+        return new LearningMatrix(key, title, description, lastModified);
+        }
 }
 
-export class LearningMatrixData {
-    constructor(
-        public key: string,
-        public headers: Array<Header>,
-        public cells: Array<Cell>,
-    ) {}
-}
+// export class LearningMatrixData {
+//     constructor(
+//         public key: string,
+//         public headers: Array<Header>,
+//         public cells: Array<Cell>,
+//     ) {}
+// }

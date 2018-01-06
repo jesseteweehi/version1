@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
-import { LearningGroup, LearningArea } from './../../global/models/classes';
 import { LearningMatrixDialogComponent } from './../forms/learning-matrix-forms.component';
+
+import { LearningMatrix } from './../../global/models/classes';
 import { TeacherService } from '../teacher.service';
 
 @Component({
@@ -12,63 +13,36 @@ import { TeacherService } from '../teacher.service';
 })
 export class LearningMatrixListComponent implements OnInit {
   DialogRef: MatDialogRef<LearningMatrixDialogComponent>;
+  items: Observable<LearningMatrix[]>;
 
-  learningGroupItems: LearningGroup[];
-  learningAreaItems: object;
-  xHeadersList: any[] = [];
-  yHeadersList: any[] = [];
-
-
-
-  constructor(private ts: TeacherService,
+  constructor(
+              private ts: TeacherService,
               private dialog: MatDialog,
               public snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    // const learningGroup$ = this.ts.findList('learningGroup')
-    //                         .map(outer => outer.map(c => LearningGroup.fromJson(c.payload.key, {...c.payload.val()} )) );
-    // const learningAreas$ = this.ts.findObjectPath('learningArea').map(c => c.payload.val());
-    // // Observable.combineLatest(learningGroup$, learningAreas$).subscribe(event => console.log(event[0]));
-    // Observable.combineLatest(learningGroup$, learningAreas$).subscribe(result => {
-    //    this.learningGroupItems = result[0];
-    //    this.learningAreaItems = result[1];
-    // });
+    this.items = this.ts.findList('learningMatrix').map(changes => changes.map(c => LearningMatrix.fromJson(c.key {...c.payload.val()})) );
   }
 
-  getKeyFromArray(item, a) {
-    return a.findIndex(item);
-  }
-
-  deleteFromArray(item, a) {
-    const index = this.getKeyFromArray(item, a);
-    if (index > -1) {
-      a.splice(index , 1);
-    }
-  }
-
-  add(a: any[], item?: any) {
+  add(item?: LearningMatrix) {
     this.DialogRef = this.dialog.open(LearningMatrixDialogComponent, {
       data: {
-        currentFormValues: item,
-        array: a,
+        currentFormValues: item
       }
     });
     this.DialogRef.afterClosed()
       .filter(x => x !== undefined)
       .subscribe(x => {
         if (x.edit) {
-          const index = x.data.value.index;
-          if (index !== -1) {
-            a[index] = x.data.value;
-          }
+        this.messagefromPromise(this.ts.changeObject(`/learningMatrix/${item.key}`, x.data.value));
         } else {
-          a.push(x.data.value)
+        this.messagefromPromise(this.ts.createLearningMatrix(x.data.value), 'Learning Matrix Added');
         }
       });
   }
 
-  delete(a: any[], item: any) {
-    this.deleteFromArray(item, a);
+  delete(item: LearningMatrix) {
+    this.messagefromPromise(this.ts.changeObject(`/learningMatrix/${item.key}`), 'Learning Matrix Deleted');
   }
 
   messagefromPromise(data: Promise<any>, success = 'Success', error = 'Bugger') {
@@ -83,4 +57,3 @@ export class LearningMatrixListComponent implements OnInit {
     });
   }
 }
-

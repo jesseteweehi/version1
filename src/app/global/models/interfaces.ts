@@ -12,28 +12,28 @@ export function createSelectData(newValue, newViewValue): SelectData {
     return {value: newValue, viewValue: newViewValue};
 }
 
-export interface LearningMatrixProfile {
-    title: string;
-    description: string;
-}
+// export interface LearningMatrixProfile {
+//     title: string;
+//     description: string;
+// }
 
 
-export interface Header {
-    title: string;
-    description: string;
-    purpose: string;
-    orientation: string;
-    locked?: boolean;
-}
+// export interface Header {
+//     title: string;
+//     description: string;
+//     purpose: string;
+//     orientation: string;
+//     locked?: boolean;
+// }
 
-export interface Cell {
-    title: string;
-    description: string;
-    parent: string;
-    locked: boolean;
-    xheadertitle: string;
-    yheadertitle: string;
-    qualifiertitle: string;
+// export interface Cell {
+//     title: string;
+//     description: string;
+//     parent: string;
+//     locked: boolean;
+//     xheadertitle: string;
+//     yheadertitle: string;
+//     qualifiertitle: string;
 }
 
 // public $key: string,
