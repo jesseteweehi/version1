@@ -29,7 +29,7 @@
                 {{item?.description}}
             </mat-card-content>
             <mat-card-actions align="start"> 
-                <a [routerLink]="[ '../../block', item.key ]" mat-button color="primary">Version</a>           
+                <a routerLink="{{item.key}}" mat-button color="primary">Version</a>           
             </mat-card-actions>
             <mat-menu #menu="matMenu">
             <button (click)="add(item)" mat-menu-item>

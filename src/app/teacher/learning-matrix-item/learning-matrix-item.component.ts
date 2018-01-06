@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
 import { Observable } from 'rxjs/Rx';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
-import { LearningGroup, LearningArea } from './../../global/models/classes';
+import { LearningMatrixVersion } from './../../global/models/classes';
 import { LearningMatrixItemDialogComponent } from './../forms/learning-matrix-item-forms.component';
 import { TeacherService } from '../teacher.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-learning-matrix-item',
@@ -12,8 +15,9 @@ import { TeacherService } from '../teacher.service';
 })
 export class LearningMatrixItemComponent implements OnInit {
   DialogRef: MatDialogRef<LearningMatrixItemDialogComponent>;
+  groupId: string;
+  group: Observable<LearningMatrixVersion>;
 
-  learningGroupItems: LearningGroup[];
   learningAreaItems: object;
   xHeadersList: any[] = [];
   yHeadersList: any[] = [];
@@ -22,18 +26,15 @@ export class LearningMatrixItemComponent implements OnInit {
 
 
   constructor(private ts: TeacherService,
+              private route: ActivatedRoute,
+              private location: Location,
               private dialog: MatDialog,
               public snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    // const learningGroup$ = this.ts.findList('learningGroup')
-    //                         .map(outer => outer.map(c => LearningGroup.fromJson(c.payload.key, {...c.payload.val()} )) );
-    // const learningAreas$ = this.ts.findObjectPath('learningArea').map(c => c.payload.val());
-    // // Observable.combineLatest(learningGroup$, learningAreas$).subscribe(event => console.log(event[0]));
-    // Observable.combineLatest(learningGroup$, learningAreas$).subscribe(result => {
-    //    this.learningGroupItems = result[0];
-    //    this.learningAreaItems = result[1];
-    // });
+    this.groupId = this.route.snapshot.params['versionid'];
+    this.group = this.ts.findObjectKey('learningMatrixVersion', this.groupId)
+                  .map(item => LearningMatrixVersion.fromJson(item.key, {...item.payload.val()}));
   }
 
   getKeyFromArray(item, a) {
@@ -100,6 +101,10 @@ export class LearningMatrixItemComponent implements OnInit {
       'grid-row': + (i + 1) + '/' + (i + 2),
       'grid-column': '1 / 2',
     };
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }
 

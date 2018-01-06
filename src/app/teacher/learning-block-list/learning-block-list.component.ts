@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 import { Observable } from 'rxjs/Rx';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { LearningBlock, LearningGroup } from './../../global/models/classes';
@@ -22,6 +23,7 @@ export class LearningBlockListComponent implements OnInit {
   items: Observable<LearningBlock>;
 
   constructor(private route: ActivatedRoute,
+              private location: Location,
               private ts: TeacherService,
               private dialog: MatDialog,
               public snackBar: MatSnackBar) { }
@@ -66,5 +68,9 @@ export class LearningBlockListComponent implements OnInit {
     this.snackBar.open(message, action, {
       duration: 2000,
     });
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }

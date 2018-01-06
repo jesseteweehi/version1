@@ -5,6 +5,7 @@ import { LearningMatrixDialogComponent } from './../forms/learning-matrix-forms.
 
 import { LearningMatrix } from './../../global/models/classes';
 import { TeacherService } from '../teacher.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-learning-matrix-list',
@@ -17,6 +18,7 @@ export class LearningMatrixListComponent implements OnInit {
 
   constructor(
               private ts: TeacherService,
+              private location: Location,
               private dialog: MatDialog,
               public snackBar: MatSnackBar) { }
 
@@ -56,4 +58,5 @@ export class LearningMatrixListComponent implements OnInit {
       duration: 2000,
     });
   }
+
 }

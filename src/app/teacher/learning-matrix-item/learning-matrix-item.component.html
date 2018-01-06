@@ -1,4 +1,7 @@
 <mat-toolbar>
+    <button mat-icon-button color="primary" (click)="goBack()">
+        <mat-icon class="mat-18">navigate_before</mat-icon>
+    </button>
     <button mat-button (click)="add(xHeadersList)">
        Add X Header
     </button>
@@ -8,8 +11,20 @@
     <button mat-button (click)="add(cellsList)">
         Add Cell
     </button>
+    <button mat-raised-button color="primary" (click)="savetemplate()">
+            Save Template
+    </button>
 </mat-toolbar>
-<h1></h1>
+
+<!-- Matrix Name -->
+<mat-card class="top-card mat-elevation-z0" *ngIf="(group | async) as group">
+    <mat-card-header>
+        <mat-card-title>{{group?.title}}</mat-card-title>
+        <span class="example-spacer"></span>
+        <mat-card-subtitle>{{group?.lastModified | date}}</mat-card-subtitle>
+    </mat-card-header>
+</mat-card>
+
 
 <div class="wrapper" [ngStyle]="template()">
   <div class="blank"></div>
@@ -49,7 +64,7 @@
           {{y?.description}}
       </mat-card-content>
       <mat-menu #menu="matMenu">
-          <button (click)="add(yHeadersList, x, i)" mat-menu-item>
+          <button (click)="add(yHeadersList, y, i)" mat-menu-item>
               <mat-icon>mode_edit</mat-icon>
               <span>Edit</span>
           </button>

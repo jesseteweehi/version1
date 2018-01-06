@@ -32,7 +32,6 @@ constructor(
     changeObject(path: string,  data?: any): Promise<any> {
         const dataToSave = {};
         if (data) {
-            console.log(data)
             const itemToSave = Object.assign({ lastModified: firebase.database.ServerValue.TIMESTAMP}, data);
             dataToSave[path] = itemToSave;
         } else {
@@ -42,7 +41,7 @@ constructor(
     }
 
     createLearningGroup(data: any): Promise<any> {
-        const itemToSave = Object.assign({ created: firebase.database.ServerValue.TIMESTAMP}, data);
+        const itemToSave = Object.assign({ lastModified: firebase.database.ServerValue.TIMESTAMP}, data);
         const itemRefKey = this.db.list('/learningGroup').push(data).key;
         const dataToSave = {};
         dataToSave[`learningGroup/${itemRefKey}`] = itemToSave;
@@ -50,7 +49,7 @@ constructor(
     }
 
     createLearningArea(data: any): Promise<any> {
-        const itemToSave = Object.assign({}, data);
+        const itemToSave = Object.assign({ lastModified: firebase.database.ServerValue.TIMESTAMP}, data);
         const itemRefKey = this.db.list('/learningArea').push(data).key;
         const dataToSave = {};
         dataToSave[`learningArea/${itemRefKey}`] = itemToSave;
@@ -58,7 +57,7 @@ constructor(
     }
 
     createLearningBlock(parentKey: string, data: any) {
-        const itemToSave = Object.assign({}, data);
+        const itemToSave = Object.assign({ lastModified: firebase.database.ServerValue.TIMESTAMP}, data);
         const itemRefKey = this.db.list('/learningBlock').push(data).key;
         const dataToSave = {};
         dataToSave[`learningBlock/${itemRefKey}`] = itemToSave;
@@ -67,10 +66,19 @@ constructor(
     }
 
     createLearningMatrix(data: any): Promise<any> {
-        const itemToSave = Object.assign({ created: firebase.database.ServerValue.TIMESTAMP}, data);
+        const itemToSave = Object.assign({ lastModified: firebase.database.ServerValue.TIMESTAMP}, data);
         const itemRefKey = this.db.list('/learningMatrix').push(data).key;
         const dataToSave = {};
         dataToSave[`learningMatrix/${itemRefKey}`] = itemToSave;
+        return this.fireBaseUpdate(dataToSave);
+    }
+
+    createLearningMatrixVersion(parentKey: string, data: any) {
+        const itemToSave = Object.assign({ lastModified: firebase.database.ServerValue.TIMESTAMP}, data);
+        const itemRefKey = this.db.list('/learningMatrixVersion').push(data).key;
+        const dataToSave = {};
+        dataToSave[`learningMatrixVersion/${itemRefKey}`] = itemToSave;
+        dataToSave[`learningMatrixVersionForMatrix/${parentKey}/${itemRefKey}`] = true;
         return this.fireBaseUpdate(dataToSave);
     }
 

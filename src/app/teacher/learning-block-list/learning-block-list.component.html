@@ -1,9 +1,11 @@
 <mat-toolbar>
+    <button mat-icon-button color="primary" (click)="goBack()">
+        <mat-icon class="mat-18">navigate_before</mat-icon>
+    </button>
     <button mat-icon-button (click)="add()">
         <mat-icon class="mat-18">add</mat-icon>
     </button>
 </mat-toolbar>
-<h1></h1>
 
 <mat-card class="top-card mat-elevation-z0" *ngIf="(group | async) as group">
     <mat-card-header>

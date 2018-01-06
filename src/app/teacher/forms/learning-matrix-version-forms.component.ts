@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 import { SelectData, createSelectData } from '../../global/models/interfaces';
-import { LearningMatrix } from '../../global/models/classes';
+import { LearningMatrixVersion } from '../../global/models/classes';
 import { TeacherService } from '../teacher.service';
 import { Years, Levels } from './../../global/models/data';
 import { Observable } from 'rxjs/Observable';
@@ -15,18 +15,18 @@ import { Observable } from 'rxjs/Observable';
 
 
 @Component({
-  selector: 'app-learning-matrix-dialog',
+  selector: 'app-learning-matrix-version-dialog',
   template: `
-  <app-learning-matrix-create-form
+  <app-learning-matrix-version-create-form
   (formToSend)="handleForm($event)"
   [currentFormValues]="data.currentFormValues"
   >
-  </app-learning-matrix-create-form>
+  </app-learning-matrix-version-create-form>
   `
 })
-export class LearningMatrixDialogComponent {
+export class LearningMatrixVersionDialogComponent {
   constructor(
-    public dialogRef: MatDialogRef<LearningMatrixDialogComponent>,
+    public dialogRef: MatDialogRef<LearningMatrixVersionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   handleForm($event) {
@@ -35,22 +35,16 @@ export class LearningMatrixDialogComponent {
 }
 
 @Component({
-  selector: 'app-learning-matrix-create-form',
+  selector: 'app-learning-matrix-version-create-form',
   template: `
   <h4 class="mat-typography subheading-1">{{heading}}</h4>
-  <form novalidate [formGroup]="form">
+  <form novalidate [formGroup]="form" (keyup.enter)="save()">
   <mat-input-container class="full-width" floatPlaceholder="auto">
       <input matInput formControlName="title"
              type="text"
              required
              placeholder="Title">
   </mat-input-container>
-  <mat-input-container class="full-width" floatPlaceholder="auto">
-      <textarea matInput matTextareaAutosize formControlName="description" required
-                placeholder="Description"></textarea>
-  </mat-input-container>
-	<button mat-dialog-close mat-button (click)="save()" color="primary">Save</button>
-	</form>
   `,
   styles: [`
   mat-select {
@@ -62,11 +56,11 @@ export class LearningMatrixDialogComponent {
   }
   `]
 })
-export class LearningMatrixCreateFormComponent implements OnInit {
-  @Input() currentFormValues?: LearningMatrix;
+export class LearningMatrixVersionCreateFormComponent implements OnInit {
+  @Input() currentFormValues?: LearningMatrixVersion;
   @Output() formToSend = new EventEmitter();
   form: FormGroup;
-  heading = 'Add Learning Matrix';
+  heading = 'Add Learning Matrix Version';
   edit: Boolean = false;
 
   constructor(private fb: FormBuilder) { }
@@ -74,7 +68,6 @@ export class LearningMatrixCreateFormComponent implements OnInit {
   ngOnInit() {
     this.form = this.fb.group({
       title: '',
-      description: ''
     });
     if (this.currentFormValues) {
       this.setFormValues();
@@ -87,7 +80,6 @@ export class LearningMatrixCreateFormComponent implements OnInit {
     this.edit = true;
     this.form.setValue({
       title: this.currentFormValues.title,
-      description: this.currentFormValues.description,
     });
   }
 

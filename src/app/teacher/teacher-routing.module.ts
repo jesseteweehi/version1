@@ -14,8 +14,8 @@ const teacherRoutes: Routes = [
     { path: 'arealist', component: LearningAreaListComponent },
     { path: 'grouplist',
       children: [
-        {path: '', component: LearningGroupListComponent},
-        {path: ':groupid', component: LearningBlockListComponent}
+        { path: '', component: LearningGroupListComponent},
+        { path: ':groupid', component: LearningBlockListComponent}
       ]
     },
     { path: 'block',
@@ -25,14 +25,14 @@ const teacherRoutes: Routes = [
     },
     { path: 'matrixlist',
       children: [
-        {path: '', component: LearningMatrixListComponent}
-        {path: ':matrixid', component: LearningMatrixVersionListComponent}
+        { path: '', component: LearningMatrixListComponent},
+        { path: ':matrixid', component: LearningMatrixVersionListComponent }
       ]
     },
-    { path: 'version',
-      children: [
-        { path: ':versionid', component: LearningMatrixItemComponent }
-      ]
+    { path: 'matrix',
+    children: [
+      { path: ':versionid', component: LearningMatrixItemComponent}
+    ]
     },
 ];
 

@@ -95,6 +95,19 @@ export class LearningMatrix {
         }
 }
 
+export class LearningMatrixVersion {
+    constructor(
+        public key: string,
+        public title: string,
+        public lastModified: string,
+    ) {}
+    static fromJson(key, { title, lastModified}): LearningMatrixVersion {
+        return new LearningMatrixVersion(key, title, lastModified);
+        }
+}
+
+}
+
 // export class LearningMatrixData {
 //     constructor(
 //         public key: string,

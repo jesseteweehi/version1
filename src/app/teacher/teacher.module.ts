@@ -20,6 +20,8 @@ import { LearningGroupCreateFormComponent, LearningGroupDialogComponent } from '
 import { LearningBlockCreateFormComponent, LearningBlockDialogComponent } from './forms/learning-block-forms.component';
 import { LearningMatrixItemCreateFormComponent, LearningMatrixItemDialogComponent } from './forms/learning-matrix-item-forms.component';
 import { LearningMatrixDialogComponent, LearningMatrixCreateFormComponent } from './forms/learning-matrix-forms.component';
+import { LearningMatrixVersionDialogComponent,
+         LearningMatrixVersionCreateFormComponent } from './forms/learning-matrix-version-forms.component';
 
 
 import { LearningBlockItemComponent } from './learning-block-item/learning-block-item.component';
@@ -53,13 +55,14 @@ import { LearningMatrixItemComponent } from './learning-matrix-item/learning-mat
     LearningBlockDialogComponent, LearningBlockCreateFormComponent,
     // - Matix
     LearningMatrixDialogComponent, LearningMatrixCreateFormComponent,
+    // - Matrix Version
+    LearningMatrixVersionDialogComponent, LearningMatrixVersionCreateFormComponent,
     // - Matrix Item
     LearningMatrixItemCreateFormComponent, LearningMatrixItemDialogComponent,
 
     // Items
     LearningBlockItemComponent,
     LearningMatrixItemComponent,
-    
 ],
   exports: [LearningGroupListComponent],
   providers: [TeacherService],
@@ -68,6 +71,7 @@ import { LearningMatrixItemComponent } from './learning-matrix-item/learning-mat
     LearningGroupDialogComponent,
     LearningBlockDialogComponent,
     LearningMatrixDialogComponent,
+    LearningMatrixVersionDialogComponent,
     LearningMatrixItemDialogComponent
    ]
 })
