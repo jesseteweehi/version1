@@ -106,8 +106,6 @@ export class LearningMatrixVersion {
         }
 }
 
-}
-
 // export class LearningMatrixData {
 //     constructor(
 //         public key: string,

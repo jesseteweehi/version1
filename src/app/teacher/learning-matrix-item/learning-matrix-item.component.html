@@ -2,17 +2,18 @@
     <button mat-icon-button color="primary" (click)="goBack()">
         <mat-icon class="mat-18">navigate_before</mat-icon>
     </button>
-    <button mat-button (click)="add(xHeadersList)">
-       Add X Header
+    <button mat-button (click)="addHeader(xHeadersList)">
+    Add X Header
     </button>
-    <button mat-button (click)="add(yHeadersList)">
+    <button mat-button (click)="addHeader(yHeadersList)">
         Add Y Header
     </button>
-    <button mat-button (click)="add(cellsList)">
+    <button mat-button (click)="addCell(cellsList)">
         Add Cell
     </button>
-    <button mat-raised-button color="primary" (click)="savetemplate()">
-            Save Template
+    <span class="example-spacer"></span>
+    <button mat-raised-button color="primary" (click)="addVersion()">
+            Save New
     </button>
 </mat-toolbar>
 
@@ -25,14 +26,43 @@
     </mat-card-header>
 </mat-card>
 
+<mat-list dense>
+    <mat-list-item *ngFor="let item of items | async" on-click="filterBy(item)">      
+        <h3 mat-subheader>{{item?.title}}</h3>
+        <span class="example-spacer"></span>
+        <button mat-icon-button color="primary" (click)="addVersion(item)">
+                <mat-icon class="mat-18">save</mat-icon>
+        </button>
+        <p>{{item?.lastModified | date}}</p>
+        <button mat-icon-button class="right" [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button (click)="addVersion(item)" mat-menu-item>
+                <mat-icon>mode_edit</mat-icon>
+                <span>Edit</span>
+            </button>
+            <button (click)="deleteVersion(item)" mat-menu-item>
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+            </button>
+            <button mat-menu-item disabled>
+                <mat-icon>lock</mat-icon>
+                <span>Lock</span>
+            </button>
+        </mat-menu> 
+    </mat-list-item>
+</mat-list>
+
+{{ data | async | json}}
+
+{{ versionId$ | async | json }}
 
 <div class="wrapper" [ngStyle]="template()">
   <div class="blank"></div>
   <mat-card class='header' *ngFor="let x of xHeadersList; let i = index" [ngStyle]="xheader(i+1)">
-    {{ i }}
-    {{ x | json}}
     <mat-card-header>
-        <mat-card-title>{{x?.title}}</mat-card-title>
+        <mat-card-title><h2>{{x?.title}}</h2></mat-card-title>
         <span class="example-spacer"></span>
         <button mat-icon-button [matMenuTriggerFor]="menu">
             <mat-icon>more_vert</mat-icon>
@@ -42,7 +72,7 @@
         {{x?.description}}
     </mat-card-content>
     <mat-menu #menu="matMenu">
-        <button (click)="add(xHeadersList, x, i)" mat-menu-item>
+        <button (click)="addHeader(xHeadersList, x, i)" mat-menu-item>
             <mat-icon>mode_edit</mat-icon>
             <span>Edit</span>
         </button>
@@ -64,7 +94,7 @@
           {{y?.description}}
       </mat-card-content>
       <mat-menu #menu="matMenu">
-          <button (click)="add(yHeadersList, y, i)" mat-menu-item>
+          <button (click)="addHeader(yHeadersList, y, i)" mat-menu-item>
               <mat-icon>mode_edit</mat-icon>
               <span>Edit</span>
           </button>
@@ -86,7 +116,7 @@
           {{cell?.description}}
       </mat-card-content>
       <mat-menu #menu="matMenu">
-          <button (click)="add(cellsList, cell, i)" mat-menu-item>
+          <button (click)="addCell(cellsList, cell, i)" mat-menu-item>
               <mat-icon>mode_edit</mat-icon>
               <span>Edit</span>
           </button>

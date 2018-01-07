@@ -9,18 +9,18 @@ import { LearningMatrix } from './../../global/models/classes';
 
 
 @Component({
-  selector: 'app-learning-matrix-item-dialog',
+  selector: 'app-learning-matrix-header-dialog',
   template: `
-  <app-learning-matrix-item-create-form
+  <app-learning-matrix-header-create-form
   (formToSend)="handleForm($event)"
   [data]="data"
   >
-  </app-learning-matrix-item-create-form>
+  </app-learning-matrix-header-create-form>
   `
 })
-export class LearningMatrixItemDialogComponent {
+export class LearningMatrixHeaderDialogComponent {
   constructor(
-    public dialogRef: MatDialogRef<LearningMatrixItemDialogComponent>,
+    public dialogRef: MatDialogRef<LearningMatrixHeaderDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   handleForm($event) {
@@ -29,7 +29,7 @@ export class LearningMatrixItemDialogComponent {
 }
 
 @Component({
-  selector: 'app-learning-matrix-item-create-form',
+  selector: 'app-learning-matrix-header-create-form',
   template: `
   <form novalidate [formGroup]="form">
   <h4 class="mat-typography subheading-1">{{heading}}</h4>
@@ -62,12 +62,12 @@ export class LearningMatrixItemDialogComponent {
   }
   `]
 })
-export class LearningMatrixItemCreateFormComponent implements OnInit {
+export class LearningMatrixHeaderCreateFormComponent implements OnInit {
   @Input() data: any;
   currentFormValues?: Header;
   @Output() formToSend = new EventEmitter();
   form: FormGroup;
-  heading = 'Add Cell';
+  heading = 'Add Header';
   edit: Boolean = false;
 
   readonly orientation = Orientation;

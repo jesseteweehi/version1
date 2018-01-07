@@ -73,12 +73,34 @@ constructor(
         return this.fireBaseUpdate(dataToSave);
     }
 
-    createLearningMatrixVersion(parentKey: string, data: any) {
+    createLearningMatrixData(parentKey: string, xheaders: any[], yheaders: any[], cells: any[], data: any): Promise<any> {
+        const xHeaderObject = {};
+        const yHeaderObject = {};
+        const cellsObject = {};
+        xheaders.forEach((element, i) => xHeaderObject[i] = element );
+        yheaders.forEach((element, i) => yHeaderObject[i] = element );
+        cells.forEach((element, i) => cellsObject[i] = element );
+        const matrixData = Object.assign({xheader : xHeaderObject, yheader : yHeaderObject, cells : cellsObject });
+
         const itemToSave = Object.assign({ lastModified: firebase.database.ServerValue.TIMESTAMP}, data);
         const itemRefKey = this.db.list('/learningMatrixVersion').push(data).key;
         const dataToSave = {};
         dataToSave[`learningMatrixVersion/${itemRefKey}`] = itemToSave;
         dataToSave[`learningMatrixVersionForMatrix/${parentKey}/${itemRefKey}`] = true;
+        dataToSave[`learningMatrixVersionData/${itemRefKey}`] = matrixData;
+        return this.fireBaseUpdate(dataToSave);
+    }
+
+    saveLearningMatrixData(key: string, xheaders: any[], yheaders: any[], cells: any[]): Promise<any> {
+        const xHeaderObject = {};
+        const yHeaderObject = {};
+        const cellsObject = {};
+        xheaders.forEach((element, i) => xHeaderObject[i] = element );
+        yheaders.forEach((element, i) => yHeaderObject[i] = element );
+        cells.forEach((element, i) => cellsObject[i] = element );
+        const matrixData = Object.assign({xheader : xHeaderObject, yheader : yHeaderObject, cells : cellsObject });
+        const dataToSave = {};
+        dataToSave[`learningMatrixVersionData/${key}`] = matrixData;
         return this.fireBaseUpdate(dataToSave);
     }
 
@@ -91,18 +113,18 @@ constructor(
         return this.findItemsForKeyList(objectPath, this.findObjectPath(`${listPath}/${listKey}`).map(c => Object.keys(c.payload.val())) );
     }
 
-    createListfromArray(path: string, a: any[]): Promise<any> {
-        const dataToSave = this.createNumberedObjectFromArray(a);
-        const itemsRef = this.db.object(path);
-        return itemsRef.set(dataToSave);
-    }
+    // createListfromArray(path: string, a: any[]): Promise<any> {
+    //     const dataToSave = this.createNumberedObjectFromArray(a);
+    //     const itemsRef = this.db.object(path);
+    //     return itemsRef.set(dataToSave);
+    // }
 
-    createNumberedObjectFromArray(a): object {
-        const L = a.length;
-        const indexArray = Array.from(new Array(L ), (val, index) => index);
-        const obj = indexArray.reduce((o, key) => ({ ...o, [key]: a[key]} ), {});
-        return obj;
-    }
+    // createNumberedObjectFromArray(a): object {
+    //     const L = a.length;
+    //     const indexArray = Array.from(new Array(L ), (val, index) => index);
+    //     const obj = indexArray.reduce((o, key) => ({ ...o, [key]: a[key]} ), {});
+    //     return obj;
+    // }
 
     fireBaseUpdate(dataToSave) {
         return this.db.object('/').update(dataToSave);

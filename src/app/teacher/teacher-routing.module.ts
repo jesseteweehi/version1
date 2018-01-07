@@ -26,12 +26,11 @@ const teacherRoutes: Routes = [
     { path: 'matrixlist',
       children: [
         { path: '', component: LearningMatrixListComponent},
-        { path: ':matrixid', component: LearningMatrixVersionListComponent }
       ]
     },
     { path: 'matrix',
     children: [
-      { path: ':versionid', component: LearningMatrixItemComponent}
+      { path: ':matrixid', component: LearningMatrixItemComponent}
     ]
     },
 ];

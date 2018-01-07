@@ -20,8 +20,12 @@ import { LearningGroupCreateFormComponent, LearningGroupDialogComponent } from '
 import { LearningBlockCreateFormComponent, LearningBlockDialogComponent } from './forms/learning-block-forms.component';
 import { LearningMatrixItemCreateFormComponent, LearningMatrixItemDialogComponent } from './forms/learning-matrix-item-forms.component';
 import { LearningMatrixDialogComponent, LearningMatrixCreateFormComponent } from './forms/learning-matrix-forms.component';
-import { LearningMatrixVersionDialogComponent,
-         LearningMatrixVersionCreateFormComponent } from './forms/learning-matrix-version-forms.component';
+// tslint:disable-next-line:max-line-length
+import { LearningMatrixVersionDialogComponent, LearningMatrixVersionCreateFormComponent } from './forms/learning-matrix-version-forms.component';
+// tslint:disable-next-line:max-line-length
+import { LearningMatrixHeaderCreateFormComponent, LearningMatrixHeaderDialogComponent } from './forms/learning-matrix-header-forms.component';
+import { LearningMatrixCellCreateFormComponent, LearningMatrixCellDialogComponent } from './forms/learning-matrix-cell-forms.component';
+
 
 
 import { LearningBlockItemComponent } from './learning-block-item/learning-block-item.component';
@@ -59,6 +63,10 @@ import { LearningMatrixItemComponent } from './learning-matrix-item/learning-mat
     LearningMatrixVersionDialogComponent, LearningMatrixVersionCreateFormComponent,
     // - Matrix Item
     LearningMatrixItemCreateFormComponent, LearningMatrixItemDialogComponent,
+    // - Matrix Header
+    LearningMatrixHeaderCreateFormComponent, LearningMatrixHeaderDialogComponent,
+    // - Matrix Cell
+    LearningMatrixCellCreateFormComponent, LearningMatrixCellDialogComponent,
 
     // Items
     LearningBlockItemComponent,
@@ -72,7 +80,9 @@ import { LearningMatrixItemComponent } from './learning-matrix-item/learning-mat
     LearningBlockDialogComponent,
     LearningMatrixDialogComponent,
     LearningMatrixVersionDialogComponent,
-    LearningMatrixItemDialogComponent
+    LearningMatrixItemDialogComponent,
+    LearningMatrixHeaderDialogComponent,
+    LearningMatrixCellDialogComponent
    ]
 })
 export class TeacherModule {}
