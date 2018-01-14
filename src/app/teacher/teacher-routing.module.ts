@@ -7,11 +7,13 @@ import { LearningBlockItemComponent } from './learning-block-item/learning-block
 import { LearningMatrixListComponent } from './learning-matrix-list/learning-matrix-list.component';
 import { LearningMatrixItemComponent } from './learning-matrix-item/learning-matrix-item.component';
 import { LearningMatrixVersionListComponent } from './learning-matrix-version-list/learning-matrix-version-list.component';
+import { StudentListComponent } from './student-list/student-list.component';
 
 
 const teacherRoutes: Routes = [
-    { path: '', pathMatch: 'full', redirectTo: 'matrixlist' },
+    { path: '', pathMatch: 'full', redirectTo: 'student' },
     { path: 'arealist', component: LearningAreaListComponent },
+    { path: 'student', component: StudentListComponent}
     { path: 'grouplist',
       children: [
         { path: '', component: LearningGroupListComponent},

@@ -106,6 +106,22 @@ export class LearningMatrixVersion {
         }
 }
 
+export class Student {
+    constructor(
+        public key: string,
+        public firstName: string,
+        public lastName: string,
+        public gender: string,
+        public id: string,
+        public yrLvl: string,
+        public ethnicMain: string,
+    ) {}
+    static fromJson(key, { firstName, lastName, gender, id, yrLvl, ethnicMain }): Student {
+        return new Student(key, firstName, lastName, gender, id, yrLvl, ethnicMain)
+    }
+}
+
+
 // export class LearningMatrixData {
 //     constructor(
 //         public key: string,

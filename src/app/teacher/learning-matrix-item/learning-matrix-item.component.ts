@@ -55,7 +55,7 @@ export class LearningMatrixItemComponent implements OnInit {
       console.log(result);
       const data = result.payload.val();
       console.log(data);
-      // this.xHeadersList = data.xheader;
+      this.xHeadersList = data.xheader;
       // this.yHeadersList = data.yheader;
       // this.cellsList = data.cells;
     });
