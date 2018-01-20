@@ -30,17 +30,17 @@
     <mat-list-item *ngFor="let item of items | async" on-click="filterBy(item)">      
         <h3 mat-subheader>{{item?.title}}</h3>
         <span class="example-spacer"></span>
-        <button mat-icon-button color="primary" (click)="addVersion(item)">
-                <mat-icon class="mat-18">save</mat-icon>
-        </button>
         <p>{{item?.lastModified | date}}</p>
+        <button mat-icon-button color="primary" (click)="saveTemplate(item)">
+            <mat-icon class="mat-18">save</mat-icon>
+        </button>
         <button mat-icon-button class="right" [matMenuTriggerFor]="menu">
                 <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-            <button (click)="addVersion(item)" mat-menu-item>
+            <button (click)="editTitle(item)" mat-menu-item>
                 <mat-icon>mode_edit</mat-icon>
-                <span>Edit</span>
+                <span>Edit Title</span>
             </button>
             <button (click)="deleteVersion(item)" mat-menu-item>
                 <mat-icon>delete</mat-icon>
@@ -53,8 +53,6 @@
         </mat-menu> 
     </mat-list-item>
 </mat-list>
-
-{{ data | async | json}}
 
 
 <div class="wrapper" [ngStyle]="template()">

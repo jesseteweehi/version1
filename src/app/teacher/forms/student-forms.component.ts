@@ -5,7 +5,7 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { SelectData, createSelectData } from '../../global/models/interfaces';
 import { Student } from '../../global/models/classes';
 import { TeacherService } from '../teacher.service';
-import { yearLevels } from './../../global/models/data';
+import { YearLevels, Ethnicity } from './../../global/models/data';
 import { Observable } from 'rxjs/Observable';
 
 
@@ -59,13 +59,32 @@ export class StudentDialogComponent {
   <h4 class="mat-typography subheading-1">Gender</h4>
     <mat-radio-group class="full-width" formControlName="gender" placeholder="Gender" [align]="'start'">
         <mat-radio-button value="F">Female</mat-radio-button>
-        <mat-radio-button value="G">Mail</mat-radio-button>
+        <mat-radio-button value="G">Male</mat-radio-button>
     </mat-radio-group>
 
-  <mat-input-container class="full-width" floatPlaceholder="auto">
-      <textarea matInput matTextareaAutosize formControlName="yrLvl" required
-                placeholder="Students Year Level"></textarea>
-  </mat-input-container>
+  <mat-select class="full-width" formControlName="yrLvl" placeholder="Student Year Level">
+      <mat-option *ngFor="let choice of yearsLevelsList" [value]="choice.value">
+          {{choice.viewValue}}
+      </mat-option>
+  </mat-select>
+
+  <mat-select class="full-width" formControlName="ethnic1" placeholder="Ethnicity 1">
+      <mat-option *ngFor="let choice of ethnicityList" [value]="choice.value">
+          {{choice.viewValue}}
+      </mat-option>
+  </mat-select>
+
+  <mat-select class="full-width" formControlName="ethnic2" placeholder="Ethnicity 2">
+      <mat-option *ngFor="let choice of ethnicityList" [value]="choice.value">
+          {{choice.viewValue}}
+      </mat-option>
+  </mat-select>
+
+  <mat-select class="full-width" formControlName="ethnic3" placeholder="Ethnicity 3">
+      <mat-option *ngFor="let choice of ethnicityList" [value]="choice.value">
+          {{choice.viewValue}}
+      </mat-option>
+  </mat-select>
 
 	<button mat-dialog-close mat-button (click)="save()" color="primary">Save</button>
 	</form>
@@ -84,24 +103,30 @@ export class StudentCreateFormComponent implements OnInit {
   @Input() currentFormValues?: Student;
   @Output() formToSend = new EventEmitter();
   form: FormGroup;
-  heading = 'Add Learning Area';
+  heading = 'Add Student';
   edit: Boolean = false;
 
-  readonly yearLvls = yearLevels;
+  readonly yearLvls = YearLevels;
+  readonly ethnicity = Ethnicity;
 
+  ethnicityList: SelectData[] = [];
   yearsLevelsList: SelectData[] = [];
 
   constructor(private fb: FormBuilder, private ts: TeacherService) { }
 
   ngOnInit() {
     this.yearLvls.forEach(x => this.yearsLevelsList.push(createSelectData(x, x)));
+    this.ethnicity.forEach(x => this.ethnicityList.push(createSelectData(x, x)));
 
     this.form = this.fb.group({
-      title: '',
-      description: '',
-      learningYear: '2017',
-      learningArea: '',
-      learningLevel: '',
+      firstName: '',
+      lastName: '',
+      gender: '',
+      id: '18',
+      yrLvl: 'Year 9',
+      ethnic1: '',
+      ethnic2: '',
+      ethnic3: ''
     });
     if (this.currentFormValues) {
       this.setFormValues();

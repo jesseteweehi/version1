@@ -7,7 +7,7 @@ export const Levels = ['Curriculum Level 1',
                        'Curriculum Level 6',
                        'Curriculum Level 7',
                        'Curriculum Level 8'];
-export const yearLevels = ['Year 9',
+export const YearLevels = ['Year 9',
                            'Year 10',
                            'Year 11',
                            'Year 12',

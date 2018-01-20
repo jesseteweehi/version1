@@ -114,10 +114,12 @@ export class Student {
         public gender: string,
         public id: string,
         public yrLvl: string,
-        public ethnicMain: string,
+        public ethnic1: string,
+        public ethnic2: string,
+        public ethnic3: string,
     ) {}
-    static fromJson(key, { firstName, lastName, gender, id, yrLvl, ethnicMain }): Student {
-        return new Student(key, firstName, lastName, gender, id, yrLvl, ethnicMain)
+    static fromJson(key, { firstName, lastName, gender, id, yrLvl, ethnic1, ethnic2, ethnic3 }): Student {
+        return new Student(key, firstName, lastName, gender, id, yrLvl, ethnic1, ethnic2, ethnic3)
     }
 }
 

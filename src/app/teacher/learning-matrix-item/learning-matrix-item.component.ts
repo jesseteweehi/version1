@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Observable, BehaviorSubject } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import 'rxjs/add/operator/switchMap';
+
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { LearningMatrixVersion, LearningMatrix } from './../../global/models/classes';
 import { LearningMatrixCellDialogComponent } from './../forms/learning-matrix-cell-forms.component';
 import { LearningMatrixHeaderDialogComponent } from './../forms/learning-matrix-header-forms.component';
 import { LearningMatrixVersionDialogComponent } from './../forms/learning-matrix-version-forms.component';
-
 
 import { TeacherService } from '../teacher.service';
 import { Location } from '@angular/common';
@@ -24,10 +26,9 @@ export class LearningMatrixItemComponent implements OnInit {
   groupId: string;
   group: Observable<LearningMatrix>;
   items: Observable<LearningMatrixVersion>;
-  data: Observable<any>;
+  data: Object;
 
   versionId$: BehaviorSubject<string|null>;
-
 
   learningAreaItems: object;
   xHeadersList: any[] = [];
@@ -50,37 +51,21 @@ export class LearningMatrixItemComponent implements OnInit {
 
     this.versionId$ = new BehaviorSubject(null);
 
-    const data$ = this.versionId$.switchMap(s => this.ts.findObjectPath(`learningMatrixVersionData/${s}`));
-    data$.subscribe(result => {
-      console.log(result);
-      const data = result.payload.val();
-      console.log(data);
-      this.xHeadersList = data.xheader;
-      // this.yHeadersList = data.yheader;
-      // this.cellsList = data.cells;
-    });
+    const data = this.versionId$.switchMap(s => this.ts.findObjectKey(`learningMatrixVersionData`, s));
 
+    data.subscribe(result => {
+      const resultdata = result.payload.val()
+      if (resultdata) {
+        this.cellsList = resultdata.cells;
+        this.xHeadersList = resultdata.xheader;
+        this.yHeadersList = resultdata.yheader;
+      }
+    });
   }
 
   filterBy(item) {
     this.versionId$.next(item.key);
   }
-
-//   const size$ = new Subject<string>();
-// const queryObservable = size$.switchMap(size =>
-//   db.list('/items', ref => ref.orderByChild('size').equalTo(size)).valueChanges()
-// );
-
-// // subscribe to changes
-// queryObservable.subscribe(queriedItems => {
-//   console.log(queriedItems);  
-// });
-
-// // trigger the query
-// size$.next('large');
-
-// // re-trigger the query!!!
-// size$.next('small');
 
   saveNewTemplate(item) {
     return this.ts.createLearningMatrixData(this.groupId, this.xHeadersList, this.yHeadersList, this.cellsList, item );
@@ -103,12 +88,24 @@ export class LearningMatrixItemComponent implements OnInit {
     this.versionDialogRef.afterClosed()
       .filter(x => x !== undefined)
       .subscribe(x => {
-        console.log(x)
         if (x.edit) {
         this.messagefromPromise(this.saveTemplate(x.data.value), 'Data Saved');
         } else {
         this.messagefromPromise(this.saveNewTemplate(x.data.value), 'Data Saved');
         }
+      });
+  }
+
+  editTitle (item?: LearningMatrixVersion) {
+    this.versionDialogRef = this.dialog.open(LearningMatrixVersionDialogComponent, {
+      data: {
+        currentFormValues: item
+      }
+    });
+    this.versionDialogRef.afterClosed()
+      .filter(x => x !== undefined)
+      .subscribe(x => {
+        this.messagefromPromise(this.ts.changeObject(`learningMatrixVersion/${item.key}`, x.data.value), 'Title Saved');
       });
   }
 

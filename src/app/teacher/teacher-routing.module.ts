@@ -11,9 +11,9 @@ import { StudentListComponent } from './student-list/student-list.component';
 
 
 const teacherRoutes: Routes = [
-    { path: '', pathMatch: 'full', redirectTo: 'student' },
+    { path: '', pathMatch: 'full', redirectTo: 'matrixlist' },
     { path: 'arealist', component: LearningAreaListComponent },
-    { path: 'student', component: StudentListComponent}
+    { path: 'student', component: StudentListComponent },
     { path: 'grouplist',
       children: [
         { path: '', component: LearningGroupListComponent},

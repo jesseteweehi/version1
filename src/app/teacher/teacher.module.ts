@@ -19,6 +19,8 @@ import { StudentListComponent } from './student-list/student-list.component';
 import { LearningAreaDialogComponent, LearningAreaCreateFormComponent } from './forms/learning-area-forms.component';
 import { LearningGroupCreateFormComponent, LearningGroupDialogComponent } from './forms/learning-group-forms.component';
 import { LearningBlockCreateFormComponent, LearningBlockDialogComponent } from './forms/learning-block-forms.component';
+import { StudentDialogComponent, StudentCreateFormComponent } from './forms/student-forms.component';
+
 import { LearningMatrixItemCreateFormComponent, LearningMatrixItemDialogComponent } from './forms/learning-matrix-item-forms.component';
 import { LearningMatrixDialogComponent, LearningMatrixCreateFormComponent } from './forms/learning-matrix-forms.component';
 // tslint:disable-next-line:max-line-length
@@ -58,7 +60,9 @@ import { LearningMatrixItemComponent } from './learning-matrix-item/learning-mat
     LearningGroupDialogComponent, LearningGroupCreateFormComponent,
     // - Blocks
     LearningBlockDialogComponent, LearningBlockCreateFormComponent,
-    // - Matix
+    // - Student
+    StudentDialogComponent, StudentCreateFormComponent,
+    // - Matrix
     LearningMatrixDialogComponent, LearningMatrixCreateFormComponent,
     // - Matrix Version
     LearningMatrixVersionDialogComponent, LearningMatrixVersionCreateFormComponent,
@@ -80,6 +84,8 @@ import { LearningMatrixItemComponent } from './learning-matrix-item/learning-mat
     LearningAreaDialogComponent,
     LearningGroupDialogComponent,
     LearningBlockDialogComponent,
+    StudentDialogComponent,
+    // Matrix
     LearningMatrixDialogComponent,
     LearningMatrixVersionDialogComponent,
     LearningMatrixItemDialogComponent,

@@ -40,6 +40,14 @@ constructor(
         return this.fireBaseUpdate(dataToSave);
     }
 
+    createStudent(data: any): Promise<any> {
+        const itemToSave = Object.assign({ lastModified: firebase.database.ServerValue.TIMESTAMP}, data);
+        const itemRefKey = this.db.list('/students').push(data).key;
+        const dataToSave = {};
+        dataToSave[`students/${itemRefKey}`] = itemToSave;
+        return this.fireBaseUpdate(dataToSave);
+    }
+
     createLearningGroup(data: any): Promise<any> {
         const itemToSave = Object.assign({ lastModified: firebase.database.ServerValue.TIMESTAMP}, data);
         const itemRefKey = this.db.list('/learningGroup').push(data).key;
