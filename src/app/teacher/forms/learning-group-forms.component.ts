@@ -117,7 +117,6 @@ export class LearningGroupCreateFormComponent implements OnInit {
       learningYear: this.currentFormValues.learningYear,
       learningArea: this.currentFormValues.learningArea,
       learningLevel: this.currentFormValues.learningLevel,
-      created: this.currentFormValues.created
     });
   }
 

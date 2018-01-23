@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-
-import { DumbCardComponent } from './dumb/dumb.component';
 import { MyMaterialModule } from './../my-material/my-material.module';
 
 
@@ -14,7 +12,8 @@ import { MyMaterialModule } from './../my-material/my-material.module';
     MyMaterialModule,
     RouterModule
   ],
-  declarations: [DumbCardComponent],
-  exports: [DumbCardComponent]
+  declarations: [
+],
+  exports: []
 })
 export class GlobalComponentsModule { }

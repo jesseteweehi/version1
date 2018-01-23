@@ -6,15 +6,16 @@ import { LearningBlockListComponent } from './learning-block-list/learning-block
 import { LearningBlockItemComponent } from './learning-block-item/learning-block-item.component';
 import { LearningMatrixListComponent } from './learning-matrix-list/learning-matrix-list.component';
 import { LearningMatrixItemComponent } from './learning-matrix-item/learning-matrix-item.component';
-import { LearningMatrixVersionListComponent } from './learning-matrix-version-list/learning-matrix-version-list.component';
 import { StudentListComponent } from './student-list/student-list.component';
+import { SchoolCourseListComponent } from './school-course-list/school-course-list.component';
 
 
 const teacherRoutes: Routes = [
-    { path: '', pathMatch: 'full', redirectTo: 'matrixlist' },
-    { path: 'arealist', component: LearningAreaListComponent },
+    { path: '', pathMatch: 'full', redirectTo: 'group-list' },
+    { path: 'area-list', component: LearningAreaListComponent },
     { path: 'student', component: StudentListComponent },
-    { path: 'grouplist',
+    { path: 'school-course', component: SchoolCourseListComponent },
+    { path: 'group-list',
       children: [
         { path: '', component: LearningGroupListComponent},
         { path: ':groupid', component: LearningBlockListComponent}
@@ -25,7 +26,7 @@ const teacherRoutes: Routes = [
         { path: ':blockid', component: LearningBlockItemComponent}
       ]
     },
-    { path: 'matrixlist',
+    { path: 'matrix-list',
       children: [
         { path: '', component: LearningMatrixListComponent},
       ]

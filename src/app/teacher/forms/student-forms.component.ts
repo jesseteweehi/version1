@@ -138,12 +138,13 @@ export class StudentCreateFormComponent implements OnInit {
   setFormValues() {
     this.edit = true;
     this.form.setValue({
-      title: this.currentFormValues.title,
-      description: this.currentFormValues.description,
-      learningYear: this.currentFormValues.learningYear,
-      learningArea: this.currentFormValues.learningArea,
-      learningLevel: this.currentFormValues.learningLevel,
-      created: this.currentFormValues.created
+      firstName: this.currentFormValues.firstName,
+      lastName: this.currentFormValues.lastName,
+      gender: this.currentFormValues.gender,
+      yrLvl: this.currentFormValues.yrLvl,
+      ethnic1: this.currentFormValues.ethnic1,
+      ethnic2: this.currentFormValues.ethnic2,
+      ethnic3: this.currentFormValues.ethnic3
     });
   }
 

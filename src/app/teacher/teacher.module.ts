@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TeacherService } from './teacher.service';
 import { MyMaterialModule } from './../global/my-material/my-material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -12,16 +12,18 @@ import { LearningGroupListComponent } from './learning-group-list/learning-group
 import { LearningAreaListComponent } from './learning-area-list/learning-area-list.component';
 import { LearningBlockListComponent } from './learning-block-list/learning-block-list.component';
 import { LearningMatrixListComponent } from './learning-matrix-list/learning-matrix-list.component';
-import { LearningMatrixVersionListComponent } from './learning-matrix-version-list/learning-matrix-version-list.component';
 import { StudentListComponent } from './student-list/student-list.component';
+import { SchoolCourseListComponent } from './school-course-list/school-course-list.component';
 
+
+import { MatrixDialogListComponent, MatrixSelectListComponent } from './dialogs-list/learning-matrix-dialog-list.component';
 
 import { LearningAreaDialogComponent, LearningAreaCreateFormComponent } from './forms/learning-area-forms.component';
 import { LearningGroupCreateFormComponent, LearningGroupDialogComponent } from './forms/learning-group-forms.component';
 import { LearningBlockCreateFormComponent, LearningBlockDialogComponent } from './forms/learning-block-forms.component';
 import { StudentDialogComponent, StudentCreateFormComponent } from './forms/student-forms.component';
+import { SchoolCourseDialogComponent, SchoolCourseCreateFormComponent } from './forms/school-course-forms.component';
 
-import { LearningMatrixItemCreateFormComponent, LearningMatrixItemDialogComponent } from './forms/learning-matrix-item-forms.component';
 import { LearningMatrixDialogComponent, LearningMatrixCreateFormComponent } from './forms/learning-matrix-forms.component';
 // tslint:disable-next-line:max-line-length
 import { LearningMatrixVersionDialogComponent, LearningMatrixVersionCreateFormComponent } from './forms/learning-matrix-version-forms.component';
@@ -42,6 +44,7 @@ import { LearningMatrixItemComponent } from './learning-matrix-item/learning-mat
     AngularFireDatabaseModule,
     TeacherRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     MyMaterialModule,
     FlexLayoutModule
   ],
@@ -51,7 +54,9 @@ import { LearningMatrixItemComponent } from './learning-matrix-item/learning-mat
     LearningAreaListComponent,
     LearningBlockListComponent,
     LearningMatrixListComponent,
-    LearningMatrixVersionListComponent,
+    SchoolCourseListComponent,
+    // Dialog Lists
+    MatrixDialogListComponent, MatrixSelectListComponent,
 
     // Forms
     // - Area
@@ -62,12 +67,12 @@ import { LearningMatrixItemComponent } from './learning-matrix-item/learning-mat
     LearningBlockDialogComponent, LearningBlockCreateFormComponent,
     // - Student
     StudentDialogComponent, StudentCreateFormComponent,
+    // - School Course
+    SchoolCourseDialogComponent, SchoolCourseCreateFormComponent,
     // - Matrix
     LearningMatrixDialogComponent, LearningMatrixCreateFormComponent,
     // - Matrix Version
     LearningMatrixVersionDialogComponent, LearningMatrixVersionCreateFormComponent,
-    // - Matrix Item
-    LearningMatrixItemCreateFormComponent, LearningMatrixItemDialogComponent,
     // - Matrix Header
     LearningMatrixHeaderCreateFormComponent, LearningMatrixHeaderDialogComponent,
     // - Matrix Cell
@@ -76,7 +81,8 @@ import { LearningMatrixItemComponent } from './learning-matrix-item/learning-mat
     // Items
     LearningBlockItemComponent,
     LearningMatrixItemComponent,
-    StudentListComponent
+    StudentListComponent,
+    SchoolCourseListComponent
 ],
   exports: [LearningGroupListComponent],
   providers: [TeacherService],
@@ -85,12 +91,14 @@ import { LearningMatrixItemComponent } from './learning-matrix-item/learning-mat
     LearningGroupDialogComponent,
     LearningBlockDialogComponent,
     StudentDialogComponent,
+    SchoolCourseDialogComponent,
     // Matrix
     LearningMatrixDialogComponent,
     LearningMatrixVersionDialogComponent,
-    LearningMatrixItemDialogComponent,
     LearningMatrixHeaderDialogComponent,
-    LearningMatrixCellDialogComponent
+    LearningMatrixCellDialogComponent,
+    // Dialog Lists
+    MatrixDialogListComponent
    ]
 })
 export class TeacherModule {}

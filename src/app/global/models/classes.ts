@@ -6,7 +6,7 @@ export class LearningGroup {
         public key: string,
         public title: string,
         public description: string,
-        public lastModified: object,
+        public lastModified: string,
         public creator: string,
         public locked: boolean,
         public learningYear: string,
@@ -75,14 +75,6 @@ export class LearningArea {
             }
         }
 
-
-// Download the whole shibang from Firebase.
-// On a save of a Matrix save the whole thing again. In order.
-
-// Matrix Classes
-// Learning Matrix (key, Title, Description)
-// Learning Version (Key, title, date)
-
 export class LearningMatrix {
     constructor(
         public key: string,
@@ -123,11 +115,46 @@ export class Student {
     }
 }
 
+export class SchoolCourse {
+    constructor(
+        public key: string,
+        public id: string,
+        public title: string,
+        public description: string,
+        public learningYear: string,
+        public learningArea: string,
+    ) {}
+    static fromJson(key, { id, title, description, learningYear, learningArea }): SchoolCourse {
+        return new SchoolCourse(key, id, title, description, learningYear, learningArea);
+    }
+}
 
-// export class LearningMatrixData {
-//     constructor(
-//         public key: string,
-//         public headers: Array<Header>,
-//         public cells: Array<Cell>,
-//     ) {}
-// }
+export class TertiaryCourse {
+    constructor(
+        public key: string,
+        public title: string,
+        public description: string,
+        public link: Link
+    ) {}
+    static fromJson(key, { title, description, link }): TertiaryCourse {
+        return new TertiaryCourse(key, title, description, link );
+    }
+}
+
+export class Job {
+    constructor(
+        public key: string,
+        public title: string,
+        public description: string,
+        public link: Link[]
+    ) {}
+    static fromJson(key, { title, description, link }): Job {
+        return new Job(key, title, description, link );
+    }
+}
+
+
+
+
+
+

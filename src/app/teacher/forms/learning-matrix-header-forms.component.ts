@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
-import { SelectData, createSelectData, Header } from '../../global/models/interfaces';
+import { SelectData, createSelectData, MatrixHeader } from '../../global/models/interfaces';
 import { Purpose,  Orientation } from './../../global/models/data';
 import { TeacherService } from '../teacher.service';
 import { LearningMatrix } from './../../global/models/classes';
@@ -64,7 +64,7 @@ export class LearningMatrixHeaderDialogComponent {
 })
 export class LearningMatrixHeaderCreateFormComponent implements OnInit {
   @Input() data: any;
-  currentFormValues?: Header;
+  currentFormValues?: MatrixHeader;
   @Output() formToSend = new EventEmitter();
   form: FormGroup;
   heading = 'Add Header';

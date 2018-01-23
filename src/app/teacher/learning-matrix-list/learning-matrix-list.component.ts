@@ -23,7 +23,7 @@ export class LearningMatrixListComponent implements OnInit {
               public snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    this.items = this.ts.findList('learningMatrix').map(changes => changes.map(c => LearningMatrix.fromJson(c.key {...c.payload.val()})) );
+    this.items = this.ts.findList('learningMatrix').map(changes => changes.map(c => LearningMatrix.fromJson(c.key, {...c.payload.val()})) );
   }
 
   add(item?: LearningMatrix) {

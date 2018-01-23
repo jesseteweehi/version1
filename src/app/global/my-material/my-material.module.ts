@@ -22,6 +22,7 @@ import { MatMenuModule,
          MatExpansionModule,
          MatDatepickerModule,
          MatNativeDateModule,
+         MatStepperModule
          } from '@angular/material';
 
 import {MatMomentDateModule} from '@angular/material-moment-adapter'
@@ -50,6 +51,7 @@ import 'hammerjs';
     MatExpansionModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatStepperModule
   ],
   exports: [
     CommonModule,
@@ -73,6 +75,7 @@ import 'hammerjs';
     MatExpansionModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatStepperModule
   ],
 })
 export class MyMaterialModule { }

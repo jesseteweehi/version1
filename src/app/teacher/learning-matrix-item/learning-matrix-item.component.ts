@@ -26,7 +26,6 @@ export class LearningMatrixItemComponent implements OnInit {
   groupId: string;
   group: Observable<LearningMatrix>;
   items: Observable<LearningMatrixVersion>;
-  data: Object;
 
   versionId$: BehaviorSubject<string|null>;
 
@@ -160,22 +159,6 @@ export class LearningMatrixItemComponent implements OnInit {
       });
   }
 
-  delete(a: any[], i: any) {
-    a.splice(i , 1);
-  }
-
-  messagefromPromise(data: Promise<any>, success = 'Success', error = 'Bugger') {
-    data
-      .then(_ => this.openSnackBar(success, 'Awesome'))
-      .catch(err => this.openSnackBar(`error`, 'Bugger'));
-  }
-
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 2000,
-    });
-  }
-
   template() {
     if (this.xHeadersList) {
       if (this.xHeadersList.length > 1) {
@@ -198,6 +181,22 @@ export class LearningMatrixItemComponent implements OnInit {
       'grid-row': + (i + 1) + '/' + (i + 2),
       'grid-column': '1 / 2',
     };
+  }
+
+  delete(a: any[], i: any) {
+    a.splice(i , 1);
+  }
+
+  messagefromPromise(data: Promise<any>, success = 'Success', error = 'Bugger') {
+    data
+      .then(_ => this.openSnackBar(success, 'Awesome'))
+      .catch(err => this.openSnackBar(`error`, 'Bugger'));
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 
   goBack(): void {

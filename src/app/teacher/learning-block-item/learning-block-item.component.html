@@ -1,3 +1,56 @@
-<p>
-  learning-block-item works!
-</p>
+<mat-toolbar>
+  <button mat-icon-button color="primary" (click)="goBack()">
+      <mat-icon class="mat-18">navigate_before</mat-icon>
+  </button>
+  <button mat-icon-button>
+    <mat-icon class="mat-18" (click)="add()">add</mat-icon>
+</button>  
+</mat-toolbar>
+
+<mat-card class="top-card mat-elevation-z0" *ngIf="(block | async) as block">
+    <mat-card-header>
+        <mat-card-title>{{block?.title}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        {{block?.description}}
+    </mat-card-content>
+</mat-card>
+
+<mat-horizontal-stepper [linear]="true">
+  <mat-step label="Choose Matrix">
+    <mat-list dense>
+      <mat-list-item *ngFor="let item of items | async">
+        <h3 mat-subheader>{{item?.title}}</h3>
+        <span class="example-spacer"></span>
+        <p>{{item?.lastModified | date}}</p>
+        <button mat-icon-button color="primary" matStepperNext (click)="first(item)">
+          <mat-icon class="mat-18">navigate_next</mat-icon>
+        </button>
+        </mat-list-item>
+      </mat-list>
+  </mat-step>
+  <mat-step label="Choose Matrix Version">
+    <mat-list dense>
+      <mat-list-item *ngFor="let item of versions | async">
+        <h3 mat-subheader>{{item?.title}}</h3>
+        <span class="example-spacer"></span>
+        <p>{{item?.lastModified | date}}</p>
+        <button mat-icon-button color="primary" matStepperNext (click)="second(item)">
+          <mat-icon class="mat-18">navigate_next</mat-icon>
+        </button>
+      </mat-list-item>
+  </mat-list>
+  </mat-step>
+  <mat-step label="Load Matrix Version">
+    <mat-card class="top-card mat-elevation-z0">
+      <mat-card-header>
+        <mat-card-title>{{chosenMatrixVersion?.title}}</mat-card-title>
+        <mat-card-subtitle>{{chosenMatrixVersion?.lastModified}}</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="load()">Load</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>
