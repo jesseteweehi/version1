@@ -62,6 +62,28 @@ export class LearningMatrixItemComponent implements OnInit {
     });
   }
 
+  editInput($event) {
+    console.log($event);
+    if ($event.list === 'x') {
+      this.addHeader(this.xHeadersList, $event.item, $event.index);
+    } if ($event.list === 'y') {
+      this.addHeader(this.yHeadersList, $event.item, $event.index);
+    } if ($event.list === 'c') {
+      this.addCell(this.cellsList, $event.item, $event.index);
+    }
+  }
+
+  deleteInput($event) {
+    console.log($event);
+    if ($event.list === 'x') {
+      this.delete(this.xHeadersList, $event.index);
+    } if ($event.list === 'y') {
+      this.delete(this.yHeadersList, $event.index);
+    } if ($event.list === 'c') {
+      this.delete(this.cellsList, $event.index);
+    }
+  }
+
   filterBy(item) {
     this.versionId$.next(item.key);
   }
@@ -157,30 +179,6 @@ export class LearningMatrixItemComponent implements OnInit {
           a.push(x.data.value);
         }
       });
-  }
-
-  template() {
-    if (this.xHeadersList) {
-      if (this.xHeadersList.length > 1) {
-        return { 'grid-template-columns' : 'repeat(' + (this.xHeadersList.length + 1) + ', 1fr)' };
-      } else {
-        return { 'grid-template-columns' : '25% 75%' };
-      }
-    }
-  }
-
-  xheader(i) {
-    return {
-      'grid-column': + (i + 1) + '/' + (i + 2),
-      'grid-row': '1 / 2',
-    };
-  }
-
-  yheader(i) {
-    return {
-      'grid-row': + (i + 1) + '/' + (i + 2),
-      'grid-column': '1 / 2',
-    };
   }
 
   delete(a: any[], i: any) {

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { MyMaterialModule } from './../my-material/my-material.module';
+import { GridComponent } from './grid/grid.component';
+
 
 
 
@@ -13,7 +15,8 @@ import { MyMaterialModule } from './../my-material/my-material.module';
     RouterModule
   ],
   declarations: [
+    GridComponent
 ],
-  exports: []
+  exports: [GridComponent]
 })
 export class GlobalComponentsModule { }

@@ -131,7 +131,7 @@ constructor(
             dataToSave[`learningCellForBlock/${key}/${keys[i]}`] = true;
         });
         dataToSave[`header/${key}`] = headers;
-        console.log(dataToSave)
+        console.log(dataToSave);
         return this.fireBaseUpdate(dataToSave);
     }
 
@@ -146,5 +146,9 @@ constructor(
 
     fireBaseUpdate(dataToSave) {
         return this.db.object('/').update(dataToSave);
+    }
+
+    fireBaseSet(dataToSave) {
+        return this.db.object('/').set(dataToSave);
     }
 }

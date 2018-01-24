@@ -3,7 +3,7 @@
       <mat-icon class="mat-18">navigate_before</mat-icon>
   </button>
   <button mat-icon-button>
-    <mat-icon class="mat-18" (click)="add()">add</mat-icon>
+    <mat-icon class="mat-18" (click)="show(true)">add</mat-icon>
 </button>  
 </mat-toolbar>
 
@@ -16,6 +16,10 @@
     </mat-card-content>
 </mat-card>
 
+<div class="top-card" *ngIf="matrixLoad">
+<button mat-icon-button (click)="show(false)">
+    <mat-icon class="mat-18">close</mat-icon>
+</button>
 <mat-horizontal-stepper [linear]="true">
   <mat-step label="Choose Matrix">
     <mat-list dense>
@@ -49,8 +53,14 @@
       </mat-card-header>
     </mat-card>
     <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="load()">Load</button>
+      <button mat-raised-button color="primary" (click)="load()">Load</button>
     </div>
   </mat-step>
 </mat-horizontal-stepper>
+</div>
+
+<app-grid
+[xHeaders]="xHeadersList"
+[yHeaders]="yHeadersList"
+[cells]="cellsList"
+></app-grid>

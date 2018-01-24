@@ -55,74 +55,13 @@
 </mat-list>
 
 
-<div class="wrapper" [ngStyle]="template()">
-  <div class="blank"></div>
-  <mat-card class='header' *ngFor="let x of xHeadersList; let i = index" [ngStyle]="xheader(i+1)">
-    <mat-card-header>
-        <mat-card-title><h2>{{x?.title}}</h2></mat-card-title>
-        <span class="example-spacer"></span>
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>more_vert</mat-icon>
-        </button>        
-    </mat-card-header>
-    <mat-card-content>
-        {{x?.description}}
-    </mat-card-content>
-    <mat-menu #menu="matMenu">
-        <button (click)="addHeader(xHeadersList, x, i)" mat-menu-item>
-            <mat-icon>mode_edit</mat-icon>
-            <span>Edit</span>
-        </button>
-        <button (click)="delete(xHeadersList, i)" mat-menu-item>
-            <mat-icon>delete</mat-icon>
-            <span>Delete</span>
-        </button>
-        </mat-menu>
-  </mat-card>
-  <mat-card class='header' *ngFor="let y of yHeadersList; let i = index" [ngStyle]="yheader(i+1)">
-      <mat-card-header>
-          <mat-card-title>{{y?.title}}</mat-card-title>
-          <span class="example-spacer"></span>
-          <button mat-icon-button [matMenuTriggerFor]="menu">
-              <mat-icon>more_vert</mat-icon>
-          </button>        
-      </mat-card-header>
-      <mat-card-content>
-          {{y?.description}}
-      </mat-card-content>
-      <mat-menu #menu="matMenu">
-          <button (click)="addHeader(yHeadersList, y, i)" mat-menu-item>
-              <mat-icon>mode_edit</mat-icon>
-              <span>Edit</span>
-          </button>
-          <button (click)="delete(yHeadersList, i)" mat-menu-item>
-              <mat-icon>delete</mat-icon>
-              <span>Delete</span>
-          </button>
-          </mat-menu>
-  </mat-card>
-  <mat-card *ngFor="let cell of cellsList; let i = index">
-      <mat-card-header>
-          <mat-card-title>{{cell?.title}}</mat-card-title>
-          <span class="example-spacer"></span>
-          <button mat-icon-button [matMenuTriggerFor]="menu">
-              <mat-icon>more_vert</mat-icon>
-          </button>        
-      </mat-card-header>
-      <mat-card-content>
-          {{cell?.description}}
-      </mat-card-content>
-      <mat-menu #menu="matMenu">
-          <button (click)="addCell(cellsList, cell, i)" mat-menu-item>
-              <mat-icon>mode_edit</mat-icon>
-              <span>Edit</span>
-          </button>
-          <button (click)="delete(cellsList, i)" mat-menu-item>
-              <mat-icon>delete</mat-icon>
-              <span>Delete</span>
-          </button>
-          </mat-menu>
-  </mat-card>  
-</div>
+<app-grid
+[xHeaders]="xHeadersList"
+[yHeaders]="yHeadersList"
+[cells]="cellsList"
+(editSend)="editInput($event)"
+(deleteSend)="deleteInput($event)"
+(canEdit)=true
+></app-grid>
 
 

@@ -1,6 +1,5 @@
 import { Link } from './interfaces';
 
-
 export class LearningGroup {
     constructor(
         public key: string,
@@ -40,6 +39,35 @@ export class LearningBlock {
     }
     static fromJsonList(array): LearningBlock[] {
         return array.map(LearningBlock.fromJson);
+    }
+}
+
+export class Header {
+    constructor(
+        public key: string,
+        public title: string,
+        public description: string,
+        public lastModified: string,
+        public purpose: string,
+    ) {}
+    static fromJson(key, {title, description, lastModified, purpose}): Header {
+        return new Header(key, title, description, lastModified, purpose)
+    }
+}
+
+export class Cell {
+    constructor(
+        public key: string,
+        public title: string,
+        public description: string,
+        public lastModified: string,
+        public purpose: string,
+        public xheaders: string,
+        public yheaders: string,
+        public qualifier: string,
+    ) {}
+    static fromJson(key, {title, description, lastModified, purpose, xheaders, yheaders, qualifier}): Cell {
+        return new Cell(key, title, description, lastModified, purpose, xheaders, yheaders, qualifier);
     }
 }
 
