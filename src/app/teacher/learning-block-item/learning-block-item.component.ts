@@ -6,7 +6,7 @@ import 'rxjs/add/operator/switchMap';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { LearningBlock, LearningMatrix, LearningMatrixVersion, Header, Cell } from './../../global/models/classes';
 import { TeacherService } from '../teacher.service';
-import { MatrixDialogListComponent } from '../dialogs-list/learning-matrix-dialog-list.component';
+import { StudentDialogListComponent } from '../../global/global-components/student-dialog-list/student-dialog-list.component';
 
 
 @Component({
@@ -15,8 +15,8 @@ import { MatrixDialogListComponent } from '../dialogs-list/learning-matrix-dialo
   styleUrls: ['./learning-block-item.component.css']
 })
 export class LearningBlockItemComponent implements OnInit {
+  DialogRef: MatDialogRef<StudentDialogListComponent>
   // Initial
-  DialogRef: MatDialogRef<MatrixDialogListComponent>;
   blockId: string;
   block: Observable<LearningBlock>;
 
@@ -55,6 +55,22 @@ export class LearningBlockItemComponent implements OnInit {
     xHeader.subscribe(x => this.xHeadersList = x);
     yHeader.subscribe(y => this.yHeadersList = y);
     cells.subscribe(c => this.cellsList = c);
+  }
+
+  openStudents(key?: string) {
+    this.DialogRef = this.dialog.open(StudentDialogListComponent, {
+      data: {
+        data: false
+      },
+      height: '90%',
+      width: '90%',
+      autoFocus: false,
+
+
+    });
+    this.DialogRef.afterClosed()
+      .filter(x => x !== undefined)
+      .subscribe(x => console.log(x));
   }
 
   loadMatrix() {

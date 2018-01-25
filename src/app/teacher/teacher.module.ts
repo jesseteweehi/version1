@@ -15,9 +15,6 @@ import { LearningMatrixListComponent } from './learning-matrix-list/learning-mat
 import { StudentListComponent } from './student-list/student-list.component';
 import { SchoolCourseListComponent } from './school-course-list/school-course-list.component';
 
-
-import { MatrixDialogListComponent, MatrixSelectListComponent } from './dialogs-list/learning-matrix-dialog-list.component';
-
 import { LearningAreaDialogComponent, LearningAreaCreateFormComponent } from './forms/learning-area-forms.component';
 import { LearningGroupCreateFormComponent, LearningGroupDialogComponent } from './forms/learning-group-forms.component';
 import { LearningBlockCreateFormComponent, LearningBlockDialogComponent } from './forms/learning-block-forms.component';
@@ -56,7 +53,6 @@ import { LearningMatrixItemComponent } from './learning-matrix-item/learning-mat
     LearningMatrixListComponent,
     SchoolCourseListComponent,
     // Dialog Lists
-    MatrixDialogListComponent, MatrixSelectListComponent,
 
     // Forms
     // - Area
@@ -98,7 +94,6 @@ import { LearningMatrixItemComponent } from './learning-matrix-item/learning-mat
     LearningMatrixHeaderDialogComponent,
     LearningMatrixCellDialogComponent,
     // Dialog Lists
-    MatrixDialogListComponent
    ]
 })
 export class TeacherModule {}

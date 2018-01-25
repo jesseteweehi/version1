@@ -1,0 +1,14 @@
+<mat-input-container class="full-width" floatPlaceholder="auto">
+  <input matInput
+          type="text"
+          placeholder="Search"
+          (keyup)="search(input.value)" 
+          #input
+          >
+</mat-input-container>
+
+<mat-selection-list #list>
+  <mat-list-option *ngFor="let item of filtered| async" (click)="save(list)" [value]="item?.key">
+    {{item?.firstName}} {{item?.lastName}}
+  </mat-list-option>
+</mat-selection-list>

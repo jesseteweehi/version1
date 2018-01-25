@@ -51,8 +51,8 @@ import 'hammerjs';
     MatExpansionModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatStepperModule
-  ],
+    MatStepperModule,
+],
   exports: [
     CommonModule,
     MatMenuModule,
