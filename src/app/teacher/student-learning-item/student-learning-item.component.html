@@ -1,0 +1,9 @@
+<mat-card class="top-card mat-elevation-z0" *ngIf="(student | async) as student">
+    <mat-card-header>
+        <mat-card-title>{{student?.firstName}} {{student?.lastName}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+    </mat-card-content>
+</mat-card>
+
+{{ enrolledBlocks | json }}

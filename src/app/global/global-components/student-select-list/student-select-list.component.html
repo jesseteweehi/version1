@@ -8,7 +8,7 @@
 </mat-input-container>
 
 <mat-selection-list #list>
-  <mat-list-option *ngFor="let item of filtered| async" (click)="save(list)" [value]="item?.key">
+  <mat-list-option *ngFor="let item of filtered" (click)="save(list)" [value]="item?.key">
     {{item?.firstName}} {{item?.lastName}}
   </mat-list-option>
 </mat-selection-list>

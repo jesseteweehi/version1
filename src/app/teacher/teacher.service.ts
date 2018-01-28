@@ -4,6 +4,7 @@ import { FirebaseApp } from 'angularfire2';
 import * as firebase from 'firebase';
 import { Subject } from 'rxjs/subject';
 import { Observable } from 'rxjs/Rx';
+import { database } from 'firebase/app';
 
 
 @Injectable()
@@ -65,7 +66,8 @@ constructor(
     }
 
     createLearningBlock(parentKey: string, data: any) {
-        const itemToSave = Object.assign({ lastModified: firebase.database.ServerValue.TIMESTAMP}, data);
+        const itemToSave = Object.assign({
+            parent: parentKey, lastModified: firebase.database.ServerValue.TIMESTAMP, isLocked: false, isMulti: false}, data);
         const itemRefKey = this.db.list('/learningBlock').push(data).key;
         const dataToSave = {};
         dataToSave[`learningBlock/${itemRefKey}`] = itemToSave;
@@ -127,21 +129,96 @@ constructor(
         cells.forEach((element, i) => {keys[i] = this.db.list('/learningCell').push(element).key; });
         const dataToSave = {};
         cells.forEach((cell, i ) => {
-            dataToSave[`learningCell/${keys[i]}`] = cell;
+            const itemToSave = Object.assign({parent: key}, cell );
+            dataToSave[`learningCell/${keys[i]}`] = itemToSave;
             dataToSave[`learningCellForBlock/${key}/${keys[i]}`] = true;
         });
         dataToSave[`header/${key}`] = headers;
-        console.log(dataToSave);
+        return this.fireBaseUpdate(dataToSave);
+    }
+
+    clearLearningBlockData(key: string): Promise<any> {
+        const dataToSave = {};
+        dataToSave[`learningCellForBlock/${key}`] = null;
+        dataToSave[`header/${key}`] = null;
+        return this.fireBaseUpdate(dataToSave);
+    }
+
+    lockLearningBlock(key: string): Promise<any> {
+        const dataToSave = {}
+        dataToSave[`learningBlock/${key}/isLocked`] = true;
+        return this.fireBaseUpdate(dataToSave);
+    }
+
+    multiLearningBlock(key: string, b: boolean): Promise<any> {
+        const dataToSave = {}
+        dataToSave[`learningBlock/${key}/isMulti`] = b;
+        return this.fireBaseUpdate(dataToSave);
+    }
+
+    // putStudentsInCell(studentKeys: string[], cellKey: string, blockKey: string, groupKey: string): Promise<any> {
+    //     const dataToSave = {};
+    //     studentKeys.forEach(key => {
+    //         dataToSave[`studentsForCell/${cellKey}/${key}`] = true;
+    //         dataToSave[`studentsEnrolledforBlock/${blockKey}/${key}`] = true;
+    //         dataToSave[`studentLearning/${key}/groups/${groupKey}`] = true;
+    //         dataToSave[`studentLearning/${key}/blocks/${blockKey}`] = true;
+    //         dataToSave[`studentLearning/${key}/enrolled/${blockKey}`] = true;
+    //         dataToSave[`studentLearning/${key}/cells/${cellKey}`] = true;
+    //     });
+    //     return this.fireBaseUpdate(dataToSave);
+    // }
+
+    // removeStudentsFromCell(studentKeys: string[], cellKey: string): Promise<any> {
+    //     const dataToSave = {};
+    //     studentKeys.forEach(key => {
+    //         dataToSave[`studentsForCell/${cellKey}/${key}`] = null;
+    //         dataToSave[`studentLearning/${key}/cells/${cellKey}`] = null;
+    //     });
+    //     return this.fireBaseUpdate(dataToSave);
+    // }
+
+    enrollStudentsInBlock(studentKeys: string[], blockKey: string ): Promise<any> {
+        const dataToSave = {};
+        studentKeys.forEach(key => {
+            dataToSave[`studentsEnrolledForBlock/${blockKey}/${key}`] = true;
+            dataToSave[`studentLearning/${key}/enrolled/${blockKey}`] = true;
+        });
+        return this.fireBaseUpdate(dataToSave);
+    }
+
+    unenrollStudentsFromBlock(studentKeys: string[], blockKey: string ): Promise<any> {
+        const dataToSave = {};
+        studentKeys.forEach(key => {
+            dataToSave[`studentsEnrolledForBlock/${blockKey}/${key}`] = null;
+            dataToSave[`studentLearning/${key}/enrolled/${blockKey}`] = null;
+        });
         return this.fireBaseUpdate(dataToSave);
     }
 
     findItemsForKeyList(path: string, ob: Observable<any[]>): Observable<any> {
-        return ob.map(observ => observ.map(key => this.findObjectKey(path, key)))
+         return ob
+                 .filter(x => x !== undefined)
+                 .map(observ => observ.map(key => this.findObjectKey(path, key)))
                  .flatMap(result => Observable.combineLatest(result));
     }
 
     findItemForObjectList(listPath: string, objectPath: string, listKey: string): Observable<any> {
-        return this.findItemsForKeyList(objectPath, this.findObjectPath(`${listPath}/${listKey}`).map(c => Object.keys(c.payload.val())) );
+        return this.findItemsForKeyList(objectPath, this.findObjectPath(`${listPath}/${listKey}`)
+            .map(c => {
+                if (c.payload.val()) {
+                    return Object.keys(c.payload.val());
+                }
+            }));
+    }
+
+    findItemForObjectListWithPath(listPath: string, objectPath: string ): Observable<any> {
+        return this.findItemsForKeyList(objectPath, this.findObjectPath(`${listPath}`)
+            .map(c => {
+                if (c.payload.val()) {
+                    return Object.keys(c.payload.val());
+                }
+            }));
     }
 
     fireBaseUpdate(dataToSave) {

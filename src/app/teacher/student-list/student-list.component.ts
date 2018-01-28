@@ -23,11 +23,10 @@ export class StudentListComponent implements OnInit {
               public snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    this.items = this.ts.findList('students').map(value => {
+    this.items = this.ts.findList('studentProfile').map(value => {
       return value.map(c => (Student.fromJson(c.payload.key, {...c.payload.val()})));
     });
   }
-
 
   add(item?: Student) {
     this.DialogRef = this.dialog.open(StudentDialogComponent, {

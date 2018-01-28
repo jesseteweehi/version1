@@ -5,7 +5,9 @@ import { RouterModule } from '@angular/router';
 import { MyMaterialModule } from './../my-material/my-material.module';
 import { GridComponent } from './grid/grid.component';
 import { StudentSelectListComponent } from './student-select-list/student-select-list.component';
-import { StudentDialogListComponent } from './student-dialog-list/student-dialog-list.component';
+import { StudentDialogListAddComponent, StudentDialogListRemoveComponent, 
+  StudentDialogListRemoveEnrolledComponent } from './student-dialog-list/student-dialog-list.component';
+import { GridKeyComponent } from './grid-key/grid-key.component';
 
 
 
@@ -20,9 +22,11 @@ import { StudentDialogListComponent } from './student-dialog-list/student-dialog
   declarations: [
     GridComponent,
     StudentSelectListComponent,
-    StudentDialogListComponent
+    StudentDialogListAddComponent, StudentDialogListRemoveComponent, StudentDialogListRemoveEnrolledComponent,
+    GridKeyComponent
 ],
-  entryComponents[StudentDialogListComponent],
-  exports: [GridComponent, StudentSelectListComponent, StudentDialogListComponent]
+  entryComponents[StudentDialogListAddComponent, StudentDialogListRemoveComponent, StudentDialogListRemoveEnrolledComponent],
+  exports: [GridComponent, GridKeyComponent, StudentSelectListComponent, 
+    StudentDialogListAddComponent, StudentDialogListRemoveComponent, StudentDialogListRemoveEnrolledComponent]
 })
 export class GlobalComponentsModule {}

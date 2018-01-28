@@ -1,0 +1,16 @@
+.space {
+    margin-right: 3px;
+}
+
+b {
+    margin-left: 10px ;
+    background: #D1C4E9;
+    color: black;
+    font-size: 9px;
+    padding: 5px;
+    font-weight: 700;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    text-transform: uppercase;
+  }

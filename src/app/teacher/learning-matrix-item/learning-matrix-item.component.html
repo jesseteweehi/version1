@@ -22,15 +22,16 @@
     <mat-card-header>
         <mat-card-title>{{group?.title}}</mat-card-title>
         <span class="example-spacer"></span>
-        <mat-card-subtitle>{{group?.lastModified | date}}</mat-card-subtitle>
+        <mat-card-subtitle>{{group?.lastModified | date  : 'dd/MM/yyyy h.mma'}}</mat-card-subtitle>
     </mat-card-header>
 </mat-card>
+
 
 <mat-list dense>
     <mat-list-item *ngFor="let item of items | async" on-click="filterBy(item)">      
         <h3 mat-subheader>{{item?.title}}</h3>
         <span class="example-spacer"></span>
-        <p>{{item?.lastModified | date}}</p>
+        <p>{{item?.lastModified | date : 'dd/MM/yyyy h.mma'}}</p>
         <button mat-icon-button color="primary" (click)="saveTemplate(item)">
             <mat-icon class="mat-18">save</mat-icon>
         </button>

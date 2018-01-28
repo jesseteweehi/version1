@@ -8,22 +8,25 @@ import { LearningMatrixListComponent } from './learning-matrix-list/learning-mat
 import { LearningMatrixItemComponent } from './learning-matrix-item/learning-matrix-item.component';
 import { StudentListComponent } from './student-list/student-list.component';
 import { SchoolCourseListComponent } from './school-course-list/school-course-list.component';
+import { StudentLearningItemComponent } from './student-learning-item/student-learning-item.component';
 
 
 const teacherRoutes: Routes = [
-    { path: '', pathMatch: 'full', redirectTo: 'group-list' },
+    { path: '', pathMatch: 'full', redirectTo: 'student-list' },
     { path: 'area-list', component: LearningAreaListComponent },
-    { path: 'student', component: StudentListComponent },
+    { path: 'student-list', children : [
+      { path: '', component: StudentListComponent },
+      { path: ':studentid', component: StudentLearningItemComponent }
+      ]
+    },
     { path: 'school-course', component: SchoolCourseListComponent },
     { path: 'group-list',
       children: [
         { path: '', component: LearningGroupListComponent},
-        { path: ':groupid', component: LearningBlockListComponent}
-      ]
-    },
-    { path: 'block',
-      children: [
-        { path: ':blockid', component: LearningBlockItemComponent}
+        { path: ':groupid', children: [
+           { path: '', component: LearningBlockListComponent },
+           { path: ':blockid', component: LearningBlockItemComponent }
+        ]},
       ]
     },
     { path: 'matrix-list',

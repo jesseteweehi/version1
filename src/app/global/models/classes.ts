@@ -30,12 +30,14 @@ export class LearningBlock {
         public created: object,
         public lastModified: object,
         public creator: string,
-        public locked: boolean,
+        public isLocked: boolean,
+        public isMulti: boolean,
+        public parent: string
     ) {}
 
     static fromJson(key, {title,
-        description, created, modified, creator, locked }): LearningBlock {
-        return new LearningBlock(key, title, description, created, modified, creator, locked);
+        description, created, modified, creator, isLocked, isMulti, parent }): LearningBlock {
+        return new LearningBlock(key, title, description, created, modified, creator, isLocked, isMulti, parent);
     }
     static fromJsonList(array): LearningBlock[] {
         return array.map(LearningBlock.fromJson);
@@ -65,9 +67,10 @@ export class Cell {
         public xheaders: string,
         public yheaders: string,
         public qualifier: string,
+        public parent: string
     ) {}
-    static fromJson(key, {title, description, lastModified, purpose, xheaders, yheaders, qualifier}): Cell {
-        return new Cell(key, title, description, lastModified, purpose, xheaders, yheaders, qualifier);
+    static fromJson(key, {title, description, lastModified, purpose, xheaders, yheaders, qualifier, parent}): Cell {
+        return new Cell(key, title, description, lastModified, purpose, xheaders, yheaders, qualifier, parent);
     }
 }
 

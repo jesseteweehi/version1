@@ -1,18 +1,29 @@
 <mat-toolbar>
-  <button mat-icon-button color="primary" (click)="goBack()">
-      <mat-icon class="mat-18">navigate_before</mat-icon>
-  </button>
-  <button mat-icon-button>
-    <mat-icon class="mat-18" (click)="show(true)">add</mat-icon>
-  </button>
-  <button mat-button (click)="openStudents()">
-      Open Students
-  </button>   
+    <button mat-icon-button color="primary" (click)="goBack()">
+        <mat-icon class="mat-18">navigate_before</mat-icon>
+    </button>
+    <span class="example-spacer"></span>
+  <div *ngIf="(block | async) as block">
+    <div *ngIf="!block.isLocked"> 
+      <button *ngIf="!block.isLocked" mat-icon-button>
+          <mat-icon class="mat-18" (click)="show(true)">add</mat-icon>
+      </button>
+      <button class="space" mat-raised-button color="primary" (click)="lock()">Lock</button>
+      <button class="space" mat-raised-button color="primary" (click)="clear()" >Clear</button>
+      <button *ngIf="!block?.isMulti" mat-raised-button color="primary" (click)="multi(true)">Multi On</button>
+      <button *ngIf="block?.isMulti" mat-raised-button color="primary" (click)="multi(false)">Multi Off</button> 
+    </div>
+    <div *ngIf="block?.isLocked"> 
+        <button class="space" mat-raised-button (click)="enroll()">Enroll </button>
+        <button class="space" mat-raised-button (click)="unenroll()">Unenroll </button>
+    </div>
+  </div>
 </mat-toolbar>
 
 <mat-card class="top-card mat-elevation-z0" *ngIf="(block | async) as block">
     <mat-card-header>
-        <mat-card-title>{{block?.title}}</mat-card-title>
+        <mat-card-title>{{block?.title}}<b *ngIf="block?.isMulti">Multi</b></mat-card-title>
+        <span class="example-spacer"></span>
     </mat-card-header>
     <mat-card-content>
         {{block?.description}}
@@ -62,8 +73,13 @@
 </mat-horizontal-stepper>
 </div>
 
-<app-grid
+
+
+<app-grid-key
 [xHeaders]="xHeadersList"
 [yHeaders]="yHeadersList"
 [cells]="cellsList"
-></app-grid>
+[actions]="false"
+(addStudentsSend)="addStudents($event)"
+(seeStudentsSend)="seeStudents($event)" 
+></app-grid-key>

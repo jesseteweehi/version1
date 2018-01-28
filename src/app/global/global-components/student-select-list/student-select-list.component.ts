@@ -1,7 +1,4 @@
-import { Observable } from 'rxjs/Rx';
-import { Observable } from 'rxjs/Observable';
-import { SelectData } from './../../models/interfaces';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { Student } from './../../models/classes';
 
 
@@ -10,17 +7,17 @@ import { Student } from './../../models/classes';
   templateUrl: './student-select-list.component.html',
   styleUrls: ['./student-select-list.component.css']
 })
-export class StudentSelectListComponent implements OnInit {
-  @Input() items: Observable<any[]>;
+export class StudentSelectListComponent implements OnChanges {
+  @Input() items: any[];
   @Output() studentsToSend = new EventEmitter();
 
-  filtered: Observable<any[]>;
+  filtered: any[];
 
-  selectedStudents: Student[];
+  selectedStudents: any[];
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnChanges() {
     this.filtered = this.items;
   }
 
@@ -31,7 +28,7 @@ export class StudentSelectListComponent implements OnInit {
 
   search(s: string) {
     this.filtered = this.items
-       .map(job => job.filter(j => j.lastName.toLowerCase().includes(s)));
+       .filter(j => j.lastName.toLowerCase().includes(s)));
   }
 
 }

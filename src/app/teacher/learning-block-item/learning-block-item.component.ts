@@ -4,9 +4,11 @@ import { Location } from '@angular/common';
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
 import 'rxjs/add/operator/switchMap';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
-import { LearningBlock, LearningMatrix, LearningMatrixVersion, Header, Cell } from './../../global/models/classes';
+import { LearningBlock, LearningMatrix, LearningMatrixVersion, Header, Cell, Student } from './../../global/models/classes';
 import { TeacherService } from '../teacher.service';
-import { StudentDialogListComponent } from '../../global/global-components/student-dialog-list/student-dialog-list.component';
+import { StudentDialogListAddComponent,
+         StudentDialogListRemoveComponent,
+         StudentDialogListRemoveEnrolledComponent } from '../../global/global-components/student-dialog-list/student-dialog-list.component';
 
 
 @Component({
@@ -15,8 +17,11 @@ import { StudentDialogListComponent } from '../../global/global-components/stude
   styleUrls: ['./learning-block-item.component.css']
 })
 export class LearningBlockItemComponent implements OnInit {
-  DialogRef: MatDialogRef<StudentDialogListComponent>
+  studentAddDialog: MatDialogRef<StudentDialogListAddComponent>;
+  studentRemoveDialog: MatDialogRef<StudentDialogListRemoveComponent>;
+  studentEnrollDialog: MatDialogRef<StudentDialogListRemoveEnrolledComponent>;
   // Initial
+  groupId: string;
   blockId: string;
   block: Observable<LearningBlock>;
 
@@ -42,6 +47,7 @@ export class LearningBlockItemComponent implements OnInit {
   ngOnInit() {
     // Initial
     this.blockId = this.route.snapshot.params['blockid'];
+    this.groupId = this.route.snapshot.params['groupid'];
     this.block = this.ts.findObjectKey('learningBlock', this.blockId)
                   .map(item => LearningBlock.fromJson(item.key, {...item.payload.val()}));
     // Block
@@ -57,20 +63,69 @@ export class LearningBlockItemComponent implements OnInit {
     cells.subscribe(c => this.cellsList = c);
   }
 
+  multi(b: boolean) {
+    this.messagefromPromise(this.ts.multiLearningBlock(this.blockId, b), 'Block now Multi');
+  }
+
+  lock() {
+    this.messagefromPromise(this.ts.lockLearningBlock(this.blockId), 'Block Locked')
+    this.matrixLoad = false;
+  }
+
+  clear() {
+    this.messagefromPromise(this.ts.clearLearningBlockData(this.blockId), 'Block Cleared');
+    this.cellsList = [];
+  }
+
+  enroll() {
+    this.openStudents()
+  }
+
+  unenroll() {
+    this.unenrollStudents()
+  }
+
+  unenrollStudents() {
+    this.studentEnrollDialog = this.dialog.open(StudentDialogListRemoveEnrolledComponent, {
+        data: this.blockId,
+        height: '90%',
+        width: '90%',
+        autoFocus: false,
+    });
+    this.studentEnrollDialog.afterClosed()
+      .filter(x => x !== undefined)
+      .subscribe(x => {
+        this.messagefromPromise(this.ts.unenrollStudentsFromBlock(x, this.blockId), 'Students Unenrolled');
+      });
+  }
+
+  // Removal of students from Learning Cells (Where Students are loaded in Dialog)
+  // seeStudents(key) {
+  //   this.studentRemoveDialog = this.dialog.open(StudentDialogListRemoveComponent, {
+  //     data: key,
+  //     height: '90%',
+  //     width: '90%',
+  //     autoFocus: false,
+  //   });
+  //   this.studentRemoveDialog.afterClosed()
+  //     .filter(x => x !== undefined)
+  //     .subscribe(x => {
+  //       this.messagefromPromise(this.ts.removeStudentsFromCell(x, key), 'Students Removed');
+  //     });
+  // }
+
   openStudents(key?: string) {
-    this.DialogRef = this.dialog.open(StudentDialogListComponent, {
-      data: {
-        data: false
-      },
+    // Need to transfer the fetching Data from the Dialog to Here
+    this.studentAddDialog = this.dialog.open(StudentDialogListAddComponent, {
       height: '90%',
       width: '90%',
       autoFocus: false,
-
-
     });
-    this.DialogRef.afterClosed()
+    this.studentAddDialog.afterClosed()
       .filter(x => x !== undefined)
-      .subscribe(x => console.log(x));
+      .subscribe(x => {
+        this.messagefromPromise(this.ts.enrollStudentsInBlock(x, this.blockId ), 'Students Placed');
+      });
   }
 
   loadMatrix() {
