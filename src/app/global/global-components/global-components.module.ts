@@ -8,6 +8,8 @@ import { StudentSelectListComponent } from './student-select-list/student-select
 import { StudentDialogListAddComponent, StudentDialogListRemoveComponent, 
   StudentDialogListRemoveEnrolledComponent } from './student-dialog-list/student-dialog-list.component';
 import { GridKeyComponent } from './grid-key/grid-key.component';
+import { GridStudentComponent } from './grid-student/grid-student.component';
+import { GridStudentMultiComponent } from './grid-student-multi/grid-student-multi.component';
 
 
 
@@ -23,10 +25,12 @@ import { GridKeyComponent } from './grid-key/grid-key.component';
     GridComponent,
     StudentSelectListComponent,
     StudentDialogListAddComponent, StudentDialogListRemoveComponent, StudentDialogListRemoveEnrolledComponent,
-    GridKeyComponent
+    GridKeyComponent,
+    GridStudentComponent,
+    GridStudentMultiComponent
 ],
   entryComponents[StudentDialogListAddComponent, StudentDialogListRemoveComponent, StudentDialogListRemoveEnrolledComponent],
-  exports: [GridComponent, GridKeyComponent, StudentSelectListComponent, 
+  exports: [GridComponent, GridKeyComponent, StudentSelectListComponent, GridStudentComponent,
     StudentDialogListAddComponent, StudentDialogListRemoveComponent, StudentDialogListRemoveEnrolledComponent]
 })
 export class GlobalComponentsModule {}

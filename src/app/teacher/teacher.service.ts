@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { Injectable, Inject } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { FirebaseApp } from 'angularfire2';
@@ -156,18 +157,20 @@ constructor(
         return this.fireBaseUpdate(dataToSave);
     }
 
-    // putStudentsInCell(studentKeys: string[], cellKey: string, blockKey: string, groupKey: string): Promise<any> {
-    //     const dataToSave = {};
-    //     studentKeys.forEach(key => {
-    //         dataToSave[`studentsForCell/${cellKey}/${key}`] = true;
-    //         dataToSave[`studentsEnrolledforBlock/${blockKey}/${key}`] = true;
-    //         dataToSave[`studentLearning/${key}/groups/${groupKey}`] = true;
-    //         dataToSave[`studentLearning/${key}/blocks/${blockKey}`] = true;
-    //         dataToSave[`studentLearning/${key}/enrolled/${blockKey}`] = true;
-    //         dataToSave[`studentLearning/${key}/cells/${cellKey}`] = true;
-    //     });
-    //     return this.fireBaseUpdate(dataToSave);
-    // }
+    putStudentInCell(studentKey: string, cellKey: string, blockKey: string): Promise<any> {
+        const dataToSave = {};
+        dataToSave[`studentsForCell/${cellKey}/${studentKey}}`] = true;
+        dataToSave[`studentLearning/${studentKey}/blocks/${blockKey}`] = true;
+        dataToSave[`studentLearning/${studentKey}/cells/${cellKey}`] = true;
+        return this.fireBaseUpdate(dataToSave);
+    }
+
+    removeStudentFromCell(studentKey: string, cellKey: string): Promise<any> {
+        const dataToSave = {};
+        dataToSave[`studentsForCell/${cellKey}/${studentKey}`] = null;
+        dataToSave[`studentLearning/${studentKey}/cells/${cellKey}`] = null;
+        return this.fireBaseUpdate(dataToSave);
+    }
 
     // removeStudentsFromCell(studentKeys: string[], cellKey: string): Promise<any> {
     //     const dataToSave = {};
@@ -197,11 +200,39 @@ constructor(
     }
 
     findItemsForKeyList(path: string, ob: Observable<any[]>): Observable<any> {
-         return ob
-                 .filter(x => x !== undefined)
+        return ob
+                 .map(x => {
+                     if (x === undefined) {
+                         return Observable.of([]);
+                     } else {
+                         return x;
+                     }
+                 })
+                //  .filter(x => x !== undefined)
                  .map(observ => observ.map(key => this.findObjectKey(path, key)))
                  .flatMap(result => Observable.combineLatest(result));
     }
+        // if (ob) {
+        //     return ob
+        //     .map(x => {
+        //              if (x === undefined) {
+        //                  return Observable.of([]);
+        //              }
+        //          })
+        //     .map(observ => observ.map(key => this.findObjectKey(path, key)))
+        //     .flatMap(result => Observable.combineLatest(result));
+        // } else {
+        //     return Observable.empty();
+        // }
+        //  return ob
+                //  .map(x => {
+                //      if (x === undefined) {
+                //          return Observable.of([]);
+                //      }
+                //  })
+                //  .filter(x => x !== undefined)
+                //  .map(observ => observ.map(key => this.findObjectKey(path, key)))
+                //  .flatMap(result => Observable.combineLatest(result));
 
     findItemForObjectList(listPath: string, objectPath: string, listKey: string): Observable<any> {
         return this.findItemsForKeyList(objectPath, this.findObjectPath(`${listPath}/${listKey}`)

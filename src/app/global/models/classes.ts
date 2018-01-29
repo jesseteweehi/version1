@@ -1,3 +1,4 @@
+import { Purpose } from './data';
 import { Link } from './interfaces';
 
 export class LearningGroup {
@@ -7,18 +8,36 @@ export class LearningGroup {
         public description: string,
         public lastModified: string,
         public creator: string,
-        public locked: boolean,
+        public isLocked: boolean,
         public learningYear: string,
         public learningArea: string,
         public learningLevel: string
     ) {}
 
     static fromJson(key, {title,
-        description, modified, creator, locked, learningYear, learningArea, learningLevel}): LearningGroup {
-        return new LearningGroup(key, title, description, modified, creator, locked, learningYear, learningArea, learningLevel);
+        description, lastModified, creator, isLocked, learningYear, learningArea, learningLevel}): LearningGroup {
+        return new LearningGroup(key, title, description, lastModified, creator, isLocked, learningYear, learningArea, learningLevel);
     }
     static fromJsonList(array): LearningGroup[] {
         return array.map(LearningGroup.fromJson);
+    }
+
+    static fromJsonToObject(array): object {
+        const final = {};
+        array.map(each => {
+            const key = each.key;
+            const value = new LearningGroup(each.key,
+                each.title,
+                each.description,
+                each.lastModified,
+                each.creator,
+                each.isLocked,
+                each.learningYear,
+                each.learningArea,
+                each.learningLevel);
+            final[key] = value;
+            });
+        return final;
     }
 }
 
@@ -27,7 +46,6 @@ export class LearningBlock {
         public key: string,
         public title: string,
         public description: string,
-        public created: object,
         public lastModified: object,
         public creator: string,
         public isLocked: boolean,
@@ -36,11 +54,28 @@ export class LearningBlock {
     ) {}
 
     static fromJson(key, {title,
-        description, created, modified, creator, isLocked, isMulti, parent }): LearningBlock {
-        return new LearningBlock(key, title, description, created, modified, creator, isLocked, isMulti, parent);
+        description, lastModified, creator, isLocked, isMulti, parent }): LearningBlock {
+        return new LearningBlock(key, title, description, lastModified, creator, isLocked, isMulti, parent);
     }
     static fromJsonList(array): LearningBlock[] {
         return array.map(LearningBlock.fromJson);
+    }
+
+    static fromJsonToObject(array): object {
+        const final = {};
+        array.map(each => {
+            const key = each.key;
+            const value = new LearningBlock(each.key,
+                each.title,
+                each.description,
+                each.lastModified,
+                each.creator,
+                each.isLocked,
+                each.isMulti,
+                each.parent);
+            final[key] = value;
+            });
+        return final;
     }
 }
 
@@ -71,6 +106,25 @@ export class Cell {
     ) {}
     static fromJson(key, {title, description, lastModified, purpose, xheaders, yheaders, qualifier, parent}): Cell {
         return new Cell(key, title, description, lastModified, purpose, xheaders, yheaders, qualifier, parent);
+    }
+
+    static fromJsonToObject(array): object {
+        const final = {};
+        array.map(each => {
+            const key = each.key;
+            const value = new Cell(
+                each.key,
+                each.title,
+                each.description,
+                each.lastModified,
+                each.purpose,
+                each.xheaders,
+                each.yheaders,
+                each.qualifier,
+                each.parent);
+            final[key] = value;
+            });
+        return final;
     }
 }
 

@@ -33,6 +33,7 @@ import { LearningMatrixCellCreateFormComponent, LearningMatrixCellDialogComponen
 import { LearningBlockItemComponent } from './learning-block-item/learning-block-item.component';
 import { LearningMatrixItemComponent } from './learning-matrix-item/learning-matrix-item.component';
 import { StudentLearningItemComponent } from './student-learning-item/student-learning-item.component';
+import { StudentLearningGridComponent } from './student-learning-grid/student-learning-grid.component';
 
 
 @NgModule({
@@ -80,7 +81,8 @@ import { StudentLearningItemComponent } from './student-learning-item/student-le
     LearningMatrixItemComponent,
     StudentListComponent,
     SchoolCourseListComponent,
-    StudentLearningItemComponent
+    StudentLearningItemComponent,
+    StudentLearningGridComponent
 ],
   exports: [LearningGroupListComponent],
   providers: [TeacherService],

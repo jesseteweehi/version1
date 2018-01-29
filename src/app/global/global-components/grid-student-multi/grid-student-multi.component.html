@@ -1,0 +1,40 @@
+<div class="wrapper" [ngStyle]="template()">
+    <div class="blank"></div>
+    <mat-card class='header' *ngFor="let x of xHeaders; let i = index" [ngStyle]="xheader(i+1)">
+      <mat-card-header>
+          <mat-card-title><h2>{{x?.title}}</h2></mat-card-title>
+          <span class="example-spacer"></span>      
+      </mat-card-header>
+      <mat-card-content>
+          {{x?.description}}
+      </mat-card-content>
+    </mat-card>
+    <mat-card class='header' *ngFor="let y of yHeaders; let i = index" [ngStyle]="yheader(i+1)">
+        <mat-card-header>
+            <mat-card-title>{{y?.title}}</mat-card-title>
+            <span class="example-spacer"></span>      
+        </mat-card-header>
+        <mat-card-content>
+            {{y?.description}}
+        </mat-card-content>
+    </mat-card>
+    <!--  -->
+    <mat-card *ngFor="let cell of cells; let i = index" [class.highlight]="highlight(cell?.key)">
+        {{ cell?.key }}
+        <mat-card-header>
+            <mat-card-title>{{cell?.title}}</mat-card-title>
+            <span class="example-spacer"></span>                            
+        </mat-card-header>
+        <mat-card-content>
+            {{cell?.description}}
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-icon-button (click)="change(cell.key, true)">
+                <mat-icon color="primary" class="mat-18">add</mat-icon>
+            </button> 
+            <button mat-icon-button (click)="change(cell.key, false)">
+                <mat-icon color="primary" class="mat-18">remove</mat-icon>
+            </button> 
+        </mat-card-actions>
+    </mat-card>  
+  </div>

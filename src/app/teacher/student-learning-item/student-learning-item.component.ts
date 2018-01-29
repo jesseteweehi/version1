@@ -7,6 +7,8 @@ import { Subject } from 'rxjs/subject';
 import * as _ from 'lodash';
 
 import 'rxjs/add/operator/takeUntil';
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/combineLatest';
 
 
 
@@ -21,38 +23,22 @@ export class StudentLearningItemComponent implements OnInit, OnDestroy {
   studentId: string;
   student: Observable<Student>;
 
-  enrolledBlocks: LearningBlock[];
-  enrolledGroups: LearningGroup[];
-  attainedCells: Cell[];
+  enrolledGroupKeys: string[] = [];
+  enrolledBlockKeys: string[] = [];
+  attainedBlockKeys: string[] = [];
+  attainedCellsKeys: string[] = [];
+  status: object = {};
+  blockArrayForGroupKey: Object = {};
+
+  enrolledBlocks: object;
+  enrolledGroups: object;
+  attainedCells: object;
+  learningAreas: object;
 
   constructor(private ts: TeacherService,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
-    // Want to Show the following
-    // All groups either as "doing" or "Finished"
-    // Doing as the following status
-    // Not Started > Enrolled but no Learning Pieces have been attained | 
-    // In Progress > Enrolled and 1 or more Learning Pieces have been attained
-
-    // Create a Learning Block Enrolled Array, Create Learning Block Attained array using Learning Pieces Array Parent.
-    // If key in Enrolled but not in Attained assign "Not Started" Status
-    // If in both assign "In Progress" Status
-
-    // Finished only has the finished Status Assign this status to an status object with the block key as status object key.
-
-    // Creating the Visual to See Groups
-    // Use the Group Enrolled Array.
-    // Create and Enrolled Block Array for each a BlocktoGroup Object by using the Blocks parent status.
-    // Status can be attached to each block by looking up the status object using block key.
-
-    // So we Need:
-    // LearningCell Keys that Are Attained (This will be sent to Grid)
-    // Learning Groups Enrolled Array
-    // learning Blocks Enrolled Array for each Group
-    // Status Object for each Learning Block.
-
-
     this.studentId = this.route.snapshot.params['studentid'];
 
     this.student = this.ts.findObjectPath(`studentProfile/${this.studentId}`)
@@ -60,30 +46,59 @@ export class StudentLearningItemComponent implements OnInit, OnDestroy {
 
     const enrolledBlocks = this.ts.findItemForObjectListWithPath(`studentLearning/${this.studentId}/enrolled`, 'learningBlock')
       .takeUntil(this.ngUnsubscribe)
-      .map(changes => changes.map(c => LearningBlock.fromJson(c.key, {...c.payload.val()})));
+      .map(changes => changes.map(c => LearningBlock.fromJson(c.key, {...c.payload.val()})))
+      .map(LearningBlock.fromJsonToObject);
 
     const enrolledGroups = this.ts.findItemForObjectListWithPath(`studentLearning/${this.studentId}/enrolled`, 'learningBlock')
       .takeUntil(this.ngUnsubscribe)
       .map(changes => changes.map(c => c.payload.val().parent))
       .map(result => _.uniq(result))
       .switchMap(result => this.ts.findItemsForKeyList('learningGroup', Observable.of(result)))
-      .map(changes => changes.map(c => LearningGroup.fromJson(c.key, {...c.payload.val()})));
+      .map(changes => changes.map(c => LearningGroup.fromJson(c.key, {...c.payload.val()})))
+      .map(LearningGroup.fromJsonToObject);
+
+    const learningAreas = this.ts.findObjectPath('learningArea').map(c => c.payload.val());
 
     const attainedCells = this.ts.findItemForObjectListWithPath(`studentLearning/${this.studentId}/cells`, 'learningCell')
       .takeUntil(this.ngUnsubscribe)
-      .map(changes => changes.map(c => Cell.fromJson(c.key, {...c.payload.val()})));
+      .map(changes => changes.map(c =>  {
+        if (c.payload) {
+          return Cell.fromJson(c.key, {...c.payload.val()});
+        } else {
+          return c;
+        }
+      }))
+      .map(Cell.fromJsonToObject);
 
-    enrolledBlocks.subscribe(result => this.enrolledBlocks = result);
-    enrolledGroups.subscribe(result => this.enrolledGroups = result);
-    attainedCells.subscribe(result => console.log(result));
+    Observable.combineLatest(enrolledBlocks, enrolledGroups, learningAreas, attainedCells ).subscribe(result => {
+      this.enrolledBlocks = result[0];
+      this.enrolledGroups = result[1];
+      this.learningAreas = result[2];
+      this.attainedCells = result[3];
+      this.calculate();
+     });
+  }
 
-    // this.ts.findObjectPath(`studentLearning/${this.studentId}/enrolled`)
-    //   .takeUntil(this.ngUnsubscribe)
-    //   .filter(x => x !== undefined) 
-    //   .map(c => {
-    //     return Object.keys(c.payload.val());
-    //   })
-    //   .subscribe(result => this.enrolledBlocks = result)
+  calculate() {
+    if (this.enrolledBlocks && this.enrolledGroups && this.attainedCells) {
+      // Create Key Arrays
+      this.enrolledGroupKeys = Object.keys(this.enrolledGroups);
+      this.enrolledBlockKeys = Object.keys(this.enrolledBlocks);
+      this.attainedCellsKeys = Object.keys(this.attainedCells);
+      this.attainedBlockKeys = this.attainedCellsKeys.map(key => this.attainedCells[key].parent);
+
+      // Create Enrolled Blocks Keys Array and create the Keys to Array block ArrayForGroupKey
+      this.enrolledBlockKeys.forEach(key => {
+        this.blockArrayForGroupKey[this.enrolledBlocks[key].parent] = [];
+      });
+
+      // Create Status and finalise Blocks to Array
+      this.enrolledBlockKeys.forEach(key => {
+        console.log(key);
+        this.blockArrayForGroupKey[this.enrolledBlocks[key].parent].push(key);
+        if (this.attainedBlockKeys.includes(key)) { this.status[key] = 'In Progress'; } else { this.status[key] = 'Not Started'; }
+      });
+    }
   }
 
   ngOnDestroy() {
