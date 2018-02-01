@@ -1,4 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
+
 
 @Component({
   selector: 'app-grid-student-multi',
@@ -6,16 +8,24 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./grid-student-multi.component.css']
 })
 export class GridStudentMultiComponent {
+
   @Input() xHeaders: any[];
   @Input() yHeaders: any[];
   @Input() cells: any[];
   @Input() attainedCells: any[];
 
-  @Output() keySend = new EventEmitter();
+  @Output() multiSend = new EventEmitter();
 
+  edit = '';
 
-  change(k: string, b: boolean) {
-    this.keySend.emit({key: k, bool: b });
+  add(key) {
+    this.edit = key;
+  }
+
+  addContext(c: string, key: string) {
+    const data = { context: c, cell: key };
+    this.multiSend.emit(data);
+    this.edit = '';
   }
 
   highlight(key) {

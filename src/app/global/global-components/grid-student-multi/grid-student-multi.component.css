@@ -13,6 +13,38 @@
     background-color: whitesmoke;
 }
 
-.highlight {
-    background-color: #FFEB3B;
+.highlight10 {
+    background-color: #fffbd7;
+}
+
+.highlight20 {
+    background-color: #fff9c4;
+}
+
+.highlight30 {
+    background-color: #fff7b0;
+}
+
+.highlight40 {
+    background-color: ##fff59d;
+}
+
+.highlight50 {
+    background-color: #fff389;
+}
+
+.highlight60 {
+    background-color: #fff175;
+}
+
+.highlight70 {
+    background-color: #ffef62;
+}
+
+.highlight80 {
+    background-color: #ffed4e;
+}
+
+.highlight90 {
+    background-color: #fffdeb;
 }

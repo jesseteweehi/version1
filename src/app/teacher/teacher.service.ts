@@ -1,4 +1,3 @@
-import { Observable } from 'rxjs/Observable';
 import { Injectable, Inject } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { FirebaseApp } from 'angularfire2';
@@ -146,7 +145,7 @@ constructor(
     }
 
     lockLearningBlock(key: string): Promise<any> {
-        const dataToSave = {}
+        const dataToSave = {};
         dataToSave[`learningBlock/${key}/isLocked`] = true;
         return this.fireBaseUpdate(dataToSave);
     }
@@ -165,10 +164,36 @@ constructor(
         return this.fireBaseUpdate(dataToSave);
     }
 
+    putStudentInCellMulti(data: string, studentKey: string, cellKey: string, blockKey: string) {
+        console.log(data);
+        const itemToSave = Object.assign(
+            { created: firebase.database.ServerValue.TIMESTAMP,
+              context: data,
+              cell: cellKey,
+              block: blockKey });
+        const itemRefKey = this.db.list('/allEvents').push(data).key;
+        const dataToSave = {};
+        dataToSave[`studentsForCell/${cellKey}/${studentKey}}`] = true;
+        dataToSave[`studentLearning/${studentKey}/blocks/${blockKey}`] = true;
+        dataToSave[`studentLearning/${studentKey}/cells/${cellKey}`] = true;
+        dataToSave[`allEvents/${itemRefKey}`] = itemToSave;
+        dataToSave[`eventByStudentInCell/${studentKey}/${cellKey}/${itemRefKey}`] = itemToSave;
+        dataToSave[`eventByStudentInBlock/${studentKey}/${blockKey}/${itemRefKey}`] = itemToSave;
+        return this.fireBaseUpdate(dataToSave);
+    }
+
     removeStudentFromCell(studentKey: string, cellKey: string): Promise<any> {
         const dataToSave = {};
         dataToSave[`studentsForCell/${cellKey}/${studentKey}`] = null;
         dataToSave[`studentLearning/${studentKey}/cells/${cellKey}`] = null;
+        return this.fireBaseUpdate(dataToSave);
+    }
+
+    removeStudentFromCellMulti(eventKey: string, studentKey: string, cellKey: string, blockKey: string, last: boolean = false) {
+        const dataToSave = {};
+        dataToSave[`allEvents/${eventKey}`] = null;
+        dataToSave[`eventByStudentInCell/${studentKey}/${cellKey}/${eventKey}`] = null;
+        dataToSave[`eventByStudentInBlock/${studentKey}/${blockKey}/${eventKey}`] = null;
         return this.fireBaseUpdate(dataToSave);
     }
 
@@ -203,7 +228,7 @@ constructor(
         return ob
                  .map(x => {
                      if (x === undefined) {
-                         return Observable.of([]);
+                         return [];
                      } else {
                          return x;
                      }

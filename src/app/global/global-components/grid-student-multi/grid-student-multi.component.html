@@ -1,3 +1,5 @@
+<h1>Multi</h1>
+
 <div class="wrapper" [ngStyle]="template()">
     <div class="blank"></div>
     <mat-card class='header' *ngFor="let x of xHeaders; let i = index" [ngStyle]="xheader(i+1)">
@@ -20,21 +22,27 @@
     </mat-card>
     <!--  -->
     <mat-card *ngFor="let cell of cells; let i = index" [class.highlight]="highlight(cell?.key)">
-        {{ cell?.key }}
         <mat-card-header>
             <mat-card-title>{{cell?.title}}</mat-card-title>
-            <span class="example-spacer"></span>                            
+            <span class="example-spacer"></span>                             
         </mat-card-header>
         <mat-card-content>
             {{cell?.description}}
         </mat-card-content>
         <mat-card-actions>
-            <button mat-icon-button (click)="change(cell.key, true)">
+            <button mat-icon-button (click)="add(cell.key)">
                 <mat-icon color="primary" class="mat-18">add</mat-icon>
             </button> 
-            <button mat-icon-button (click)="change(cell.key, false)">
-                <mat-icon color="primary" class="mat-18">remove</mat-icon>
-            </button> 
         </mat-card-actions>
+        <mat-card-content *ngIf="edit===cell.key">
+            <mat-input-container class="full-width" floatPlaceholder="auto">
+                <input matInput
+                        type="text"
+                        placeholder="Context"
+                        (keyup.enter)="addContext(input.value, cell.key)" 
+                        #input
+                        >
+              </mat-input-container>
+        </mat-card-content>
     </mat-card>  
   </div>

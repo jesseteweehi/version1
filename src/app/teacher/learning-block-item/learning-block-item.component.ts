@@ -99,21 +99,6 @@ export class LearningBlockItemComponent implements OnInit {
       });
   }
 
-  // Removal of students from Learning Cells (Where Students are loaded in Dialog)
-  // seeStudents(key) {
-  //   this.studentRemoveDialog = this.dialog.open(StudentDialogListRemoveComponent, {
-  //     data: key,
-  //     height: '90%',
-  //     width: '90%',
-  //     autoFocus: false,
-  //   });
-  //   this.studentRemoveDialog.afterClosed()
-  //     .filter(x => x !== undefined)
-  //     .subscribe(x => {
-  //       this.messagefromPromise(this.ts.removeStudentsFromCell(x, key), 'Students Removed');
-  //     });
-  // }
-
   openStudents(key?: string) {
     // Need to transfer the fetching Data from the Dialog to Here
     this.studentAddDialog = this.dialog.open(StudentDialogListAddComponent, {

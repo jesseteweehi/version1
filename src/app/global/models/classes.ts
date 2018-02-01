@@ -1,6 +1,21 @@
 import { Purpose } from './data';
 import { Link } from './interfaces';
 
+export class LearningEvent {
+    constructor(
+        public key: string,
+        public creator: string,
+        public created: string,
+        public cell: string,
+        public block: string,
+        public group: string,
+        public context: string
+    ){}
+    static fromJson(key, {creator, created, cell, block, group, context}): LearningEvent {
+        return new LearningEvent(key, creator, created, cell, block, group, context);
+    }
+}
+
 export class LearningGroup {
     constructor(
         public key: string,

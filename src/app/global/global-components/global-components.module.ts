@@ -29,8 +29,8 @@ import { GridStudentMultiComponent } from './grid-student-multi/grid-student-mul
     GridStudentComponent,
     GridStudentMultiComponent
 ],
-  entryComponents[StudentDialogListAddComponent, StudentDialogListRemoveComponent, StudentDialogListRemoveEnrolledComponent],
-  exports: [GridComponent, GridKeyComponent, StudentSelectListComponent, GridStudentComponent,
+  entryComponents: [StudentDialogListAddComponent, StudentDialogListRemoveComponent, StudentDialogListRemoveEnrolledComponent],
+  exports: [GridComponent, GridKeyComponent, StudentSelectListComponent, GridStudentComponent, GridStudentMultiComponent,
     StudentDialogListAddComponent, StudentDialogListRemoveComponent, StudentDialogListRemoveEnrolledComponent]
 })
 export class GlobalComponentsModule {}

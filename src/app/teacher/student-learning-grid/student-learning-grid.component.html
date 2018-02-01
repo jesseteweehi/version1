@@ -12,10 +12,28 @@
         </mat-card-content>
 </mat-card>
 
-<app-grid-student
+<mat-card class="top-card mat-elevation-z0" *ngIf="block">
+    <mat-card-header>
+        <mat-card-title>{{block?.title}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        {{block?.description}}
+    </mat-card-content>
+</mat-card>
+
+<app-grid-student-multi
+[xHeaders]="xHeadersList"
+[yHeaders]="yHeadersList"
+[cells]="cellsList"
+[attainedCells]="attainedCells"
+(multiSend)="multiAdd($event)"
+></app-grid-student-multi>
+
+
+<!-- <app-grid-student
 [xHeaders]="xHeadersList"
 [yHeaders]="yHeadersList"
 [cells]="cellsList"
 [attainedCells]="attainedCells"
 (keySend)="change($event)"
-></app-grid-student>
+></app-grid-student> -->

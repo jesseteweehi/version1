@@ -28,7 +28,7 @@ export class StudentSelectListComponent implements OnChanges {
 
   search(s: string) {
     this.filtered = this.items
-       .filter(j => j.lastName.toLowerCase().includes(s)));
+       .filter(j => j.lastName.toLowerCase().includes(s));
   }
 
 }
