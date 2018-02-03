@@ -8,11 +8,10 @@ export class LearningEvent {
         public created: string,
         public cell: string,
         public block: string,
-        public group: string,
         public context: string
     ){}
-    static fromJson(key, {creator, created, cell, block, group, context}): LearningEvent {
-        return new LearningEvent(key, creator, created, cell, block, group, context);
+    static fromJson(key, {creator, created, cell, block, context}): LearningEvent {
+        return new LearningEvent(key, creator, created, cell, block, context);
     }
 }
 

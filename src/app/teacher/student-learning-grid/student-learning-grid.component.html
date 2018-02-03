@@ -25,8 +25,11 @@
 [xHeaders]="xHeadersList"
 [yHeaders]="yHeadersList"
 [cells]="cellsList"
+[eventCount]="eventCount"
 [attainedCells]="attainedCells"
-(multiSend)="multiAdd($event)"
+[learningEvents]="learningEvents"
+(contextSend)="multiAdd($event)"
+(eventSendLoad)="loadEvents($event)"
 ></app-grid-student-multi>
 
 

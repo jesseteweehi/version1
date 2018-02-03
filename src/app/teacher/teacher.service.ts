@@ -171,12 +171,15 @@ constructor(
               context: data,
               cell: cellKey,
               block: blockKey });
-        const itemRefKey = this.db.list('/allEvents').push(data).key;
+        const itemRefKey = this.db.list('/events').push(data).key;
         const dataToSave = {};
+        // Cell
         dataToSave[`studentsForCell/${cellKey}/${studentKey}}`] = true;
         dataToSave[`studentLearning/${studentKey}/blocks/${blockKey}`] = true;
         dataToSave[`studentLearning/${studentKey}/cells/${cellKey}`] = true;
-        dataToSave[`allEvents/${itemRefKey}`] = itemToSave;
+        dataToSave[`events/${itemRefKey}`] = itemToSave;
+        // Event
+        dataToSave[`eventByStudentCellKeyForBlock/${studentKey}/${blockKey}/${cellKey}/${itemRefKey}`] = true;
         dataToSave[`eventByStudentInCell/${studentKey}/${cellKey}/${itemRefKey}`] = itemToSave;
         dataToSave[`eventByStudentInBlock/${studentKey}/${blockKey}/${itemRefKey}`] = itemToSave;
         return this.fireBaseUpdate(dataToSave);
@@ -191,7 +194,8 @@ constructor(
 
     removeStudentFromCellMulti(eventKey: string, studentKey: string, cellKey: string, blockKey: string, last: boolean = false) {
         const dataToSave = {};
-        dataToSave[`allEvents/${eventKey}`] = null;
+        dataToSave[`events/${eventKey}`] = null;
+        dataToSave[`eventByStudentCellKeyForBlock/${studentKey}/${blockKey}/${cellKey}/${eventKey}`] = null;
         dataToSave[`eventByStudentInCell/${studentKey}/${cellKey}/${eventKey}`] = null;
         dataToSave[`eventByStudentInBlock/${studentKey}/${blockKey}/${eventKey}`] = null;
         return this.fireBaseUpdate(dataToSave);
@@ -226,38 +230,35 @@ constructor(
 
     findItemsForKeyList(path: string, ob: Observable<any[]>): Observable<any> {
         return ob
-                 .map(x => {
-                     if (x === undefined) {
-                         return [];
-                     } else {
-                         return x;
-                     }
-                 })
+                .map(x => {
+                    if (x === undefined) {
+                        return [];
+                    } else {
+                        return x;
+                    }
+                })
                 //  .filter(x => x !== undefined)
                  .map(observ => observ.map(key => this.findObjectKey(path, key)))
                  .flatMap(result => Observable.combineLatest(result));
     }
-        // if (ob) {
-        //     return ob
-        //     .map(x => {
-        //              if (x === undefined) {
-        //                  return Observable.of([]);
-        //              }
-        //          })
-        //     .map(observ => observ.map(key => this.findObjectKey(path, key)))
-        //     .flatMap(result => Observable.combineLatest(result));
-        // } else {
-        //     return Observable.empty();
-        // }
-        //  return ob
-                //  .map(x => {
-                //      if (x === undefined) {
-                //          return Observable.of([]);
-                //      }
-                //  })
-                //  .filter(x => x !== undefined)
-                //  .map(observ => observ.map(key => this.findObjectKey(path, key)))
-                //  .flatMap(result => Observable.combineLatest(result));
+
+    findListsforKeyList(path: string, ob: Observable<any[]>): Observable<any> {
+        return ob
+                .map(x => {
+                    if (x === undefined) {
+                        return [];
+                    } else {
+                        return x;
+                    }
+                })
+                // .map(observ => observ.map(key => this.findList(`${path}/${key}`)));
+                .map(observ => observ.map(key => {
+                    const obj = {};
+                    obj[key] = this.findList(`${path}/${key}`);
+                    return obj;
+                    }
+                ));
+    }
 
     findItemForObjectList(listPath: string, objectPath: string, listKey: string): Observable<any> {
         return this.findItemsForKeyList(objectPath, this.findObjectPath(`${listPath}/${listKey}`)

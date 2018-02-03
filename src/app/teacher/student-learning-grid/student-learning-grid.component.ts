@@ -2,13 +2,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatSnackBar } from '@angular/material';
-import { Header, Cell, Student, LearningBlock } from './../../global/models/classes';
+import { Header, Cell, Student, LearningBlock, LearningEvent } from './../../global/models/classes';
 import { Observable } from 'rxjs/Rx';
 import { Subject } from 'rxjs/subject';
 
 import { TeacherService } from '../teacher.service';
 
 import 'rxjs/add/operator/combineLatest';
+import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'app-student-learning-grid',
@@ -23,11 +24,13 @@ export class StudentLearningGridComponent implements OnInit, OnDestroy {
   studentId: string;
   block: LearningBlock;
   student: Observable<Student>;
+  eventCount: object = {};
 
   xHeadersList: any[];
   yHeadersList: any[];
   cellsList: any[];
   attainedCells: string[];
+  learningEvents: object = {};
 
   constructor(private ts: TeacherService,
               private route: ActivatedRoute,
@@ -41,6 +44,8 @@ export class StudentLearningGridComponent implements OnInit, OnDestroy {
 
     this.student = this.ts.findObjectPath(`studentProfile/${this.studentId}`)
       .map(item => Student.fromJson(item.key, {...item.payload.val()}));
+
+    // Event
 
     // Block
     const block = this.ts.findObjectPath(`learningBlock/${this.blockId}`)
@@ -62,7 +67,6 @@ export class StudentLearningGridComponent implements OnInit, OnDestroy {
     const attainedCells = this.ts.findObjectPath(`studentLearning/${this.studentId}/cells`)
       .takeUntil(this.ngUnsubscribe)
       .map(changes =>  {
-        console.log(changes);
         if (changes.key) {
           return Object.keys(changes.payload.val());
         } else {
@@ -71,16 +75,47 @@ export class StudentLearningGridComponent implements OnInit, OnDestroy {
       });
 
     Observable.combineLatest(xHeader, yHeader, cells, attainedCells, block).subscribe(result => {
-      console.log(result);
       this.xHeadersList = result[0];
       this.yHeadersList = result[1];
       this.cellsList = result[2];
       this.attainedCells = result[3];
       this.block = result[4];
                    });
+
+    const eventcount = this.ts.findObjectPath(`eventByStudentCellKeyForBlock/${this.studentId}/${this.blockId}`)
+        .takeUntil(this.ngUnsubscribe)
+        .map(changes =>  {
+          if (changes.key) {
+            return changes.payload.val();
+          } else {
+            return [];
+          }
+        });
+
+    eventcount.subscribe(result => {
+      Object.entries(result).forEach(
+        ([key, value]) =>  this.eventCount[key] = Object.keys(value).length);
+      });
+
+
+    const events = this.ts.findItemForObjectList('learningCellForBlock', 'learningCell', this.blockId)
+      .takeUntil(this.ngUnsubscribe)
+      .map(changes => changes.map(c => c.key))
+      .map(array => array.map(key => this.ts.findList(`eventByStudentInCell/${this.studentId}/${key}`)))
+      .flatMap(result => Observable.combineLatest(result));
+
+    events.subscribe(result => {
+        const a = [].concat.apply([], result);
+        const eventsArray = a.map(each => LearningEvent.fromJson(each.key, {...each.payload.val()}));
+        eventsArray.forEach(each => {
+          this.learningEvents[each.cell] = [];
+        });
+        eventsArray.forEach(element => {
+          this.learningEvents[element.cell].push(element);
+        });
+        console.log(this.learningEvents);
+      });
   }
-
-
 
   change($event) {
     if ($event.bool === true ) {
@@ -95,11 +130,8 @@ export class StudentLearningGridComponent implements OnInit, OnDestroy {
   }
 
   multiAdd($event) {
-    console.log($event);
     this.messagefromPromise(this.ts.putStudentInCellMulti($event.context, this.studentId, $event.cell, this.blockId), 'Event Added');
   }
-
-
 
 
   messagefromPromise(data: Promise<any>, success = 'Success', error = 'Bugger') {

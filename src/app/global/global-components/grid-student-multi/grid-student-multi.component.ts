@@ -1,5 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
+import { LearningEvent } from '../../models/classes';
+import { KeyedRead } from '@angular/compiler';
 
 
 @Component({
@@ -13,8 +15,11 @@ export class GridStudentMultiComponent {
   @Input() yHeaders: any[];
   @Input() cells: any[];
   @Input() attainedCells: any[];
+  @Input() eventCount: {};
+  @Input() learningEvents: {};
 
-  @Output() multiSend = new EventEmitter();
+  @Output() contextSend = new EventEmitter();
+  @Output() eventSendLoad = new EventEmitter();
 
   edit = '';
 
@@ -22,19 +27,18 @@ export class GridStudentMultiComponent {
     this.edit = key;
   }
 
+  loadEvents(key: string) {
+    this.eventSendLoad.emit(key);
+  }
+
   addContext(c: string, key: string) {
     const data = { context: c, cell: key };
-    this.multiSend.emit(data);
+    this.contextSend.emit(data);
     this.edit = '';
   }
 
-  highlight(key) {
-    if (this.attainedCells) {
-      if (this.attainedCells.includes(key)) { return true;
-      } else { return false; }
-    } else {
-      return false;
-    }
+  isEvent(key: string) {
+    return this.eventCount.hasOwnProperty(key)
   }
 
   template() {
