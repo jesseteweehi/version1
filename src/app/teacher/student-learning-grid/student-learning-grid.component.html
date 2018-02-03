@@ -29,14 +29,14 @@
 [attainedCells]="attainedCells"
 [learningEvents]="learningEvents"
 (contextSend)="multiAdd($event)"
-(eventSendLoad)="loadEvents($event)"
+(eventRemoveSend)="removeEvent($event)"
 ></app-grid-student-multi>
 
 
-<!-- <app-grid-student
+<app-grid-student
 [xHeaders]="xHeadersList"
 [yHeaders]="yHeadersList"
 [cells]="cellsList"
 [attainedCells]="attainedCells"
 (keySend)="change($event)"
-></app-grid-student> -->
+></app-grid-student>

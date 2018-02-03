@@ -48,10 +48,13 @@
         <mat-card-content *ngIf="learningEvents">
                 <mat-list dense>
                         <mat-list-item *ngFor="let event of learningEvents[cell.key]">
+                            <button mat-icon-button (click)="removeEvent(event.key,cell.key)">
+                                <mat-icon class="mat-18">remove</mat-icon>
+                            </button>
                             <h3 mat-subheader>{{event?.context}}</h3>
                             <p></p>    
                             <span class="example-spacer"></span>
-                            <p>{{event?.created | date}}</p> 
+                            <p>{{event?.created | date : 'MMM d'}}</p> 
                         </mat-list-item>
                       </mat-list>
         </mat-card-content>

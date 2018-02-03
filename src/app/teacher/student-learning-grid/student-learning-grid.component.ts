@@ -113,7 +113,6 @@ export class StudentLearningGridComponent implements OnInit, OnDestroy {
         eventsArray.forEach(element => {
           this.learningEvents[element.cell].push(element);
         });
-        console.log(this.learningEvents);
       });
   }
 
@@ -133,6 +132,16 @@ export class StudentLearningGridComponent implements OnInit, OnDestroy {
     this.messagefromPromise(this.ts.putStudentInCellMulti($event.context, this.studentId, $event.cell, this.blockId), 'Event Added');
   }
 
+  removeEvent($event) {
+    if (this.learningEvents[$event.cellKey].length > 1) { this.messagefromPromise(
+      this.ts.removeEventFromStudentMulti(this.studentId, $event.eventKey, $event.cellKey, this.blockId), 'Event Removed');
+    } else {
+      this.messagefromPromise(
+        this.ts.removeEventFromStudentMulti(this.studentId, $event.eventKey, $event.cellKey, this.blockId, true), 'Event Removed');
+        this.learningEvents[$event.cellKey] = [];
+        delete this.eventCount[$event.cellKey];
+    }
+  }
 
   messagefromPromise(data: Promise<any>, success = 'Success', error = 'Bugger') {
     data

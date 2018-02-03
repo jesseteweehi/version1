@@ -19,7 +19,7 @@ export class GridStudentMultiComponent {
   @Input() learningEvents: {};
 
   @Output() contextSend = new EventEmitter();
-  @Output() eventSendLoad = new EventEmitter();
+  @Output() eventRemoveSend = new EventEmitter();
 
   edit = '';
 
@@ -27,8 +27,8 @@ export class GridStudentMultiComponent {
     this.edit = key;
   }
 
-  loadEvents(key: string) {
-    this.eventSendLoad.emit(key);
+  removeEvent(eKey: string, cKey: string) {
+    this.eventRemoveSend.emit({ eventKey: eKey, cellKey: cKey})
   }
 
   addContext(c: string, key: string) {

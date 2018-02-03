@@ -165,7 +165,6 @@ constructor(
     }
 
     putStudentInCellMulti(data: string, studentKey: string, cellKey: string, blockKey: string) {
-        console.log(data);
         const itemToSave = Object.assign(
             { created: firebase.database.ServerValue.TIMESTAMP,
               context: data,
@@ -177,12 +176,35 @@ constructor(
         dataToSave[`studentsForCell/${cellKey}/${studentKey}}`] = true;
         dataToSave[`studentLearning/${studentKey}/blocks/${blockKey}`] = true;
         dataToSave[`studentLearning/${studentKey}/cells/${cellKey}`] = true;
-        dataToSave[`events/${itemRefKey}`] = itemToSave;
         // Event
+        dataToSave[`events/${itemRefKey}`] = itemToSave;
         dataToSave[`eventByStudentCellKeyForBlock/${studentKey}/${blockKey}/${cellKey}/${itemRefKey}`] = true;
         dataToSave[`eventByStudentInCell/${studentKey}/${cellKey}/${itemRefKey}`] = itemToSave;
         dataToSave[`eventByStudentInBlock/${studentKey}/${blockKey}/${itemRefKey}`] = itemToSave;
         return this.fireBaseUpdate(dataToSave);
+    }
+
+    removeEventFromStudentMulti(studentKey: string, eventKey: string, cellKey: string, blockKey: string, lastEvent: boolean = false) {
+        const dataToSave = {};
+        if (!lastEvent) {
+        // Event
+        dataToSave[`events/${eventKey}`] = null;
+        dataToSave[`eventByStudentCellKeyForBlock/${studentKey}/${blockKey}/${cellKey}/${eventKey}`] = null;
+        dataToSave[`eventByStudentInCell/${studentKey}/${cellKey}/${eventKey}`] = null;
+        dataToSave[`eventByStudentInBlock/${studentKey}/${blockKey}/${eventKey}`] = null;
+        return this.fireBaseUpdate(dataToSave);
+        } else {
+        // Event
+        dataToSave[`events/${eventKey}`] = null;
+        dataToSave[`eventByStudentCellKeyForBlock/${studentKey}/${blockKey}/${cellKey}/${eventKey}`] = null;
+        dataToSave[`eventByStudentInCell/${studentKey}/${cellKey}/${eventKey}`] = null;
+        dataToSave[`eventByStudentInBlock/${studentKey}/${blockKey}/${eventKey}`] = null;
+        // Cell
+        dataToSave[`studentsForCell/${cellKey}/${studentKey}`] = null;
+        dataToSave[`studentLearning/${studentKey}/cells/${cellKey}`] = null;
+        return this.fireBaseUpdate(dataToSave);
+        }
+
     }
 
     removeStudentFromCell(studentKey: string, cellKey: string): Promise<any> {
