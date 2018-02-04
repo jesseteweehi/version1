@@ -1,35 +1,56 @@
+<mat-toolbar>
+    <button mat-icon-button color="primary" (click)="goBack()">
+        <mat-icon class="mat-18">navigate_before</mat-icon>
+    </button>
+</mat-toolbar>
+
 <mat-card class="top-card mat-elevation-z0" *ngIf="(student | async) as student">
-    <mat-card-header>
-        <mat-card-title>{{student?.firstName}} {{student?.lastName}}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-    </mat-card-content>
+        <mat-card-header>
+            <mat-card-title><h3>{{student?.firstName}} {{student?.lastName}}</h3></mat-card-title>
+            <mat-card-subtitle>{{student?.yrLvl}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions>
+                <!-- <button mat-icon-button color="primary" (click)="openChat()">
+                    <mat-icon class="mat-18">chat</mat-icon>
+                </button> -->
+        </mat-card-actions>
 </mat-card>
 
 
-<mat-card *ngFor="let group of enrolledGroupKeys">
+<mat-card *ngFor="let group of enrolledGroupKeys.reverse()">
     <mat-card-header>
-        <mat-card-title>{{enrolledGroups[group]?.title}}</mat-card-title>
+        <mat-card-title><h3>{{enrolledGroups[group]?.title}}</h3></mat-card-title>
         <mat-card-subtitle fxLayout="column"> 
-            <span>{{enrolledGroups[group]?.learningYear}}</span>
-            <span>{{learningAreas[enrolledGroups[group]?.learningArea]?.title}}</span>
-            <span>{{enrolledGroups[group]?.learningLevel}}</span>
+            <span class="italics">{{enrolledGroups[group]?.learningYear}}</span>
+            <span><b>{{learningAreas[enrolledGroups[group]?.learningArea]?.title}}</b> - {{enrolledGroups[group]?.learningLevel}}</span>
         </mat-card-subtitle>
         <span class="example-spacer"></span>      
     </mat-card-header>
     <mat-card-content>
         <mat-list dense>
-            <mat-list-item *ngFor="let block of blockArrayForGroupKey[group]">      
+            <mat-list-item *ngFor="let block of blockArrayForGroupKey[group]">
+                {{enrolledBlocks[block]?.isMulti}}      
                 <h2 mat-subheader>{{enrolledBlocks[block]?.title}}</h2>
-                <p>{{enrolledBlocks[block]?.description}}</p>    
+                <p fxShow fxHide.xs="true" fxHide.lg="false">{{enrolledBlocks[block]?.description}}</p>    
                 <span class="example-spacer"></span>
                 <p>{{status[block]}}</p>
-                <a mat-icon-button [routerLink]="['learning',group,block]">
-                    <mat-icon color="primary" class="mat-18">navigate_next</mat-icon>
-                </a> 
+                <a *ngIf="enrolledBlocks[block]?.isMulti; else other" mat-icon-button [routerLink]="['learning',group,block,'true']">
+                        <mat-icon color="primary" class="mat-18">navigate_next</mat-icon>
+                </a>
+                    
+                <ng-template #other> 
+                    <a mat-icon-button [routerLink]="['learning',group,block,'false']">
+                        <mat-icon color="primary" class="mat-18">navigate_next</mat-icon>
+                    </a>
+                </ng-template> 
             </mat-list-item>
         </mat-list>
     </mat-card-content>
+    <mat-card-actions>
+            <!-- <button mat-icon-button color="primary" (click)="openChat(group.key)">
+                <mat-icon class="mat-18">chat</mat-icon>
+            </button> -->
+    </mat-card-actions>
 </mat-card>
 
 <!-- {{ enrolledBlocks | json }} -->

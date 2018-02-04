@@ -1,4 +1,4 @@
-
+{{ warning }}
 <div class="wrapper" [ngStyle]="template()">
     <div class="blank"></div>
     <mat-card class='header' *ngFor="let x of xHeaders; let i = index" [ngStyle]="xheader(i+1)">
@@ -47,14 +47,19 @@
         </mat-card-content>
         <mat-card-content *ngIf="learningEvents">
                 <mat-list dense>
-                        <mat-list-item *ngFor="let event of learningEvents[cell.key]">
-                            <button mat-icon-button (click)="removeEvent(event.key,cell.key)">
-                                <mat-icon class="mat-18">remove</mat-icon>
-                            </button>
+                        <mat-list-item *ngFor="let event of learningEvents[cell.key]" [matMenuTriggerFor]="menu">
                             <h3 mat-subheader>{{event?.context}}</h3>
                             <p></p>    
                             <span class="example-spacer"></span>
                             <p>{{event?.created | date : 'MMM d'}}</p> 
+                            <mat-menu #menu="matMenu">
+                                    <mat-menu #menu="matMenu">
+                                        <button mat-menu-item (click)="removeEvent(event.key,cell.key)">
+                                            <mat-icon> delete </mat-icon>
+                                            <span> Delete </span>
+                                        </button>
+                                    </mat-menu>
+                            </mat-menu>
                         </mat-list-item>
                       </mat-list>
         </mat-card-content>

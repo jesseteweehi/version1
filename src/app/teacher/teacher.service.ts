@@ -223,15 +223,6 @@ constructor(
         return this.fireBaseUpdate(dataToSave);
     }
 
-    // removeStudentsFromCell(studentKeys: string[], cellKey: string): Promise<any> {
-    //     const dataToSave = {};
-    //     studentKeys.forEach(key => {
-    //         dataToSave[`studentsForCell/${cellKey}/${key}`] = null;
-    //         dataToSave[`studentLearning/${key}/cells/${cellKey}`] = null;
-    //     });
-    //     return this.fireBaseUpdate(dataToSave);
-    // }
-
     enrollStudentsInBlock(studentKeys: string[], blockKey: string ): Promise<any> {
         const dataToSave = {};
         studentKeys.forEach(key => {
@@ -247,6 +238,28 @@ constructor(
             dataToSave[`studentsEnrolledForBlock/${blockKey}/${key}`] = null;
             dataToSave[`studentLearning/${key}/enrolled/${blockKey}`] = null;
         });
+        return this.fireBaseUpdate(dataToSave);
+    }
+
+    // createChat(data: any, studentKey: string, groupKey?: string): Promise<any> {
+    //     const itemToSave = Object.assign(
+    //         { created: firebase.database.ServerValue.TIMESTAMP,
+    //           text: data,
+    //           group: groupKey,
+    //         });
+    //     const itemRefKey = this.db.list('/posts').push(data).key;
+    //     const dataToSave = {};
+    //     dataToSave[`postsByStudent/${studentKey}/${itemRefKey}`] = itemToSave;
+    //     if (groupKey) { dataToSave[`postsByStudentByGroup/${studentKey}/${groupKey}/${itemRefKey}`] = itemToSave;
+    //     } else {dataToSave[`generalPostsByStudent/${studentKey}/${itemRefKey}`] = itemToSave; }
+    //     return this.fireBaseUpdate(dataToSave);
+    // }
+
+    createStudentContext(data: any, studentKey:string, blockKey: string): Promise<any> {
+        const itemToSave = Object.assign({ lastModified: firebase.database.ServerValue.TIMESTAMP}, data);
+        const itemRefKey = this.db.list(`/studentContext/${studentKey}/${blockKey}`).push(data).key;
+        const dataToSave = {};
+        dataToSave[`/studentContext/${studentKey}/${blockKey}/${itemRefKey}`] = itemToSave;
         return this.fireBaseUpdate(dataToSave);
     }
 

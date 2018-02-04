@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TeacherService } from '../teacher.service';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router/';
 import { Student, LearningBlock, LearningGroup, Cell } from '../../global/models/classes';
 import { Observable } from 'rxjs/Observable';
@@ -36,6 +37,7 @@ export class StudentLearningItemComponent implements OnInit, OnDestroy {
   learningAreas: object;
 
   constructor(private ts: TeacherService,
+              private location: Location,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -57,9 +59,12 @@ export class StudentLearningItemComponent implements OnInit, OnDestroy {
       .map(changes => changes.map(c => LearningGroup.fromJson(c.key, {...c.payload.val()})))
       .map(LearningGroup.fromJsonToObject);
 
-    const learningAreas = this.ts.findObjectPath('learningArea').map(c => c.payload.val());
+    const learningAreas = this.ts.findObjectPath('learningArea')
+      .takeUntil(this.ngUnsubscribe)
+      .map(c => c.payload.val());
 
     const attainedCells = this.ts.findItemForObjectListWithPath(`studentLearning/${this.studentId}/cells`, 'learningCell')
+      .startWith([])
       .takeUntil(this.ngUnsubscribe)
       .map(changes => changes.map(c =>  {
         if (c.payload) {
@@ -94,11 +99,14 @@ export class StudentLearningItemComponent implements OnInit, OnDestroy {
 
       // Create Status and finalise Blocks to Array
       this.enrolledBlockKeys.forEach(key => {
-        console.log(key);
         this.blockArrayForGroupKey[this.enrolledBlocks[key].parent].push(key);
         if (this.attainedBlockKeys.includes(key)) { this.status[key] = 'In Progress'; } else { this.status[key] = 'Not Started'; }
       });
     }
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   ngOnDestroy() {

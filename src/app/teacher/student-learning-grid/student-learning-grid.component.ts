@@ -1,13 +1,15 @@
+import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { MatSnackBar } from '@angular/material';
-import { Header, Cell, Student, LearningBlock, LearningEvent } from './../../global/models/classes';
-import { Observable } from 'rxjs/Rx';
-import { Subject } from 'rxjs/subject';
-
+import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
+import { Header, Cell, Student, LearningBlock, LearningEvent, StudentContext } from './../../global/models/classes';
+import { StudentContextDialogComponent } from '../forms/student-context-forms.component';
 import { TeacherService } from '../teacher.service';
 
+
+import { Observable } from 'rxjs/Rx';
+import { Subject } from 'rxjs/subject';
 import 'rxjs/add/operator/combineLatest';
 import 'rxjs/add/operator/switchMap';
 
@@ -17,13 +19,17 @@ import 'rxjs/add/operator/switchMap';
   styleUrls: ['./student-learning-grid.component.css']
 })
 export class StudentLearningGridComponent implements OnInit, OnDestroy {
+  DialogRef: MatDialogRef<StudentContextDialogComponent>;
+
   private ngUnsubscribe: Subject<any> = new Subject();
 
   groupId: string;
   blockId: string;
   studentId: string;
+  multiId: boolean;
   block: LearningBlock;
   student: Observable<Student>;
+  context: Observable<StudentContext>;
   eventCount: object = {};
 
   xHeadersList: any[];
@@ -35,6 +41,7 @@ export class StudentLearningGridComponent implements OnInit, OnDestroy {
   constructor(private ts: TeacherService,
               private route: ActivatedRoute,
               private location: Location,
+              private dialog: MatDialog,
               public snackBar: MatSnackBar) { }
 
   ngOnInit() {
@@ -42,8 +49,16 @@ export class StudentLearningGridComponent implements OnInit, OnDestroy {
     this.groupId = this.route.snapshot.params['groupid'];
     this.studentId = this.route.snapshot.params['studentid'];
 
+    if (this.route.snapshot.params['multiid'] === 'true') { this.multiId = true;
+    } else { this.multiId = false; }
+
     this.student = this.ts.findObjectPath(`studentProfile/${this.studentId}`)
       .map(item => Student.fromJson(item.key, {...item.payload.val()}));
+
+    this.context = this.ts.findObjectPath(`studentContext/${this.studentId}/${this.blockId}`)
+      .map(item => StudentContext.fromJson(item.key, {...item.payload.val()}));
+
+    console.log(this.context)
 
     // Event
 
@@ -114,6 +129,27 @@ export class StudentLearningGridComponent implements OnInit, OnDestroy {
           this.learningEvents[element.cell].push(element);
         });
       });
+  }
+
+  add(item?: StudentContext) {
+    this.DialogRef = this.dialog.open(StudentContextDialogComponent, {
+      data: {
+        currentFormValues: item
+      }
+    });
+    this.DialogRef.afterClosed()
+      .filter(x => x !== undefined)
+      .subscribe(x => {
+        if (x.edit) {
+        this.messagefromPromise(this.ts.changeObject(`/studentContext/${this.studentId}/${this.blockId}/${item.key}`, x.data.value));
+        } else {
+        this.messagefromPromise(this.ts.createStudentContext(x.data.value, this.studentId, this.blockId), 'Context Added');
+        }
+      });
+  }
+
+  delete(item: StudentContext) {
+    this.messagefromPromise(this.ts.changeObject(`/studentContext/${this.studentId}/${this.blockId}/${item.key}`), 'Context Deleted')
   }
 
   change($event) {

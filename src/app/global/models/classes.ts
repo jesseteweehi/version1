@@ -1,6 +1,18 @@
 import { Purpose } from './data';
 import { Link } from './interfaces';
 
+export class StudentContext {
+    constructor(
+        public key: string,
+        public lastModified: string,
+        public context: string,
+        public furtherInformationUrl: string
+    ) {}
+    static fromJson(key, {lastModified, context, furtherInformationUrl}): StudentContext {
+        return new StudentContext(key, lastModified, context, furtherInformationUrl);
+    }
+}
+
 export class LearningEvent {
     constructor(
         public key: string,

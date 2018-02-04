@@ -11,7 +11,7 @@
     </mat-card>
     <mat-card class='header' *ngFor="let y of yHeaders; let i = index" [ngStyle]="yheader(i+1)">
         <mat-card-header>
-            <mat-card-title>{{y?.title}}</mat-card-title>
+            <mat-card-title><h2>{{y?.title}}</h2></mat-card-title>
             <span class="example-spacer"></span>      
         </mat-card-header>
         <mat-card-content>
@@ -20,7 +20,6 @@
     </mat-card>
     <!--  -->
     <mat-card *ngFor="let cell of cells; let i = index" [class.highlight]="highlight(cell?.key)">
-        {{ cell?.key }}
         <mat-card-header>
             <mat-card-title>{{cell?.title}}</mat-card-title>
             <span class="example-spacer"></span>                            

@@ -17,18 +17,20 @@ export class GridStudentMultiComponent {
   @Input() attainedCells: any[];
   @Input() eventCount: {};
   @Input() learningEvents: {};
+  @Input() isMulti: boolean;
 
   @Output() contextSend = new EventEmitter();
   @Output() eventRemoveSend = new EventEmitter();
 
   edit = '';
+  warning = '';
 
   add(key) {
     this.edit = key;
   }
 
   removeEvent(eKey: string, cKey: string) {
-    this.eventRemoveSend.emit({ eventKey: eKey, cellKey: cKey})
+    this.eventRemoveSend.emit({ eventKey: eKey, cellKey: cKey});
   }
 
   addContext(c: string, key: string) {

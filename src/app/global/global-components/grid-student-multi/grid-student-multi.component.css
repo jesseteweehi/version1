@@ -61,3 +61,8 @@ hr {
 .highlight90 {
     background-color: #FFEB3B;
 }
+
+mat-list-item:hover {
+    background-color: whitesmoke;
+}
+

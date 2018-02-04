@@ -10,12 +10,14 @@ export class GridStudentComponent {
   @Input() yHeaders: any[];
   @Input() cells: any[];
   @Input() attainedCells: any[];
+  @Input() isMulti: boolean;
 
   @Output() keySend = new EventEmitter();
 
+  warning = '';
 
   change(k: string, b: boolean) {
-    this.keySend.emit({key: k, bool: b });
+   this.keySend.emit({key: k, bool: b });
   }
 
   highlight(key) {

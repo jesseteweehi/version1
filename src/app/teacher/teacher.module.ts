@@ -13,13 +13,13 @@ import { LearningAreaListComponent } from './learning-area-list/learning-area-li
 import { LearningBlockListComponent } from './learning-block-list/learning-block-list.component';
 import { LearningMatrixListComponent } from './learning-matrix-list/learning-matrix-list.component';
 import { StudentListComponent } from './student-list/student-list.component';
-import { SchoolCourseListComponent } from './school-course-list/school-course-list.component';
 
 import { LearningAreaDialogComponent, LearningAreaCreateFormComponent } from './forms/learning-area-forms.component';
 import { LearningGroupCreateFormComponent, LearningGroupDialogComponent } from './forms/learning-group-forms.component';
 import { LearningBlockCreateFormComponent, LearningBlockDialogComponent } from './forms/learning-block-forms.component';
 import { StudentDialogComponent, StudentCreateFormComponent } from './forms/student-forms.component';
-import { SchoolCourseDialogComponent, SchoolCourseCreateFormComponent } from './forms/school-course-forms.component';
+import { StudentContextDialogComponent, StudentContextCreateFormComponent } from './forms/student-context-forms.component';
+
 
 import { LearningMatrixDialogComponent, LearningMatrixCreateFormComponent } from './forms/learning-matrix-forms.component';
 // tslint:disable-next-line:max-line-length
@@ -53,7 +53,6 @@ import { StudentLearningGridComponent } from './student-learning-grid/student-le
     LearningAreaListComponent,
     LearningBlockListComponent,
     LearningMatrixListComponent,
-    SchoolCourseListComponent,
     // Dialog Lists
 
     // Forms
@@ -65,8 +64,7 @@ import { StudentLearningGridComponent } from './student-learning-grid/student-le
     LearningBlockDialogComponent, LearningBlockCreateFormComponent,
     // - Student
     StudentDialogComponent, StudentCreateFormComponent,
-    // - School Course
-    SchoolCourseDialogComponent, SchoolCourseCreateFormComponent,
+    StudentContextDialogComponent, StudentContextCreateFormComponent,
     // - Matrix
     LearningMatrixDialogComponent, LearningMatrixCreateFormComponent,
     // - Matrix Version
@@ -75,12 +73,11 @@ import { StudentLearningGridComponent } from './student-learning-grid/student-le
     LearningMatrixHeaderCreateFormComponent, LearningMatrixHeaderDialogComponent,
     // - Matrix Cell
     LearningMatrixCellCreateFormComponent, LearningMatrixCellDialogComponent,
-
+  
     // Items
     LearningBlockItemComponent,
     LearningMatrixItemComponent,
     StudentListComponent,
-    SchoolCourseListComponent,
     StudentLearningItemComponent,
     StudentLearningGridComponent
 ],
@@ -91,7 +88,7 @@ import { StudentLearningGridComponent } from './student-learning-grid/student-le
     LearningGroupDialogComponent,
     LearningBlockDialogComponent,
     StudentDialogComponent,
-    SchoolCourseDialogComponent,
+    StudentContextDialogComponent,
     // Matrix
     LearningMatrixDialogComponent,
     LearningMatrixVersionDialogComponent,

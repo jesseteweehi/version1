@@ -2,11 +2,16 @@
     <button mat-icon-button color="primary" (click)="goBack()">
         <mat-icon class="mat-18">navigate_before</mat-icon>
     </button>
+    <span class="example-spacer"></span>
+    <button *ngIf="block&&!block?.isMulti" mat-raised-button color="primary" (click)="add()">
+            Create Context
+    </button>
 </mat-toolbar>
 
 <mat-card class="top-card mat-elevation-z0" *ngIf="(student | async) as student">
         <mat-card-header>
-            <mat-card-title>{{student?.firstName}} {{student?.lastName}}</mat-card-title>
+            <mat-card-title><h3>{{student?.firstName}} {{student?.lastName}}</h3></mat-card-title>
+            <mat-card-subtitle>{{student?.yrLvl}}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
         </mat-card-content>
@@ -14,29 +19,41 @@
 
 <mat-card class="top-card mat-elevation-z0" *ngIf="block">
     <mat-card-header>
-        <mat-card-title>{{block?.title}}</mat-card-title>
+            <mat-card-title><b *ngIf="block?.isMulti">Multi</b></mat-card-title>
+       <mat-card-title><h4>{{block?.title}}</h4></mat-card-title>
     </mat-card-header>
     <mat-card-content>
         {{block?.description}}
     </mat-card-content>
 </mat-card>
 
-<app-grid-student-multi
+<mat-card class="mat-elevation-z0" *ngIf="(context | async) as context">
+        <mat-card-content>
+            {{ context?.context }}
+        </mat-card-content>
+</mat-card>
+
+
+
+<app-grid-student-multi *ngIf="multiId; else other"
 [xHeaders]="xHeadersList"
 [yHeaders]="yHeadersList"
 [cells]="cellsList"
 [eventCount]="eventCount"
 [attainedCells]="attainedCells"
+[isMulti]="multiId"
 [learningEvents]="learningEvents"
 (contextSend)="multiAdd($event)"
 (eventRemoveSend)="removeEvent($event)"
 ></app-grid-student-multi>
 
-
+<ng-template #other>
 <app-grid-student
 [xHeaders]="xHeadersList"
 [yHeaders]="yHeadersList"
 [cells]="cellsList"
 [attainedCells]="attainedCells"
+[isMulti]="multiId"
 (keySend)="change($event)"
 ></app-grid-student>
+</ng-template>

@@ -7,7 +7,6 @@ import { LearningBlockItemComponent } from './learning-block-item/learning-block
 import { LearningMatrixListComponent } from './learning-matrix-list/learning-matrix-list.component';
 import { LearningMatrixItemComponent } from './learning-matrix-item/learning-matrix-item.component';
 import { StudentListComponent } from './student-list/student-list.component';
-import { SchoolCourseListComponent } from './school-course-list/school-course-list.component';
 import { StudentLearningItemComponent } from './student-learning-item/student-learning-item.component';
 import { StudentLearningGridComponent } from './student-learning-grid/student-learning-grid.component';
 
@@ -20,12 +19,11 @@ const teacherRoutes: Routes = [
       { path: ':studentid', children: [
         { path: '', component: StudentLearningItemComponent },
         { path: 'learning', children: [
-          { path: ':groupId/:blockid', component: StudentLearningGridComponent },
+          { path: ':groupId/:blockid/:multiid', component: StudentLearningGridComponent },
         ] }
         ]},
       ]
     },
-    { path: 'school-course', component: SchoolCourseListComponent },
     { path: 'group-list',
       children: [
         { path: '', component: LearningGroupListComponent},
