@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subject } from 'rxjs/Rx';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { Student } from './../../global/models/classes';
 import { StudentDialogComponent } from './../forms/student-forms.component';
@@ -10,22 +10,33 @@ import { TeacherService } from '../teacher.service';
   templateUrl: './student-list.component.html',
   styleUrls: ['./student-list.component.css']
 })
-export class StudentListComponent implements OnInit {
+export class StudentListComponent implements OnInit, OnDestroy {
+  private ngUnsubscribe: Subject<any> = new Subject();
+
   DialogRef: MatDialogRef<StudentDialogComponent>;
 
-  items: Observable<Student[]>;
-
-
-
+  items: Student[];
+  filtered: Student[];
 
   constructor(private ts: TeacherService,
               private dialog: MatDialog,
               public snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    this.items = this.ts.findList('studentProfile').map(value => {
+    const items = this.ts.findList('studentProfile')
+      .takeUntil(this.ngUnsubscribe)
+      .map(value => {
       return value.map(c => (Student.fromJson(c.payload.key, {...c.payload.val()})));
     });
+
+    items.subscribe(result => {
+      this.items = result;
+      this.filtered = this.items;
+      });
+  }
+
+  search(s: string) {
+    this.filtered = this.items.filter(j => j.lastName.toLowerCase().includes(s));
   }
 
   add(item?: Student) {
@@ -59,5 +70,10 @@ export class StudentListComponent implements OnInit {
     this.snackBar.open(message, action, {
       duration: 2000,
     });
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

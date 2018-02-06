@@ -25,6 +25,10 @@ constructor(
         return this.db.object(path).snapshotChanges();
     }
 
+    findObjectPathValue(path: string): Observable<any> {
+        return this.db.object(path).valueChanges();
+    }
+
     findObjectKey(path: string, key: string): Observable<any> {
         path = `${path}/${key}`;
         return this.db.object(path).snapshotChanges();
@@ -254,13 +258,10 @@ constructor(
     //     } else {dataToSave[`generalPostsByStudent/${studentKey}/${itemRefKey}`] = itemToSave; }
     //     return this.fireBaseUpdate(dataToSave);
     // }
-
     createStudentContext(data: any, studentKey:string, blockKey: string): Promise<any> {
         const itemToSave = Object.assign({ lastModified: firebase.database.ServerValue.TIMESTAMP}, data);
-        const itemRefKey = this.db.list(`/studentContext/${studentKey}/${blockKey}`).push(data).key;
-        const dataToSave = {};
-        dataToSave[`/studentContext/${studentKey}/${blockKey}/${itemRefKey}`] = itemToSave;
-        return this.fireBaseUpdate(dataToSave);
+        const itemRef = this.db.object(`/studentContext/${studentKey}/${blockKey}`)
+        return itemRef.update(itemToSave)
     }
 
     findItemsForKeyList(path: string, ob: Observable<any[]>): Observable<any> {

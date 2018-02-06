@@ -29,7 +29,7 @@ export class StudentLearningGridComponent implements OnInit, OnDestroy {
   multiId: boolean;
   block: LearningBlock;
   student: Observable<Student>;
-  context: Observable<StudentContext>;
+  context: StudentContext;
   eventCount: object = {};
 
   xHeadersList: any[];
@@ -55,11 +55,12 @@ export class StudentLearningGridComponent implements OnInit, OnDestroy {
     this.student = this.ts.findObjectPath(`studentProfile/${this.studentId}`)
       .map(item => Student.fromJson(item.key, {...item.payload.val()}));
 
-    this.context = this.ts.findObjectPath(`studentContext/${this.studentId}/${this.blockId}`)
-      .map(item => StudentContext.fromJson(item.key, {...item.payload.val()}));
+    const context = this.ts.findObjectPathValue(`studentContext/${this.studentId}/${this.blockId}`)
+      .takeUntil(this.ngUnsubscribe)
+      .filter(x => x !== null)
+      .map(item => StudentContext.fromJson(item));
 
-    console.log(this.context)
-
+    context.subscribe(result => this.context = result)  
     // Event
 
     // Block
@@ -141,7 +142,7 @@ export class StudentLearningGridComponent implements OnInit, OnDestroy {
       .filter(x => x !== undefined)
       .subscribe(x => {
         if (x.edit) {
-        this.messagefromPromise(this.ts.changeObject(`/studentContext/${this.studentId}/${this.blockId}/${item.key}`, x.data.value));
+        this.messagefromPromise(this.ts.changeObject(`/studentContext/${this.studentId}/${this.blockId}`, x.data.value));
         } else {
         this.messagefromPromise(this.ts.createStudentContext(x.data.value, this.studentId, this.blockId), 'Context Added');
         }

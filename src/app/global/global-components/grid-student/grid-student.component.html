@@ -28,10 +28,10 @@
             {{cell?.description}}
         </mat-card-content>
         <mat-card-actions>
-            <button mat-icon-button (click)="change(cell.key, true)">
+            <button *ngIf="!highlight(cell?.key)" mat-icon-button (click)="change(cell.key, true)">
                 <mat-icon color="primary" class="mat-18">add</mat-icon>
             </button> 
-            <button mat-icon-button (click)="change(cell.key, false)">
+            <button *ngIf="highlight(cell?.key)" mat-icon-button (click)="change(cell.key, false)">
                 <mat-icon color="primary" class="mat-18">remove</mat-icon>
             </button> 
         </mat-card-actions>

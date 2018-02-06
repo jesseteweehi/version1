@@ -24,7 +24,7 @@
   </mat-card>
   <mat-card class='header' *ngFor="let y of yHeaders; let i = index" [ngStyle]="yheader(i+1)">
       <mat-card-header>
-          <mat-card-title>{{y?.title}}</mat-card-title>
+          <mat-card-title><h2>{{y?.title}}</h2></mat-card-title>
           <span class="example-spacer"></span>
           <button *ngIf="canEdit" mat-icon-button [matMenuTriggerFor]="menu">
               <mat-icon>more_vert</mat-icon>

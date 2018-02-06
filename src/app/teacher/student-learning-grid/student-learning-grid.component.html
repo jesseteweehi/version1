@@ -3,11 +3,11 @@
         <mat-icon class="mat-18">navigate_before</mat-icon>
     </button>
     <span class="example-spacer"></span>
-    <button *ngIf="block&&!block?.isMulti" mat-raised-button color="primary" (click)="add()">
-            Create Context
+    <button *ngIf="block&&!block?.isMulti" mat-raised-button color="primary" (click)="add(context)">
+            Context
     </button>
 </mat-toolbar>
-
+<div fxLayout="row" fxLayout.xs="column">
 <mat-card class="top-card mat-elevation-z0" *ngIf="(student | async) as student">
         <mat-card-header>
             <mat-card-title><h3>{{student?.firstName}} {{student?.lastName}}</h3></mat-card-title>
@@ -16,24 +16,27 @@
         <mat-card-content>
         </mat-card-content>
 </mat-card>
-
 <mat-card class="top-card mat-elevation-z0" *ngIf="block">
     <mat-card-header>
             <mat-card-title><b *ngIf="block?.isMulti">Multi</b></mat-card-title>
-       <mat-card-title><h4>{{block?.title}}</h4></mat-card-title>
+       <mat-card-title><h3>{{block?.title}}</h3></mat-card-title>
     </mat-card-header>
     <mat-card-content>
         {{block?.description}}
     </mat-card-content>
 </mat-card>
-
-<mat-card class="mat-elevation-z0" *ngIf="(context | async) as context">
-        <mat-card-content>
-            {{ context?.context }}
+<mat-card class="top-card  mat-elevation-z0" *ngIf="context">
+        <mat-card-header fxLayout="row" fxLayout.xs="column">
+            <h5>{{context.lastModified | date}}</h5>
+            <a *ngIf="context.furtherInformationUrl" href="{{context.furtherInformationUrl}}" target="_blank" mat-icon-button>
+                <mat-icon class="mat-18">link</mat-icon>
+            </a>
+        </mat-card-header>
+        <mat-card-content >
+                <p class="italics">{{context.context}}</p>   
         </mat-card-content>
 </mat-card>
-
-
+</div>
 
 <app-grid-student-multi *ngIf="multiId; else other"
 [xHeaders]="xHeadersList"

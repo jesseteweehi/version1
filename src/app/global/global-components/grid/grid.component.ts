@@ -9,7 +9,7 @@ export class GridComponent {
   @Input() xHeaders: any[];
   @Input() yHeaders: any[];
   @Input() cells: any[];
-  @Input() canEdit: Boolean = false;
+  @Input() canEdit: Boolean = true;
 
   @Output() editSend = new EventEmitter();
   @Output() deleteSend = new EventEmitter();

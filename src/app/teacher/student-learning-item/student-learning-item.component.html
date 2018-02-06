@@ -28,8 +28,7 @@
     </mat-card-header>
     <mat-card-content>
         <mat-list dense>
-            <mat-list-item *ngFor="let block of blockArrayForGroupKey[group]">
-                {{enrolledBlocks[block]?.isMulti}}      
+            <mat-list-item *ngFor="let block of blockArrayForGroupKey[group]">    
                 <h2 mat-subheader>{{enrolledBlocks[block]?.title}}</h2>
                 <p fxShow fxHide.xs="true" fxHide.lg="false">{{enrolledBlocks[block]?.description}}</p>    
                 <span class="example-spacer"></span>

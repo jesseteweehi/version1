@@ -115,11 +115,3 @@ export class StudentLearningItemComponent implements OnInit, OnDestroy {
   }
 
 }
-
-
-// return this.findItemsForKeyList(objectPath, this.findObjectPath(`${listPath}/${listKey}`)
-// .map(c => {
-//     if (c.payload.val()) {
-//         return Object.keys(c.payload.val());
-//     }
-// }));

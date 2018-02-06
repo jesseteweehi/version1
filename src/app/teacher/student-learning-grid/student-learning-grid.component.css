@@ -10,3 +10,8 @@ b {
     border-radius: 3px;
     text-transform: uppercase;
   }
+
+mat-card-header h5 {
+  margin-right: 10px;
+  margin-bottom: 2px;
+}
