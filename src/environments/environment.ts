@@ -11,5 +11,11 @@ export const environment = {
     databaseURL: 'https://tracking-app-77db8.firebaseio.com',
     storageBucket: 'tracking-app-77db8.appspot.com',
     messagingSenderId: '285724076007'
-	}
+  },
+  algolia: {
+    appId: 'K575X84D0R',
+    apiKey: '83115315628f2f41a985f13b4e0c38ae',
+    indexName: 'student',
+    urlSync: false
+  }
 };

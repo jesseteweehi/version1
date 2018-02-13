@@ -9,10 +9,13 @@ import { LearningMatrixItemComponent } from './learning-matrix-item/learning-mat
 import { StudentListComponent } from './student-list/student-list.component';
 import { StudentLearningItemComponent } from './student-learning-item/student-learning-item.component';
 import { StudentLearningGridComponent } from './student-learning-grid/student-learning-grid.component';
+import { StudentSearchComponent } from './search-student';
+import { StudentClientSearchComponent } from './search-student-2';
 
 
 const teacherRoutes: Routes = [
-    { path: '', pathMatch: 'full', redirectTo: 'student-list' },
+    { path: '', pathMatch: 'full', redirectTo: 'group-list' },
+    // { path: 'search', component: StudentFuseSearchComponent },
     { path: 'area-list', component: LearningAreaListComponent },
     { path: 'student-list', children : [
       { path: '', component: StudentListComponent },

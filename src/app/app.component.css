@@ -1,0 +1,21 @@
+mat-drawer {
+    width: 300px;
+}
+
+mat-drawer-container {
+    min-height: 100vh;
+}
+
+mat-drawer-content {
+    padding: 3px;
+}
+
+.wrapper {
+	height: 100vh;
+	width: 100%;
+	background: url('/assets/studentlarge.jpg') no-repeat center center fixed;
+	background-size: cover;
+	-webkit-background-size: cover;
+ 	 -moz-background-size: cover;
+  	-o-background-size: cover;
+}

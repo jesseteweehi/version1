@@ -1,6 +1,33 @@
 import { Purpose } from './data';
 import { Link } from './interfaces';
 
+interface Roles {
+    admin?: boolean;
+    teacher?: boolean;
+    student?: boolean;
+    other?: boolean;
+
+}
+
+interface Profile {
+    email: string;
+    photoUrl: string;
+    displayName: string;
+}
+
+export class UserProfile {
+    constructor(
+        public key: string,
+        public profile: Profile,
+        public role: Roles
+    ) {}
+    static fromJson(key, {profile, role }): UserProfile {
+        return new UserProfile(key, profile, role);
+    }
+}
+
+
+
 export class StudentContext {
     constructor(
         public lastModified: string,

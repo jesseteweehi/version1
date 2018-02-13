@@ -1,6 +1,4 @@
-import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { Header, Cell, Student, LearningBlock, LearningEvent, StudentContext } from './../../global/models/classes';
@@ -12,6 +10,7 @@ import { Observable } from 'rxjs/Rx';
 import { Subject } from 'rxjs/subject';
 import 'rxjs/add/operator/combineLatest';
 import 'rxjs/add/operator/switchMap';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-student-learning-grid',
@@ -41,13 +40,25 @@ export class StudentLearningGridComponent implements OnInit, OnDestroy {
   constructor(private ts: TeacherService,
               private route: ActivatedRoute,
               private location: Location,
+              private router: Router,
               private dialog: MatDialog,
-              public snackBar: MatSnackBar) { }
+              public snackBar: MatSnackBar) { 
+              }
 
   ngOnInit() {
-    this.blockId = this.route.snapshot.params['blockid'];
-    this.groupId = this.route.snapshot.params['groupid'];
-    this.studentId = this.route.snapshot.params['studentid'];
+    this.route.params.subscribe(params => {
+      this.studentId = params['studentid'];
+    });
+    this.route.params.subscribe(params => {
+      this.blockId = params['blockid'];
+    });
+    this.route.params.subscribe(params => {
+      this.groupId = params['groupid'];
+    });
+
+    // this.blockId = this.route.snapshot.params['blockid'];
+    // this.groupId = this.route.snapshot.params['groupid'];
+    // this.studentId = this.route.snapshot.params['studentid'];
 
     if (this.route.snapshot.params['multiid'] === 'true') { this.multiId = true;
     } else { this.multiId = false; }
@@ -60,7 +71,7 @@ export class StudentLearningGridComponent implements OnInit, OnDestroy {
       .filter(x => x !== null)
       .map(item => StudentContext.fromJson(item));
 
-    context.subscribe(result => this.context = result)  
+    context.subscribe(result => this.context = result);
     // Event
 
     // Block
@@ -150,7 +161,7 @@ export class StudentLearningGridComponent implements OnInit, OnDestroy {
   }
 
   delete(item: StudentContext) {
-    this.messagefromPromise(this.ts.changeObject(`/studentContext/${this.studentId}/${this.blockId}/${item.key}`), 'Context Deleted')
+    this.messagefromPromise(this.ts.changeObject(`/studentContext/${this.studentId}/${this.blockId}`), 'Context Deleted')
   }
 
   change($event) {

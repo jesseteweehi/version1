@@ -35,6 +35,11 @@ import { LearningMatrixItemComponent } from './learning-matrix-item/learning-mat
 import { StudentLearningItemComponent } from './student-learning-item/student-learning-item.component';
 import { StudentLearningGridComponent } from './student-learning-grid/student-learning-grid.component';
 
+import { StudentSearchComponent, SearchBoxComponent, HitsComponent, InstantSearchService } from './search-student';
+import { StudentClientSearchComponent } from './search-student-2';
+
+
+
 
 @NgModule({
   imports: [
@@ -73,16 +78,21 @@ import { StudentLearningGridComponent } from './student-learning-grid/student-le
     LearningMatrixHeaderCreateFormComponent, LearningMatrixHeaderDialogComponent,
     // - Matrix Cell
     LearningMatrixCellCreateFormComponent, LearningMatrixCellDialogComponent,
-  
+
     // Items
     LearningBlockItemComponent,
     LearningMatrixItemComponent,
     StudentListComponent,
     StudentLearningItemComponent,
-    StudentLearningGridComponent
+    StudentLearningGridComponent,
+    // Search
+    StudentSearchComponent,
+    SearchBoxComponent,
+    HitsComponent,
+    StudentClientSearchComponent,
 ],
   exports: [LearningGroupListComponent],
-  providers: [TeacherService],
+  providers: [TeacherService, InstantSearchService],
   entryComponents: [
     LearningAreaDialogComponent,
     LearningGroupDialogComponent,

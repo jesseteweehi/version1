@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { TeacherService } from '../teacher.service';
 import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router/';
+import { ActivatedRoute, Params } from '@angular/router/';
 import { Student, LearningBlock, LearningGroup, Cell } from '../../global/models/classes';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/subject';
@@ -10,6 +10,7 @@ import * as _ from 'lodash';
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/combineLatest';
+import { Router, NavigationEnd } from '@angular/router';
 
 
 
@@ -18,7 +19,7 @@ import 'rxjs/add/operator/combineLatest';
   templateUrl: './student-learning-item.component.html',
   styleUrls: ['./student-learning-item.component.css']
 })
-export class StudentLearningItemComponent implements OnInit, OnDestroy {
+export class StudentLearningItemComponent implements  OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
 
   studentId: string;
@@ -37,11 +38,38 @@ export class StudentLearningItemComponent implements OnInit, OnDestroy {
   learningAreas: object;
 
   constructor(private ts: TeacherService,
-              private location: Location,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private router: Router) {
+                this.router.events.subscribe((e: any) => {
+                  // If it is a NavigationEnd event re-initalise the component
+                  if (e instanceof NavigationEnd) {
+                    this.studentId = '';
+                    this.initialiseInvites();
+                  }
+                });
+              }
 
-  ngOnInit() {
-    this.studentId = this.route.snapshot.params['studentid'];
+  initialiseInvites() {
+    this.route.params.subscribe(params => {
+      this.studentId = params['studentid'];
+      this.load();
+    });
+  }
+
+  load() {
+    this.enrolledBlocks = null;
+    this.enrolledGroups = null;
+    this.attainedCells = null;
+    this.learningAreas = null;
+
+    this.enrolledGroupKeys = [];
+    this.enrolledBlockKeys = [];
+    this.attainedBlockKeys = [];
+    this.attainedCellsKeys = [];
+    this.status = {};
+    this.blockArrayForGroupKey = {};
+
+
 
     this.student = this.ts.findObjectPath(`studentProfile/${this.studentId}`)
       .map(item => Student.fromJson(item.key, {...item.payload.val()}));
@@ -103,10 +131,6 @@ export class StudentLearningItemComponent implements OnInit, OnDestroy {
         if (this.attainedBlockKeys.includes(key)) { this.status[key] = 'In Progress'; } else { this.status[key] = 'Not Started'; }
       });
     }
-  }
-
-  goBack(): void {
-    this.location.back();
   }
 
   ngOnDestroy() {

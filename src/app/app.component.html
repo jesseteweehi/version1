@@ -1,10 +1,63 @@
-<mat-toolbar color="primary">
-    <a routerLink="/teacher/student-list" mat-button>Students</a>
-    <a routerLink="/teacher/group-list" mat-button>Learning Areas</a>
-    <a routerLink="/teacher/matrix-list" mat-button>Matrices</a>
+<div *ngIf="auth.user$ | async as user">
+    {{ user | json }}
+</div>
+
+<div *ngIf="auth.user$ | async; then authenticated else guest">
+        <!-- template will replace this div -->
+</div>
+
+<ng-template #authenticated>
+        <mat-toolbar color="primary">
+                <button mat-icon-button (click)="drawer.toggle()">
+                    <mat-icon class="mat-18">menu</mat-icon>
+                </button>
+                <a fxShow.xs="false" routerLink="/teacher/group-list" mat-button>Learning Areas</a>
+                <a fxShow.xs="false" routerLink="/teacher/matrix-list" mat-button>Matrices</a>
+                
+            
+            
+                <span class="example-spacer"></span>
+                <button mat-button *ngIf="auth.user$ | async as user" [matMenuTriggerFor]="menu">{{user.profile.email}}</button>
+                    <mat-menu #menu="matMenu">
+                    <a *ngIf="user?.role.admin === true" href="" mat-button>Link</a>
+                    <mat-divider></mat-divider>
+                    <button mat-menu-item>Profile</button>
+                    <button mat-menu-item (click)="auth.logout()">Logout</button>
+                    </mat-menu>        
+                </mat-toolbar>
+            
+            
+            <mat-drawer-container>
+                    <mat-drawer #drawer mode="side" opened="true">
+                        <div fxShow="false" fxShow.xs="show" fxLayout="column">
+                        <a routerLink="/teacher/group-list" mat-button>Learning Areas</a>
+                        <a routerLink="/teacher/matrix-list" mat-button>Matrices</a>
+                        </div>
+                        
+                        <app-fuse-search></app-fuse-search>
+                    </mat-drawer>
+                    <mat-drawer-content>
+                     
+                        <router-outlet></router-outlet>
+            
+                    </mat-drawer-content>
+            </mat-drawer-container>
+            
+</ng-template>
+
+<ng-template #guest>
+    <mat-toolbar color="primary">
+        <span class="example-spacer"></span>
+        <button mat-icon-button (click)="auth.login()">
+            <mat-icon class="mat-18">person</mat-icon>
+        </button>   
+    </mat-toolbar>
+    <div class="wrapper">
+    </div>
+
+</ng-template>
 
 
-    <span class="example-spacer"></span>
-</mat-toolbar>
 
-<router-outlet></router-outlet>
+
+
