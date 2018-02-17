@@ -3,8 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 const appRoutes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'teacher' },
-    { path: 'teacher', loadChildren: 'app/teacher/teacher.module#TeacherModule', runGuardsAndResolvers: 'always',
-  },
+    { path: 'teacher', loadChildren: 'app/teacher/teacher.module#TeacherModule', runGuardsAndResolvers: 'always' },
+    { path: 'admin', loadChildren: 'app/admin/admin.module#AdminModule', runGuardsAndResolvers: 'always' },
 ];
 
 

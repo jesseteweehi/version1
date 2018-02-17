@@ -23,7 +23,7 @@ import 'rxjs/add/operator/debounceTime';
     </mat-list-item>
 </mat-list>
     `,
-    styles[`
+    styles: [`
     mat-list-item:hover {
         background-color: whitesmoke;
     }

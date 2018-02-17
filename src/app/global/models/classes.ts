@@ -1,12 +1,12 @@
 import { Purpose } from './data';
 import { Link } from './interfaces';
 
+
+
 interface Roles {
     admin?: boolean;
     teacher?: boolean;
-    student?: boolean;
-    other?: boolean;
-
+    subscriber?: boolean;
 }
 
 interface Profile {
