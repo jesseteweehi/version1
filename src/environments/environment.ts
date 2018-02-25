@@ -4,18 +4,12 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false,
+  production: true,
   firebase: {
     apiKey: 'AIzaSyBLF6Pyh4BJPYhQlhO6ZiqBIdQYROec0AI',
     authDomain: 'tracking-app-77db8.firebaseapp.com',
     databaseURL: 'https://tracking-app-77db8.firebaseio.com',
     storageBucket: 'tracking-app-77db8.appspot.com',
     messagingSenderId: '285724076007'
-  },
-  algolia: {
-    appId: 'K575X84D0R',
-    apiKey: '83115315628f2f41a985f13b4e0c38ae',
-    indexName: 'student',
-    urlSync: false
   }
 };

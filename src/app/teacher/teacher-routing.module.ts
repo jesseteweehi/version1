@@ -9,12 +9,12 @@ import { LearningMatrixItemComponent } from './learning-matrix-item/learning-mat
 import { StudentListComponent } from './student-list/student-list.component';
 import { StudentLearningItemComponent } from './student-learning-item/student-learning-item.component';
 import { StudentLearningGridComponent } from './student-learning-grid/student-learning-grid.component';
-import { StudentSearchComponent } from './search-student';
-import { StudentClientSearchComponent } from './search-student-2';
+import { CohortsCreateListComponent } from './cohorts-create-list/cohorts-create-list.component';
 
 
 const teacherRoutes: Routes = [
-    { path: '', pathMatch: 'full', redirectTo: 'group-list' },
+    { path: '', pathMatch: 'full', redirectTo: 'cohort-list' },
+    { path: 'cohort-list', component: CohortsCreateListComponent },
     // { path: 'search', component: StudentFuseSearchComponent },
     { path: 'area-list', component: LearningAreaListComponent },
     { path: 'student-list', children : [

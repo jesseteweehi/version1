@@ -14,8 +14,8 @@
       <button *ngIf="block?.isMulti" mat-raised-button color="primary" (click)="multi(false)">Multi Off</button> 
     </div>
     <div *ngIf="block?.isLocked"> 
-        <button class="space" mat-raised-button (click)="enroll()">Enroll </button>
-        <button class="space" mat-raised-button (click)="unenroll()">Unenroll </button>
+        <button *ngIf="auth.admin(user)" class="space" mat-raised-button (click)="enroll()">Enroll </button>
+        <button *ngIf="auth.admin(user)" class="space" mat-raised-button (click)="unenroll()">Unenroll </button>
     </div>
   </div>
 </mat-toolbar>
@@ -80,6 +80,4 @@
 [yHeaders]="yHeadersList"
 [cells]="cellsList"
 [actions]="false"
-(addStudentsSend)="addStudents($event)"
-(seeStudentsSend)="seeStudents($event)" 
 ></app-grid-key>

@@ -49,3 +49,6 @@ export const Ethnicity = [
  '129 Other European',
  '111 NZ European/Pakeha'
 ];
+
+// tslint:disable-next-line:max-line-length
+export const urlvalid = '/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/';

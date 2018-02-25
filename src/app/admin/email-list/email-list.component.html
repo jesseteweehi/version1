@@ -6,7 +6,7 @@
 
 <mat-list dense>
     <mat-list-item *ngFor="let item of items">
-        <h3 mat-subheader>{{item}}</h3>
+        <h3 mat-subheader>{{item.email}}</h3>
         <span class="example-spacer"></span>
         <button mat-icon-button (click)="delete(item)">
             <mat-icon class="mat-18">delete</mat-icon>

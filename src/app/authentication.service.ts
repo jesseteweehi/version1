@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/Rx';
@@ -8,7 +8,7 @@ import 'rxjs/add/operator/switchMap';
 
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
-import * as firebase from 'firebase'
+import * as firebase from 'firebase';
 import { UserProfile } from './global/models/classes';
 
 
@@ -16,7 +16,7 @@ import { UserProfile } from './global/models/classes';
 
 @Injectable()
 export class AuthenticationService {
-    user$: BehaviorSubject<UserProfile> = new BehaviorSubject(null)
+    user$: BehaviorSubject<UserProfile> = new BehaviorSubject(null);
 
     constructor(private db: AngularFireDatabase,
         private afAuth: AngularFireAuth,
@@ -73,10 +73,14 @@ export class AuthenticationService {
      // determines if user has matching role
 
     private checkAuthorization(user: UserProfile, allowedRoles: string[]): boolean {
+    if (!user) {
+        return false;
+    } else {
     for (const role of allowedRoles) {
         if ( user.role[role] ) {
             return true;
             }
         }   return false;
+        }
     }
 }

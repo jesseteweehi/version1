@@ -1,4 +1,3 @@
-import { UserProfile } from './../../global/models/classes';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/subject';
@@ -14,6 +13,7 @@ import { UserProfile } from '../../global/models/classes';
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css']
 })
+
 export class UserListComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
 
@@ -27,10 +27,29 @@ export class UserListComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.as.findListValue(`users`)
+    this.as.findList(`/users`)
       .takeUntil(this.ngUnsubscribe)
+      .do(console.log)
       .map(changes => changes.map(c => UserProfile.fromJson(c.payload.key, {...c.payload.val()} )))
+      .do(console.log)
       .subscribe(result => this.items = result);
+  }
+
+  add(item: UserProfile) {
+    this.DialogRef = this.dialog.open(UserDialogComponent, {
+      data: {
+        currentFormValues: item
+      }
+    });
+    this.DialogRef.afterClosed()
+      .filter(x => x !== undefined)
+      .subscribe(x => {
+        this.messagefromPromise(this.as.changeObject(`/users/${item.key}`, x.data.value));
+      });
+  }
+
+  delete(item: UserProfile) {
+    this.messagefromPromise(this.as.changeObject(`/users/${item.key}`), 'User Deleted')
   }
 
   messagefromPromise(data: Promise<any>, success = 'Success', error = 'Bugger') {

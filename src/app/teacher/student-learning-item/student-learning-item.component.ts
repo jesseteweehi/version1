@@ -1,3 +1,4 @@
+import { DefaultRouteReuseStrategy } from '@angular/router/src/route_reuse_strategy';
 import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { TeacherService } from '../teacher.service';
 import { Location } from '@angular/common';
@@ -10,16 +11,22 @@ import * as _ from 'lodash';
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/combineLatest';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router } from '@angular/router';
 
-
+// export declare class DefaultRouteReuseStrategy implements RouteReuseStrategy {
+//   shouldDetach(route: ActivatedRouteSnapshot): boolean;
+//   store(route: ActivatedRouteSnapshot, detachedTree: DetachedRouteHandle): void;
+//   shouldAttach(route: ActivatedRouteSnapshot): boolean;
+//   retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle | null;
+//   shouldReuseRoute(future: ActivatedRouteSnapshot, curr: ActivatedRouteSnapshot): boolean;
+// }
 
 @Component({
   selector: 'app-student-learning-item',
   templateUrl: './student-learning-item.component.html',
   styleUrls: ['./student-learning-item.component.css']
 })
-export class StudentLearningItemComponent implements  OnDestroy {
+export class StudentLearningItemComponent implements  OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
 
   studentId: string;
@@ -40,36 +47,15 @@ export class StudentLearningItemComponent implements  OnDestroy {
   constructor(private ts: TeacherService,
               private route: ActivatedRoute,
               private router: Router) {
-                this.router.events.subscribe((e: any) => {
-                  // If it is a NavigationEnd event re-initalise the component
-                  if (e instanceof NavigationEnd) {
-                    this.studentId = '';
-                    this.initialiseInvites();
-                  }
-                });
-              }
-
-  initialiseInvites() {
+                this.router.routeReuseStrategy.shouldReuseRoute = function(){
+                  return false; };
+           }
+  ngOnInit() {
     this.route.params.subscribe(params => {
       this.studentId = params['studentid'];
-      this.load();
+      // this.router.navigated = false;
+      // this.router.navigate([this.router.url]);
     });
-  }
-
-  load() {
-    this.enrolledBlocks = null;
-    this.enrolledGroups = null;
-    this.attainedCells = null;
-    this.learningAreas = null;
-
-    this.enrolledGroupKeys = [];
-    this.enrolledBlockKeys = [];
-    this.attainedBlockKeys = [];
-    this.attainedCellsKeys = [];
-    this.status = {};
-    this.blockArrayForGroupKey = {};
-
-
 
     this.student = this.ts.findObjectPath(`studentProfile/${this.studentId}`)
       .map(item => Student.fromJson(item.key, {...item.payload.val()}));
@@ -110,7 +96,7 @@ export class StudentLearningItemComponent implements  OnDestroy {
       this.attainedCells = result[3];
       this.calculate();
      });
-  }
+}
 
   calculate() {
     if (this.enrolledBlocks && this.enrolledGroups && this.attainedCells) {

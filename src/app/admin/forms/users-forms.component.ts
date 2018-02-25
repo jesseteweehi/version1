@@ -30,27 +30,28 @@ export class UserDialogComponent {
     template: `
     <form novalidate [formGroup]="form">
     <h4 class="mat-typography subheading-1">{{heading}}</h4>
+    <div formGroupName="profile">
       <mat-input-container class="full-width" floatPlaceholder="auto">
-          <input matInput formControlName="profile.email"
+          <input matInput formControlName="email"
                  type="text"
-                 required
-                 placeholder="email">
+                 placeholder="Email Address">
       </mat-input-container>
       <mat-input-container class="full-width" floatPlaceholder="auto">
-          <input matInput formControlName="profile.photoUrl"
+          <input matInput formControlName="photoUrl"
                  type="text"
-                 required
-                 placeholder="Photo URL">
+                 placeholder="Link to Photo">
       </mat-input-container>
       <mat-input-container class="full-width" floatPlaceholder="auto">
-          <input matInput formControlName="profile.displayName"
+          <input matInput formControlName="displayName"
                  type="text"
-                 required
-                 placeholder="displayName">
+                 placeholder="Display Name">
       </mat-input-container>
-      <mat-radio-button value="true" formControlName="role.admin"></mat-radio-button>
-      <mat-radio-button value="true" formControlName="role.teacher"></mat-radio-button>
-      <mat-radio-button value="true" formControlName="role.subscriber"></mat-radio-button>
+      </div>
+      <div fxLayout="column" formGroupName="role">
+      <mat-checkbox formControlName="admin" value="false" color="primary">Administrator</mat-checkbox>
+      <mat-checkbox formControlName="teacher" value="false" color="primary">Teacher</mat-checkbox>
+      <mat-checkbox formControlName="subscriber" value="false" color="primary">Subscriber</mat-checkbox>
+      </div>
       <button mat-dialog-close mat-button (click)="save()" color="primary">Save</button>
     </form>
     `,
@@ -62,15 +63,17 @@ export class UserDialogComponent {
     .full-width {
       width: 100%;
     }
+    button {
+        margin-top: 20px;
+    }
     `]
   })
 
   export class UserCreateFormComponent implements OnInit {
-    @Input() currentFormValues?: UserProfile;
+    @Input() currentFormValues: UserProfile;
     @Output() formToSend = new EventEmitter();
     form: FormGroup;
-    heading = 'Add Learning Area';
-    edit: Boolean = false;
+    heading = 'Edit User';
 
     constructor(private fb: FormBuilder) {
      }
@@ -80,12 +83,12 @@ export class UserDialogComponent {
         profile: this.fb.group({
           email: '',
           photoUrl: '',
-          displayName: '',
+          displayName: 'No Name',
         }),
         role: this.fb.group({
-          admin: null,
-          teacher: null,
-          subscriber: null,
+          admin: false,
+          teacher: false,
+          subscriber: false,
         }),
       });
 
@@ -94,11 +97,10 @@ export class UserDialogComponent {
       }
     }
 
-    save() {this.formToSend.emit({data: this.form, edit: this.edit}); }
+    save() {this.formToSend.emit({data: this.form}); }
 
     setFormValues() {
-      this.edit = true;
-      this.form.setValue({ profile : {
+      this.form.patchValue({ profile : {
         email: this.currentFormValues.profile.email,
         photoUrl: this.currentFormValues.profile.photoUrl,
         displayName: this.currentFormValues.profile.displayName, },

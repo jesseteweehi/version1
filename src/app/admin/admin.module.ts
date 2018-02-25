@@ -13,8 +13,7 @@ import { EmailListComponent } from './email-list/email-list.component';
 import { UserListComponent } from './user-list/user-list.component';
 
 import { EmailCreateFormComponent, EmailDialogComponent } from './forms/email-forms.component';
-
-
+import { UserCreateFormComponent, UserDialogComponent } from './forms/users-forms.component';
 
 @NgModule({
   imports: [
@@ -33,9 +32,11 @@ import { EmailCreateFormComponent, EmailDialogComponent } from './forms/email-fo
     UserListComponent,
     EmailListComponent,
     EmailCreateFormComponent,
-    EmailDialogComponent
+    EmailDialogComponent,
+    UserCreateFormComponent,
+    UserDialogComponent
   ],
   providers: [AdminService],
-  entryComponents: [EmailDialogComponent]
+  entryComponents: [EmailDialogComponent, UserDialogComponent]
 })
 export class AdminModule {}

@@ -2,29 +2,33 @@
     {{ user | json }}
 </div> -->
 
-{{ user | json}}
-
-<div *ngIf="(auth.user$ | async) as user; then authenticated else guest">
+<div *ngIf="user; then authenticated else guest">
         <!-- template will replace this div -->
 </div>
 
 <ng-template #authenticated>
+        <div *ngIf="user">
         <div *ngIf="auth.teacher(user)">
             <mat-toolbar color="primary">
                 <button mat-icon-button (click)="drawer.toggle()">
                     <mat-icon class="mat-18">menu</mat-icon>
                 </button>
                 <a fxShow.xs="false" routerLink="/teacher/group-list" mat-button>Learning Areas</a>
-                <a fxShow.xs="false" routerLink="/teacher/matrix-list" mat-button>Matrices</a>
                 
             
             
                 <span class="example-spacer"></span>
                 <button mat-button [matMenuTriggerFor]="menu">{{user.profile.email}}</button>
                     <mat-menu #menu="matMenu">
+                    <a *ngIf="auth.admin(user)" routerLink="/teacher/matrix-list" mat-menu-item>Matrices</a>
+                    <a *ngIf="auth.admin(user)" routerLink="/teacher/area-list" mat-menu-item>Areas</a>
+                    <a *ngIf="auth.admin(user)" routerLink="/teacher/cohort-list" mat-menu-item>Cohorts</a>
+                    <mat-divider *ngIf="auth.admin(user)"></mat-divider>
+
                     <a *ngIf="auth.admin(user)" routerLink="/admin/user-list" mat-menu-item>Users</a>
                     <a *ngIf="auth.admin(user)" routerLink="/admin/email-list" mat-menu-item>Allowed Emails</a>
-                    <mat-divider></mat-divider>
+                    
+                    <mat-divider *ngIf="auth.admin(user)"></mat-divider>
                     <button mat-menu-item>Profile</button>
                     <button mat-menu-item (click)="auth.logout()">Logout</button>
                     </mat-menu>        
@@ -48,6 +52,11 @@
         <div *ngIf="auth.subscriber(user)">
             <p>Please see your Administrator to give you rights to this application</p>
         </div>
+        </div>
+        <div *ngIf="!user">
+            <p>Loading</p>
+        </div>
+    
 
 
             

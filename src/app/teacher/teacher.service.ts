@@ -3,8 +3,9 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { FirebaseApp } from 'angularfire2';
 import * as firebase from 'firebase';
 import { Subject } from 'rxjs/subject';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { database } from 'firebase/app';
+import { Student } from '../global/models/classes';
 
 
 @Injectable()
@@ -113,6 +114,25 @@ constructor(
         return this.fireBaseUpdate(dataToSave);
     }
 
+    saveCohortData(data: any, studentKeys: string[]): Promise<any> {
+        const itemToSave = Object.assign({ lastModified: firebase.database.ServerValue.TIMESTAMP}, data);
+        const itemRefKey = this.db.list('/cohort').push(data).key;
+        const dataToSave = {};
+        dataToSave[`cohort/${itemRefKey}`] = itemToSave;
+        studentKeys.forEach(student => {
+            dataToSave[`studentsForCohort/${itemRefKey}/${student}`] = true;
+        });
+        return this.fireBaseUpdate(dataToSave);
+    }
+
+    deleteStudentsFromCohort(cohortKey: string, studentKeys: string[]): Promise<any> {
+        const dataToSave = {};
+        studentKeys.forEach(key => {
+            dataToSave[`studentsForCohort/${cohortKey}/${key}`] = null;
+        });
+        return this.fireBaseUpdate(dataToSave);
+    }
+
     saveLearningMatrixData(key: string, xheaders: any[], yheaders: any[], cells: any[]): Promise<any> {
         const xHeaderObject = {};
         const yHeaderObject = {};
@@ -155,14 +175,14 @@ constructor(
     }
 
     multiLearningBlock(key: string, b: boolean): Promise<any> {
-        const dataToSave = {}
+        const dataToSave = {};
         dataToSave[`learningBlock/${key}/isMulti`] = b;
         return this.fireBaseUpdate(dataToSave);
     }
 
     putStudentInCell(studentKey: string, cellKey: string, blockKey: string): Promise<any> {
         const dataToSave = {};
-        dataToSave[`studentsForCell/${cellKey}/${studentKey}}`] = true;
+        dataToSave[`studentsForCell/${cellKey}/${studentKey}`] = true;
         dataToSave[`studentLearning/${studentKey}/blocks/${blockKey}`] = true;
         dataToSave[`studentLearning/${studentKey}/cells/${cellKey}`] = true;
         return this.fireBaseUpdate(dataToSave);
@@ -245,23 +265,10 @@ constructor(
         return this.fireBaseUpdate(dataToSave);
     }
 
-    // createChat(data: any, studentKey: string, groupKey?: string): Promise<any> {
-    //     const itemToSave = Object.assign(
-    //         { created: firebase.database.ServerValue.TIMESTAMP,
-    //           text: data,
-    //           group: groupKey,
-    //         });
-    //     const itemRefKey = this.db.list('/posts').push(data).key;
-    //     const dataToSave = {};
-    //     dataToSave[`postsByStudent/${studentKey}/${itemRefKey}`] = itemToSave;
-    //     if (groupKey) { dataToSave[`postsByStudentByGroup/${studentKey}/${groupKey}/${itemRefKey}`] = itemToSave;
-    //     } else {dataToSave[`generalPostsByStudent/${studentKey}/${itemRefKey}`] = itemToSave; }
-    //     return this.fireBaseUpdate(dataToSave);
-    // }
-    createStudentContext(data: any, studentKey:string, blockKey: string): Promise<any> {
+    createStudentContext(data: any, studentKey: string, blockKey: string): Promise<any> {
         const itemToSave = Object.assign({ lastModified: firebase.database.ServerValue.TIMESTAMP}, data);
-        const itemRef = this.db.object(`/studentContext/${studentKey}/${blockKey}`)
-        return itemRef.update(itemToSave)
+        const itemRef = this.db.object(`/studentContext/${studentKey}/${blockKey}`);
+        return itemRef.update(itemToSave);
     }
 
     findItemsForKeyList(path: string, ob: Observable<any[]>): Observable<any> {

@@ -66,8 +66,8 @@ export class LearningAreaCreateFormComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      title: '',
-      description: '',
+      title: ['', [Validators.required, Validators.maxLength(50)]],
+      description: ['', Validators.maxLength(150)]
 
     });
     if (this.currentFormValues) {

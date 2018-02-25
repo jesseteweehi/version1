@@ -32,10 +32,9 @@ export class EmailDialogComponent {
     <mat-input-container class="full-width" floatPlaceholder="auto">
         <input matInput formControlName="email"
                type="text"
-               required
                placeholder="Email">
     </mat-input-container>
-    <button mat-dialog-close mat-button (click)="save()" color="primary">Save</button>
+    <button mat-dialog-close mat-button [disabled]="!form.valid" (click)="save()" color="primary">Save</button>
   </form>
   `,
   styles: [`
@@ -58,7 +57,7 @@ export class EmailCreateFormComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      email: '',
+      email: ['', [Validators.required, Validators.email]],
 
     });
   }

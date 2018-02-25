@@ -4,15 +4,6 @@
         </button>
     </mat-toolbar>
     <h1></h1>
-    
-    <mat-card class="top-card mat-elevation-z0" *ngIf="(group | async) as group">
-        <mat-card-header>
-            <mat-card-title>{{group?.title}}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            {{group?.description}}
-        </mat-card-content>
-    </mat-card>
      
     <div class="wrapper">
         <mat-card *ngFor="let item of items | async">

@@ -13,12 +13,15 @@ import { LearningAreaListComponent } from './learning-area-list/learning-area-li
 import { LearningBlockListComponent } from './learning-block-list/learning-block-list.component';
 import { LearningMatrixListComponent } from './learning-matrix-list/learning-matrix-list.component';
 import { StudentListComponent } from './student-list/student-list.component';
+import { CohortsCreateListComponent } from './cohorts-create-list/cohorts-create-list.component';
+
 
 import { LearningAreaDialogComponent, LearningAreaCreateFormComponent } from './forms/learning-area-forms.component';
 import { LearningGroupCreateFormComponent, LearningGroupDialogComponent } from './forms/learning-group-forms.component';
 import { LearningBlockCreateFormComponent, LearningBlockDialogComponent } from './forms/learning-block-forms.component';
 import { StudentDialogComponent, StudentCreateFormComponent } from './forms/student-forms.component';
 import { StudentContextDialogComponent, StudentContextCreateFormComponent } from './forms/student-context-forms.component';
+import { CohortDialogComponent, CohortCreateFormComponent } from './forms/cohorts-form.component';
 
 
 import { LearningMatrixDialogComponent, LearningMatrixCreateFormComponent } from './forms/learning-matrix-forms.component';
@@ -34,11 +37,6 @@ import { LearningBlockItemComponent } from './learning-block-item/learning-block
 import { LearningMatrixItemComponent } from './learning-matrix-item/learning-matrix-item.component';
 import { StudentLearningItemComponent } from './student-learning-item/student-learning-item.component';
 import { StudentLearningGridComponent } from './student-learning-grid/student-learning-grid.component';
-
-import { StudentSearchComponent, SearchBoxComponent, HitsComponent, InstantSearchService } from './search-student';
-import { StudentClientSearchComponent } from './search-student-2';
-
-
 
 
 @NgModule({
@@ -58,6 +56,7 @@ import { StudentClientSearchComponent } from './search-student-2';
     LearningAreaListComponent,
     LearningBlockListComponent,
     LearningMatrixListComponent,
+    CohortsCreateListComponent,
     // Dialog Lists
 
     // Forms
@@ -78,6 +77,8 @@ import { StudentClientSearchComponent } from './search-student-2';
     LearningMatrixHeaderCreateFormComponent, LearningMatrixHeaderDialogComponent,
     // - Matrix Cell
     LearningMatrixCellCreateFormComponent, LearningMatrixCellDialogComponent,
+    // - Cohorts
+    CohortDialogComponent, CohortCreateFormComponent,
 
     // Items
     LearningBlockItemComponent,
@@ -85,14 +86,10 @@ import { StudentClientSearchComponent } from './search-student-2';
     StudentListComponent,
     StudentLearningItemComponent,
     StudentLearningGridComponent,
-    // Search
-    StudentSearchComponent,
-    SearchBoxComponent,
-    HitsComponent,
-    StudentClientSearchComponent,
+    CohortsCreateListComponent
 ],
   exports: [LearningGroupListComponent],
-  providers: [TeacherService, InstantSearchService],
+  providers: [TeacherService],
   entryComponents: [
     LearningAreaDialogComponent,
     LearningGroupDialogComponent,
@@ -104,7 +101,8 @@ import { StudentClientSearchComponent } from './search-student-2';
     LearningMatrixVersionDialogComponent,
     LearningMatrixHeaderDialogComponent,
     LearningMatrixCellDialogComponent,
-    // Dialog Lists
+    // Cohort
+    CohortDialogComponent
    ]
 })
 export class TeacherModule {}

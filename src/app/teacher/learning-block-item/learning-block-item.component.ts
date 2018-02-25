@@ -4,11 +4,12 @@ import { Location } from '@angular/common';
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
 import 'rxjs/add/operator/switchMap';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
-import { LearningBlock, LearningMatrix, LearningMatrixVersion, Header, Cell, Student } from './../../global/models/classes';
+import { LearningBlock, LearningMatrix, LearningMatrixVersion, Header, Cell, Student, UserProfile } from './../../global/models/classes';
 import { TeacherService } from '../teacher.service';
 import { StudentDialogListAddComponent,
          StudentDialogListRemoveComponent,
          StudentDialogListRemoveEnrolledComponent } from '../../global/global-components/student-dialog-list/student-dialog-list.component';
+import { AuthenticationService } from '../../authentication.service';
 
 
 @Component({
@@ -17,6 +18,8 @@ import { StudentDialogListAddComponent,
   styleUrls: ['./learning-block-item.component.css']
 })
 export class LearningBlockItemComponent implements OnInit {
+  user: UserProfile;
+
   studentAddDialog: MatDialogRef<StudentDialogListAddComponent>;
   studentRemoveDialog: MatDialogRef<StudentDialogListRemoveComponent>;
   studentEnrollDialog: MatDialogRef<StudentDialogListRemoveEnrolledComponent>;
@@ -42,9 +45,12 @@ export class LearningBlockItemComponent implements OnInit {
     private location: Location,
     private ts: TeacherService,
     private dialog: MatDialog,
-    public snackBar: MatSnackBar) { }
+    public snackBar: MatSnackBar,
+    private auth: AuthenticationService) { }
 
   ngOnInit() {
+    // User
+    this.auth.user$.subscribe(user => this.user = user);
     // Initial
     this.blockId = this.route.snapshot.params['blockid'];
     this.groupId = this.route.snapshot.params['groupid'];
@@ -68,7 +74,7 @@ export class LearningBlockItemComponent implements OnInit {
   }
 
   lock() {
-    this.messagefromPromise(this.ts.lockLearningBlock(this.blockId), 'Block Locked')
+    this.messagefromPromise(this.ts.lockLearningBlock(this.blockId), 'Block Locked');
     this.matrixLoad = false;
   }
 
@@ -78,11 +84,11 @@ export class LearningBlockItemComponent implements OnInit {
   }
 
   enroll() {
-    this.openStudents()
+    this.openStudents();
   }
 
   unenroll() {
-    this.unenrollStudents()
+    this.unenrollStudents();
   }
 
   unenrollStudents() {
@@ -142,7 +148,7 @@ export class LearningBlockItemComponent implements OnInit {
 
   load() {
     if (this.chosenMatrixVersionData) {
-      this.ts.saveLearningBlockData(this.blockId, this.chosenMatrixVersionData)
+      this.ts.saveLearningBlockData(this.blockId, this.chosenMatrixVersionData);
     }
   }
 

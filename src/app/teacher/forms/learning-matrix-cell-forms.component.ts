@@ -7,13 +7,6 @@ import { Purpose,  Orientation } from './../../global/models/data';
 import { TeacherService } from '../teacher.service';
 import { LearningMatrix } from './../../global/models/classes';
 
-// Title
-// Descriptions
-// X Header (Index)
-// Y Header (Index)
-// Qualifier (Which Header)
-
-
 
 @Component({
   selector: 'app-learning-matrix-cell-dialog',
@@ -51,7 +44,7 @@ export class LearningMatrixCellDialogComponent {
                   placeholder="Description"></textarea>
     </mat-input-container>
     <h4 class="mat-typography subheading-1">Qualifying Header</h4>
-    <mat-radio-group [(ngModel)]="chosenHeader" class="full-width" formControlName="qualifier" placeholder="Qualfier" [align]="'start'">
+    <mat-radio-group class="full-width" formControlName="qualifier" placeholder="Qualfier" [align]="'start'">
         <mat-radio-button value="x">X Header</mat-radio-button>
         <mat-radio-button value="y">Y Header</mat-radio-button>
     </mat-radio-group>

@@ -5,6 +5,7 @@ import { Subject } from 'rxjs/subject';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { EmailDialogComponent } from '../forms/email-forms.component';
 import { AdminService } from '../admin.service';
+import { EmailList } from './../../global/models/classes';
 
 @Component({
   selector: 'app-email-list',
@@ -16,19 +17,23 @@ export class EmailListComponent implements OnInit, OnDestroy {
 
   DialogRef: MatDialogRef<EmailDialogComponent>;
 
-  items: any[];
+  items: EmailList[];
 
   constructor(private as: AdminService,
               private dialog: MatDialog,
               public snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    this.as.getValue('/emails')
+    const items = this.as.findList('emails/')
       .takeUntil(this.ngUnsubscribe)
-      .map(result => {
-        return Object.keys(result);
-      })
-      .subscribe(items => this.items = items);
+      .map(value => value
+      .map(c => {
+        return EmailList.fromJson(c.payload.key, {...c.payload.val()});
+      }));
+
+    items.subscribe(result => {
+      console.log(result);
+      this.items = result; } );
   }
 
   add() {
@@ -36,11 +41,11 @@ export class EmailListComponent implements OnInit, OnDestroy {
     this.DialogRef.afterClosed()
       .filter(x => x !== undefined)
       .subscribe(x => {
-          this.messagefromPromise(this.as.setValue(`/emails/${x.data.value.email}`, true ), 'Email Added'); });
+          this.messagefromPromise(this.as.createEmail(x.data.value), 'Email Added'); });
     }
 
-  delete(item: string) {
-    this.messagefromPromise(this.as.setValue(`/emails/${item}`, null), 'Email Deleted');
+  delete(item: EmailList) {
+    this.messagefromPromise(this.as.changeObject(`emails/${item.key}`, false, false ), 'Email Deleted');
   }
 
   messagefromPromise(data: Promise<any>, success = 'Success', error = 'Bugger') {

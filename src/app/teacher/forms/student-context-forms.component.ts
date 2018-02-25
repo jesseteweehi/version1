@@ -5,6 +5,8 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { SelectData, createSelectData } from '../../global/models/interfaces';
 import { TeacherService } from '../teacher.service';
 import { StudentContext } from './../../global/models/classes';
+import { urlvalid } from './../../global/models/data';
+
 
 @Component({
   selector: 'app-student-context-dialog',
@@ -43,7 +45,7 @@ export class StudentContextDialogComponent {
                required
                placeholder="Link to More">
     </mat-input-container>
-    <button mat-dialog-close mat-button (click)="save()" color="primary">Save</button>
+    <button mat-dialog-close mat-button [disabled]="!form.valid" (click)="save()" color="primary">Save</button>
   </form>
   `,
   styles: [`
@@ -68,9 +70,8 @@ export class StudentContextCreateFormComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      context: '',
-      furtherInformationUrl: '',
-
+      context: ['', Validators.maxLength(150)],
+      furtherInformationUrl: ['', Validators.pattern(urlvalid)]
     });
     if (this.currentFormValues) {
       this.setFormValues();

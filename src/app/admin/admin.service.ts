@@ -3,7 +3,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { FirebaseApp } from 'angularfire2';
 import * as firebase from 'firebase';
 import { Subject } from 'rxjs/subject';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/observable';
 import { database } from 'firebase/app';
 
 @Injectable()
@@ -25,14 +25,25 @@ export class AdminService {
     }
 
     getValue(path: string): Observable<any> {
-        return this.db.object(path).valueChanges()
+        return this.db.object(path).valueChanges();
     }
 
-    changeObject(path: string,  data?: any): Promise<any> {
+    createEmail(data: any): Promise<any> {
+        const itemToSave = Object.assign({ lastModified: firebase.database.ServerValue.TIMESTAMP}, data);
+        const itemRefKey = this.db.list('/emails').push(data).key;
         const dataToSave = {};
-        if (data) {
+        dataToSave[`emails/${itemRefKey}`] = itemToSave;
+        return this.fireBaseUpdate(dataToSave);
+
+    }
+
+    changeObject(path: string,  data?: any, lastModified: boolean = true ): Promise<any> {
+        const dataToSave = {};
+        if (data && lastModified) {
             const itemToSave = Object.assign({ lastModified: firebase.database.ServerValue.TIMESTAMP}, data);
             dataToSave[path] = itemToSave;
+        } else if (data && !lastModified) {
+            dataToSave[path] = data;
         } else {
             dataToSave[path] = null;
         }
@@ -42,7 +53,4 @@ export class AdminService {
     fireBaseUpdate(dataToSave) {
         return this.db.object('/').update(dataToSave);
     }
-
-
-
 }

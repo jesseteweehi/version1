@@ -1,8 +1,6 @@
 import { Purpose } from './data';
 import { Link } from './interfaces';
 
-
-
 interface Roles {
     admin?: boolean;
     teacher?: boolean;
@@ -15,6 +13,29 @@ interface Profile {
     displayName: string;
 }
 
+export class EmailList {
+    constructor(
+    public key: string,
+    public email: string,
+    public lastModified: string
+    ) {}
+    static fromJson(key, {email, lastModified}): EmailList {
+        return new EmailList (key, email, lastModified);
+    }
+}
+
+export class Cohort {
+    constructor(
+        public key: string,
+        public title: string,
+        public description: string,
+        public lastModified: string,
+    ) {}
+    static fromJson(key, {title, description, lastModified }): Cohort {
+        return new Cohort( key, title, description, lastModified);
+    }
+}
+
 export class UserProfile {
     constructor(
         public key: string,
@@ -25,8 +46,6 @@ export class UserProfile {
         return new UserProfile(key, profile, role);
     }
 }
-
-
 
 export class StudentContext {
     constructor(
@@ -47,7 +66,7 @@ export class LearningEvent {
         public cell: string,
         public block: string,
         public context: string
-    ){}
+    ) {}
     static fromJson(key, {creator, created, cell, block, context}): LearningEvent {
         return new LearningEvent(key, creator, created, cell, block, context);
     }
@@ -140,7 +159,7 @@ export class Header {
         public purpose: string,
     ) {}
     static fromJson(key, {title, description, lastModified, purpose}): Header {
-        return new Header(key, title, description, lastModified, purpose)
+        return new Header(key, title, description, lastModified, purpose);
     }
 }
 
@@ -248,7 +267,7 @@ export class Student {
         public ethnic3: string,
     ) {}
     static fromJson(key, { firstName, lastName, gender, id, yrLvl, ethnic1, ethnic2, ethnic3 }): Student {
-        return new Student(key, firstName, lastName, gender, id, yrLvl, ethnic1, ethnic2, ethnic3)
+        return new Student(key, firstName, lastName, gender, id, yrLvl, ethnic1, ethnic2, ethnic3);
     }
 }
 
